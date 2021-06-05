@@ -9,8 +9,8 @@
     "serve-api-watch": "nodemon server/server.js",
     "start:local:server": "ENV=dev npm run serve-api-watch",
     "serve-api": "node server/server.js",
-    "serve-client": "cd admin-vue && npm run serve",
-    "postinstall": "cd admin-vue && npm install && npm run build"
+    "serve-client": "cd client && npm run serve",
+    "postinstall": "cd client && npm install && npm run build"
   },
   "author": "Ariel Fisher",
   "license": "ISC",
