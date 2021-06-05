@@ -1,7 +1,7 @@
 import Vue from 'vue';
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
-import * as firebaseui from 'firebaseui';
+import firebase from 'firebase'
+import * as firebaseui from "firebaseui"
+import "firebaseui/dist/firebaseui.css";
 
 const config = {
     apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
@@ -17,8 +17,10 @@ class FirebaseService{
         firebase.initializeApp(config);
         firebase.auth().onAuthStateChanged((user) => {
             if(user) {
+                console.log("Firebase servie not logged in")
                 store.commit('setUser', user)
             } else {
+                console.log("Firebase servie logged in")
                 store.dispatch('clearUserData')
             }
         });

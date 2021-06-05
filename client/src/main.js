@@ -8,6 +8,7 @@ import { dbService } from './providers/Db'
 import notificationsService from './providers/Notifications'
 import logger from './providers/Logger'
 import loaderService from './providers/Loader'
+import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false
 
