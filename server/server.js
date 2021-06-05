@@ -6,6 +6,18 @@ const path = require('path');
 const Logger = require('./providers/Logger');
 var logger = new Logger('MAIN');
 
+var envVariables = require('./providers/EnvironmentVariables');
+
+const dbService = require('./providers/DbService');
+
+dbService.connect(
+    envVariables.get('MONGODB_HOST'),
+    envVariables.get('MONGODB_PORT'),
+    envVariables.get('MONGODB_USER'),
+    envVariables.get('MONGODB_PASSWORD'),
+    envVariables.get('MONGODB_DB_NAME')
+);
+
 const app = express();
 
 app.use(bodyParser.json());
