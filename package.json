@@ -1,0 +1,20 @@
+{
+  "name": "charity-meals-delivery",
+  "version": "1.0.0",
+  "description": "Managing charity meals deliveries",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:local": "ENV=dev concurrently --kill-others \"npm run serve-api-watch\" \"npm run serve-client\"",
+    "serve-api-watch": "nodemon server/server.js",
+    "start:local:server": "ENV=dev npm run serve-api-watch",
+    "serve-api": "node server/server.js",
+    "serve-client": "cd admin-vue && npm run serve",
+    "postinstall": "cd admin-vue && npm install && npm run build"
+  },
+  "author": "Ariel Fisher",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^6.2.0"
+  }
+}
