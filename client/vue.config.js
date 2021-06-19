@@ -5,6 +5,7 @@ module.exports = {
     },
 
     transpileDependencies: [
-      'vuetify'
+      'vuetify',
+      "vue-tel-input-vuetify"
     ]
 }

@@ -2,15 +2,15 @@ import Vue from 'vue';
 
 class Logger{
 
-    info(message){
+    info(...message){
         console.log(message);
     }
 
-    error(message){
+    error(...message){
         console.error(message);
     }
 
-    warn(message){
+    warn(...message){
         console.warn(message);
     }
 

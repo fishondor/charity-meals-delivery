@@ -1,31 +1,78 @@
 import Vue from 'vue';
 import axios from 'axios'
 
+import firebaseService from './Firebase'
+
 class DbService{
 
-    static headers(uid, token){
+    static async getById(name, id){
+        try{
+            let headers = await DbService.headers()
+            let response = await axios.get(`/api/${name}/${id}`,
+                {
+                    headers: headers
+                }
+            );
+            return response.data;
+        }catch{
+            return false;
+        }
+    }
+
+    static async get(name){
+        try{
+            let headers = await DbService.headers()
+            let response = await axios.get(`/api/${name}`,
+                {
+                    headers: headers
+                }
+            );
+            return response.data;
+        }catch{
+            return false;
+        }
+    }
+
+    static async save(name, data){
+        try{
+            let headers = await DbService.headers()
+            let response = await axios.post(`/api/${name}/create`, 
+                data, 
+                {
+                    headers: headers
+                }
+            );
+            return response.data;
+        }catch{
+            return false;
+        }
+    }
+
+    static async headers(){
+        let token = await firebaseService.getToken();
         return {
-            authorization: token,
-            user_id: uid
+            authorization: token
         }
     }
 
-    async getUser(id, authToken){
-        try{
-            let response = await axios.get(`/api/user/${id}`, {headers: DbService.headers(id, authToken)});
-            return response.data;
-        }catch{
-            return false;
-        }
+    async saveDelivery(delivery){
+        return DbService.save("delivery", delivery)
     }
 
-    async saveTag(tag, authToken){
-        try{
-            let response = await axios.post('/api/page', tag, {headers: DbService.headers(tag.uid, authToken)});
-            return response.data;
-        }catch{
-            return false;
-        }
+    async getDelivery(id){
+        return DbService.getById("delivery", id);
+    }
+
+    async savePickup(pickup){
+        return DbService.save("pickup", pickup)
+    }
+
+    async getPickup(id){
+        return DbService.getById("pickup", id);
+    }
+
+    async getDeliveries(){
+
     }
 
     async deleteTag(tag, authToken){

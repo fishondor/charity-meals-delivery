@@ -10,6 +10,8 @@ var envVariables = require('./providers/EnvironmentVariables');
 
 const dbService = require('./providers/DbService');
 
+const api = require('./api');
+
 dbService.connect(
     envVariables.get('MONGODB_HOST'),
     envVariables.get('MONGODB_PORT'),
@@ -22,6 +24,8 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/api', api);
 
 app.use('/assets', express.static(path.join(__dirname, '/static/build/assets')));
 app.use('/robots.txt', express.static(path.join(__dirname, '/../client/dist/robots.txt')));

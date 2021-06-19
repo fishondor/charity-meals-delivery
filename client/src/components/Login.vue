@@ -10,18 +10,22 @@
 </template>
 
 <script>
+import firebaseService from "../providers/Firebase"
 
 export default {
     methods: {
         initUI: function(uiConfig){
-            this.$firebaseService.firebaseUiInstance.start('#firebaseuiAuthContainer', uiConfig);
+            firebaseService.firebaseUiInstance.start('#firebaseuiAuthContainer', uiConfig);
         }
     },
     mounted() {
         let uiConfig = {
             callbacks: {
-                signInSuccessWithAuthResult: () => {
-                    return false;
+                signInSuccessWithAuthResult: async () => {
+                    let user = await firebaseService.getCurrentUser();
+                    this.$store.commit('setUser', user)
+                    this.$router.push(this.$route.query.redirect || '/')
+                    return true;
                 },
                 signInFailure: () => {
                     this.$notificationsService.error("Could not login. Please try again later");
@@ -29,7 +33,7 @@ export default {
                 }
             },
             signInOptions: [
-                this.$firebaseService.firebase.auth.GoogleAuthProvider.PROVIDER_ID
+                firebaseService.firebase.auth.GoogleAuthProvider.PROVIDER_ID
             ],
             signInFlow: 'popup',
         };
