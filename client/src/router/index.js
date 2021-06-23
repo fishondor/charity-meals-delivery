@@ -43,7 +43,20 @@ const routes = [
   {
     path: '/delivery/:id',
     name: 'Delivery',
-    component: () => import('../views/Delivery.vue')
+    component: () => import('../views/Delivery.vue'),
+    meta: {
+      requiresAuth: true
+    },
+    children: [
+      {
+        path: 'carrier',
+        component: () => import('../views/DeliveryCarrier'),
+      },
+      {
+        path: 'admin',
+        component: () => import('../views/DeliveryAdmin'),
+      }
+    ]
   },
   {
     path: '/pickup/new',
@@ -57,12 +70,22 @@ const router = new VueRouter({
   mode: 'history'
 })
 
-router.beforeEach(async (to, from, next) => {
+const authGuard = async (to) => {
+  let shouldAuthenticate = to.matched.some((record) => record.meta.requiresAuth)
+  if(!shouldAuthenticate)
+    return true;
+
   let user = await firebaseService.getCurrentUser()
-  if (to.matched.some((record) => record.meta.requiresAuth) && !user) {
-      next('/login')
-      return
+  return !!user
+}
+
+router.beforeEach(async (to, from, next) => {
+  let authenticated = await authGuard(to)
+  if(!authenticated){
+    next('/login')
+    return
   }
+
   next()
 })
 
