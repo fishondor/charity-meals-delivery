@@ -7,7 +7,7 @@ import Carrier from './Carrier' */
 const ajv = new Ajv()
 
 const schema = {
-    project: String,
+    ownerId: String,
     date: Date,
     groups: [
         Group.schema
@@ -24,8 +24,7 @@ const validate = ajv.compile(schema) */
 
 class Delivery{
     constructor(data){
-
-        this.data = data;
+        this.date = data.date;
     }
 
     set owner(id){
