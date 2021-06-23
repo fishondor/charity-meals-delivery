@@ -10,19 +10,18 @@
 </template>
 
 <script>
-import firebaseService from "../providers/Firebase"
 
 export default {
     methods: {
         initUI: function(uiConfig){
-            firebaseService.firebaseUiInstance.start('#firebaseuiAuthContainer', uiConfig);
+            this.$firebaseService.firebaseUiInstance.start('#firebaseuiAuthContainer', uiConfig);
         }
     },
     mounted() {
         let uiConfig = {
             callbacks: {
                 signInSuccessWithAuthResult: async () => {
-                    let user = await firebaseService.getCurrentUser();
+                    let user = await this.$firebaseService.getCurrentUser();
                     this.$store.commit('setUser', user)
                     this.$router.push(this.$route.query.redirect || '/')
                     return true;
@@ -33,7 +32,7 @@ export default {
                 }
             },
             signInOptions: [
-                firebaseService.firebase.auth.GoogleAuthProvider.PROVIDER_ID
+                this.$firebaseService.firebase.auth.GoogleAuthProvider.PROVIDER_ID
             ],
             signInFlow: 'popup',
         };

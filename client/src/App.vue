@@ -9,8 +9,6 @@
 </template>
 
 <script>
-import firebaseService from "./providers/Firebase"
-
 export default {
   name: 'App',
   components: {
@@ -18,7 +16,7 @@ export default {
       Notification: () => import('./components/Notification')
   },
   beforeCreate: async function(){
-    let user = await firebaseService.getCurrentUser();
+    let user = await this.$firebaseService.getCurrentUser();
     this.$store.commit('setUser', user)
   },
   data: () => ({

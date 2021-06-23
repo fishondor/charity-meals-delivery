@@ -12,6 +12,7 @@ import { dbService } from './providers/Db'
 import notificationsService from './providers/Notifications'
 import logger from './providers/Logger'
 import loaderService from './providers/Loader'
+import firebaseService from './providers/Firebase'
 
 import Environment from './providers/Environment'
 
@@ -39,6 +40,7 @@ new Vue({
     notificationsService,
     logger,
     loaderService,
+    firebaseService,
     created: function(){
       notificationsService.init(store);
       loaderService.init(store);

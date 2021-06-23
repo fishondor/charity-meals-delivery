@@ -31,8 +31,6 @@
 <script>
 import { mapState } from 'vuex';
 
-import firebaseService from '../providers/Firebase';
-
 var {
   account
 } = require('./icons');
@@ -52,7 +50,7 @@ export default {
   methods: { 
     async logOut() { 
         try {
-          await firebaseService.logout();
+          await this.$firebaseService.logout();
           this.$store.commit('setUser', null)
           this.$router.push({ path: 'login' });
         }catch(error){
