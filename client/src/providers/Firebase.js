@@ -1,8 +1,10 @@
+import Vue from 'vue';
 import firebase from 'firebase'
 import * as firebaseui from "firebaseui"
 import "firebaseui/dist/firebaseui.css";
 
 import Environment from './Environment'
+import logger from './Logger'
 
 const config = {
     apiKey: Environment.get('VUE_APP_FIREBASE_API_KEY'),
@@ -14,9 +16,8 @@ const config = {
 
 class FirebaseService{
     constructor(){
+        this.logger = logger
         firebase.initializeApp(config);
-
-        this.deliveriesRef = firebase.database().ref("/deliveries");
     }
 
     getCurrentUser(){
@@ -53,7 +54,8 @@ class FirebaseService{
 
     async createDelivery(delivery){
         try{
-            let ref = await this.deliveriesRef.push(delivery)
+            let deliveriesRef = firebase.database().ref("/deliveries");
+            let ref = await deliveriesRef.push(delivery)
             return ref.getKey();
         }catch(err){
             this.logger.error(`Err creating delivery: ${err}`);
@@ -61,8 +63,54 @@ class FirebaseService{
         }
     }
 
+    async getDelivery(deliveryId){
+        try{
+            let ref = await firebase.database().ref(`/deliveries/${deliveryId}`);
+            return ref
+        }catch(err){
+            this.logger.error(`Err getting delivery ${deliveryId}: ${err}`);
+            return false
+        }
+    }
+
+    async getDeliveryOwner(deliveryId){
+        try{
+            let ref = await firebase.database().ref(`/deliveries/${deliveryId}/ownerId`);
+            let snapshot = await ref.once('value');
+            return snapshot.val()
+        }catch(err){
+            this.logger.error(`Err getting delivery ${deliveryId}: ${err}`);
+            return false
+        }
+    }
+
+    async registerCarrier(deliveryId, carrier){
+        try{
+            let carrierRef = firebase.database().ref(`/deliveries/${deliveryId}/carriers/${carrier.id}`);
+            await carrierRef.set(carrier.data)
+            return true
+        }catch(err){
+            this.logger.error(`Err registering carrier to ${deliveryId}: ${err}`, "Carrier", carrier);
+            return false
+        }
+    }
+
+    getRef(deliveryId, refPath){
+        return firebase.database().ref(`/deliveries/${deliveryId}/${refPath}`)
+    }
+
 }
 
 const firebaseService = new FirebaseService()
+
+Vue.mixin( {
+  beforeCreate() {
+    const options = this.$options;
+    if ( options.firebaseService )
+      this.$firebaseService = options.firebaseService;
+    else if ( options.parent && options.parent.$firebaseService )
+      this.$firebaseService = options.parent.$firebaseService;
+  }
+} );
 
 export default firebaseService;
