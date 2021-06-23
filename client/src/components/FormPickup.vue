@@ -26,14 +26,18 @@
         <v-col
           cols="12"
         >
-            <vuetify-google-autocomplete
+            <v-text-field
+                    v-model="content.address"
+                    label="Address"
+            ></v-text-field>
+            <!-- <vuetify-google-autocomplete
                 id="map"
                 v-bind:disabled="false"
                 placeholder="Addres. Start typing"
                 v-on:placechanged="getAddressData"
                 v-model="content.address"
             >
-            </vuetify-google-autocomplete>
+            </vuetify-google-autocomplete> -->
         </v-col>
         <v-col
           cols="12"
@@ -47,7 +51,7 @@
           cols="12"
         >
             <v-btn
-                color="success"
+                color="info"
                 class="mr-4"
                 @click="submit"
                 >
