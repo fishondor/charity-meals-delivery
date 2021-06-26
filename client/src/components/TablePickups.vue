@@ -1,20 +1,28 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="pickups"
+    :items="group.pickups"
     sort-by="name"
-    class="elevation-1"
+    class="elevation-1 mb-10"
   >
     <template v-slot:top>
       <v-toolbar
         flat
       >
-        <v-toolbar-title>Pickups</v-toolbar-title>
+        <v-toolbar-title>{{group.description || 'Pickups'}}</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
           vertical
         ></v-divider>
+        <template v-if="group.index">
+            <v-toolbar-title>{{group.index}}</v-toolbar-title>
+            <v-divider
+            class="mx-4"
+            inset
+            vertical
+            ></v-divider>
+        </template>
         <v-spacer></v-spacer>
         <v-dialog
           v-model="dialog"
@@ -68,9 +76,21 @@
 import FormPickup from '../components/FormPickup'
 import {edit, deleteIcon} from '../components/icons'
 
-import Pickup from '../models/Pickup'
+import Group from '../models/Group'
 
 export default {
+    props: {
+        group: {
+            type: Group,
+            default() {
+                return {}
+            }
+        },
+        editable: {
+            type: Boolean,
+            default: false
+        }
+    },
     components: {
         FormPickup
     },
@@ -82,7 +102,7 @@ export default {
         { text: 'Phone', value: 'phone', sortable: false },
         { text: 'Address', value: 'address' },
         { text: 'Description', value: 'description', sortable: false },
-        { text: 'Actions', value: 'actions', sortable: false },
+        { text: '', value: 'actions', sortable: false },
       ],
       pickups: [],
       editedIndex: -1,
@@ -102,15 +122,13 @@ export default {
           edit: edit,
           delete: deleteIcon
       },
-      pickupsRef: null,
-      deliveryId: '',
       idToDelete: null
     }),
 
     computed: {
       formTitle () {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-      },
+      }
     },
 
     watch: {
@@ -122,54 +140,45 @@ export default {
       },
     },
 
-    created () {
-        this.deliveryId = this.$route.params.id
-        this.pickupsRef = this.$firebaseService.getRef(this.deliveryId, 'pickups')
-        this.pickupsRef.on('value', (snapshot) => {
-            console.log("Snapshot", snapshot)
-            this.pickups = Pickup.fromSnapshot(snapshot)
-        });
-    },
-
     methods: {
 
-      editItem (item) {
-        this.editedIndex = this.pickups.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      },
+        editItem (item) {
+            this.editedIndex = this.pickups.indexOf(item)
+            this.editedItem = Object.assign({}, item)
+            this.dialog = true
+        },
 
-      deleteItem (item) {
+        deleteItem (item) {
             this.idToDelete = item.id
             this.dialogDelete = true
-      },
+        },
 
-      deleteItemConfirm () {
-            this.pickupsRef.child(this.idToDelete).remove();
+        deleteItemConfirm () {
+            this.$emit('onDelete', this.group.id, this.idToDelete);
             this.idToDelete = null
             this.closeDelete()
-      },
+        },
 
-      close () {
-        this.dialog = false
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        })
-      },
+        close () {
+            this.dialog = false
+            this.$nextTick(() => {
+                this.editedItem = Object.assign({}, this.defaultItem)
+                this.editedIndex = -1
+            })
+        },
 
-      closeDelete () {
-        this.dialogDelete = false
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        })
-      },
+        closeDelete () {
+            this.dialogDelete = false
+            this.$nextTick(() => {
+                this.editedItem = Object.assign({}, this.defaultItem)
+                this.editedIndex = -1
+            })
+        },
 
-      save (pickup) {
-            this.pickupsRef.push(pickup)
+        save (pickup) {
+            this.$emit('onSave', this.group.id, pickup);
             this.close()
-      },
+        },
     },
   }
 </script>
