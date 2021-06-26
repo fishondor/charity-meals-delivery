@@ -28,6 +28,16 @@ class Pickup{
         return this._id
     }
 
+    static fromObject(pickupsObject = {}){
+        return Object.keys(pickupsObject).map(
+            key => {
+                let pickup = new Pickup(pickupsObject[key])
+                pickup.id = key
+                return pickup
+            }
+        )
+    }
+
     static fromSnapshot(snapshot){
         let pickups = []
         snapshot.forEach(function(childSnapshot) {
