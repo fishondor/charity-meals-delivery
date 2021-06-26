@@ -1,9 +1,9 @@
 <template>
   <v-app light>
     <Navigation />
-    <v-content class="pb-0">
+    <v-main class="pb-0">
       <router-view></router-view>
-    </v-content>
+    </v-main>
     <Notification />
   </v-app>
 </template>
