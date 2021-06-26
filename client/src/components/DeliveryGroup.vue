@@ -1,14 +1,20 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="pickups"
-    class="elevation-1"
+    :items="group.pickups"
+    class="elevation-1 mb-10"
   >
     <template v-slot:top>
       <v-toolbar
         flat
       >
-        <v-toolbar-title>My CRUD</v-toolbar-title>
+        <v-toolbar-title>{{group.description}}</v-toolbar-title>
+        <v-divider
+          class="mx-4"
+          inset
+          vertical
+        ></v-divider>
+        <v-toolbar-title>{{group.index}}</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
@@ -27,7 +33,7 @@
               v-bind="attrs"
               v-on="on"
             >
-              New Item
+              New Pickup
             </v-btn>
           </template>
           <v-card>
@@ -127,13 +133,6 @@
     <template v-slot:item.actions="{ item }">
       <v-icon
         small
-        class="mr-2"
-        @click="editItem(item)"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
-        small
         @click="deleteItem(item)"
       >
         mdi-delete
@@ -151,19 +150,19 @@
 </template>
 <script>
   export default {
-      props: {
-          pickups: []
-      },
+    props: {
+        group: {}
+    },
     data: () => ({
       dialog: false,
       dialogDelete: false,
       headers: [
         { text: 'Name', value: 'name' },
-        { text: 'Phone', value: 'phone' },
+        { text: 'Phone', value: 'phone', sortable: false },
         { text: 'Address', value: 'address' },
-        { text: 'Description', value: 'description' },
+        { text: 'Description', value: 'description', sortable: false },
+        { text: '', value: 'actions', sortable: false },
       ],
-      pickups: [],
       editedIndex: -1,
       editedItem: {
         name: '',
@@ -194,25 +193,16 @@
       },
     },
 
-    created () {
-    },
-
     methods: {
 
-      editItem (item) {
-        this.editedIndex = this.pickups.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      },
-
       deleteItem (item) {
-        this.editedIndex = this.pickups.indexOf(item)
+        this.editedIndex = this.group.pickups.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
 
       deleteItemConfirm () {
-        this.pickups.splice(this.editedIndex, 1)
+        this.group.pickups.splice(this.editedIndex, 1)
         this.closeDelete()
       },
 
@@ -234,9 +224,9 @@
 
       save () {
         if (this.editedIndex > -1) {
-          Object.assign(this.pickups[this.editedIndex], this.editedItem)
+          Object.assign(this.group.pickups[this.editedIndex], this.editedItem)
         } else {
-          this.pickups.push(this.editedItem)
+          this.group.pickups.push(this.editedItem)
         }
         this.close()
       },
