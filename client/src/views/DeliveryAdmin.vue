@@ -17,12 +17,12 @@
             <v-tab-item
                 key="pickups"
             >
-                <TablePickups />
+                <Pickups />
             </v-tab-item>
             <v-tab-item
                 key="groups"
             >
-                groups
+                <Groups />
             </v-tab-item>
             <v-tab-item
                 key="carriers"
@@ -33,11 +33,13 @@
     </v-card>
 </template>
 <script>
-import TablePickups from '../components/TablePickups'
+import Pickups from '../components/Pickups'
+import Groups from '../components/Groups'
 
 export default {
     components: {
-        TablePickups
+        Pickups,
+        Groups
     },
     data: () => ({
         items: [
@@ -45,7 +47,7 @@ export default {
             'groups',
             'carriers'
         ],
-        tab: null
-    }),
+        tab: null,
+    })
 }
 </script>
