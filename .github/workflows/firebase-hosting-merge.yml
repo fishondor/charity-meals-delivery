@@ -12,6 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          directory: client
+          file_name: .env.production
       - run: cd client && npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
