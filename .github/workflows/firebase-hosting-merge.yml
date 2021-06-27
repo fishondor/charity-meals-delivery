@@ -22,7 +22,7 @@ jobs:
           envkey_VUE_APP_FIREBASE_STORAGE_BUCKET: ${{ secrets.VUE_APP_FIREBASE_STORAGE_BUCKET }}
           directory: client
           file_name: .env.production
-      - run: cd client && ls -l -a && npm ci && npm run build
+      - run: ls -l -a && cd client && ls -l -a && npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
