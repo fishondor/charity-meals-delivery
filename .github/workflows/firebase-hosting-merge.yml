@@ -20,7 +20,7 @@ jobs:
           envkey_VUE_APP_FIREBASE_DATABASE_URL: ${{ secrets.VUE_APP_FIREBASE_DATABASE_URL }}
           envkey_VUE_APP_FIREBASE_PROJECT_ID: ${{ secrets.VUE_APP_FIREBASE_PROJECT_ID }}
           envkey_VUE_APP_FIREBASE_STORAGE_BUCKET: ${{ secrets.VUE_APP_FIREBASE_STORAGE_BUCKET }}
-          directory: client
+          directory: ./client
           file_name: .env.production
       - run: ls -l -a && cd client && ls -l -a && npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
