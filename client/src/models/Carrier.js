@@ -14,24 +14,31 @@ const validate = ajv.compile(schema)
  */
 class Carrier{
     constructor(data){
-        this.uid = data.uid;
+        this._id = data.uid;
         this.name = data.name;
         this.email = data.email;
         this.phone = data.phone;
         this.pickupsNumber = data.pickupsNumber; 
     }
 
-    get id(){
-        return this.uid
+    set id(id){
+        this._id = id
     }
 
-    get data(){
-        return {
-            name: this.name,
-            email: this.email,
-            phone: this.phone,
-            pickupsNumber: this.pickupsNumber
-        }
+    get id(){
+        return this._id
+    }
+
+    static fromSnapshot(snapshot){
+        let carriers = []
+        snapshot.forEach(function(childSnapshot) {
+            var childKey = childSnapshot.key;
+            var childData = childSnapshot.val();
+            let carrier = new Carrier(childData);
+            carrier.id = childKey;
+            carriers.push(carrier)
+        });
+        return carriers
     }
 }
 

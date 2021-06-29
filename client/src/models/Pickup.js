@@ -7,6 +7,7 @@ const schema = {
     phone: String,
     address: String,
     description: String,
+    done: Boolean,
     _id: String
 }
 
@@ -18,6 +19,7 @@ class Pickup{
         this.phone = data.phone;
         this.address = data.address;
         this.description = data.description;
+        this.done = data.done;
     }
 
     set id(id){
