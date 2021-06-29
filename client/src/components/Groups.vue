@@ -4,7 +4,9 @@
             <TablePickups v-for="group in sortedGroups" :key="group.index"
                 :group="group"
                 @onDelete="deletePickup"
-                @onSave="savePickup" />
+                @onSave="savePickup"
+                :editable="true"
+                :hideFooter="true" />
         </template>
         <template v-else>
             <v-textarea

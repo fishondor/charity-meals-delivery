@@ -4,29 +4,56 @@
     :items="group.pickups"
     sort-by="name"
     class="elevation-1 mb-10"
+    :hide-default-footer="hideFooter"
   >
+    <template v-slot:item.phone="{ item }">
+        <div class="d-flex justify-space-between">
+            <span>{{item.phone}}</span>
+            <a :href="`tel:${item.phone}`">
+                <v-icon
+                    small
+                >
+                    {{icons.phone}}
+                </v-icon>
+            </a>
+        </div>
+    </template>
+    <template v-slot:item.address="{ item }">
+        <div class="d-flex justify-space-between">
+            <span>{{item.address}}</span>
+            <a :href="item.address | wazeUrl">
+                <v-icon
+                    small
+                >
+                    {{icons.waze}}
+                </v-icon>
+            </a>
+        </div>
+    </template>
+    <template v-slot:item.done="{ item }">
+        <v-simple-checkbox
+            v-model="item.done"
+            :ripple="false"
+        ></v-simple-checkbox>
+    </template>
     <template v-slot:top>
       <v-toolbar
         flat
       >
-        <v-toolbar-title>{{group.description || 'Pickups'}}</v-toolbar-title>
+        <template v-if="group.index">
+            <v-toolbar-title>{{group.index}}</v-toolbar-title>
+        </template>
         <v-divider
           class="mx-4"
           inset
           vertical
         ></v-divider>
-        <template v-if="group.index">
-            <v-toolbar-title>{{group.index}}</v-toolbar-title>
-            <v-divider
-            class="mx-4"
-            inset
-            vertical
-            ></v-divider>
-        </template>
+        <v-toolbar-title>{{group.description || 'Pickups'}}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-dialog
-          v-model="dialog"
-          max-width="500px"
+            v-if="editable" 
+            v-model="dialog"
+            max-width="500px"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -62,7 +89,7 @@
         </v-dialog>
       </v-toolbar>
     </template>
-    <template v-slot:item.actions="{ item }">
+    <template v-if="editable" v-slot:item.actions="{ item }">
       <v-icon
         small
         @click="deleteItem(item)"
@@ -74,7 +101,12 @@
 </template>
 <script>
 import FormPickup from '../components/FormPickup'
-import {edit, deleteIcon} from '../components/icons'
+import {
+    edit, 
+    deleteIcon,
+    phone,
+    waze
+} from '../components/icons'
 
 import Group from '../models/Group'
 
@@ -87,6 +119,10 @@ export default {
             }
         },
         editable: {
+            type: Boolean,
+            default: false
+        },
+        hideFooter: {
             type: Boolean,
             default: false
         }
@@ -103,6 +139,7 @@ export default {
         { text: 'Address', value: 'address' },
         { text: 'Description', value: 'description', sortable: false },
         { text: '', value: 'actions', sortable: false },
+        { text: 'Done', value: 'done', sortable: false}
       ],
       pickups: [],
       editedIndex: -1,
@@ -120,7 +157,9 @@ export default {
       },
       icons: {
           edit: edit,
-          delete: deleteIcon
+          delete: deleteIcon,
+          phone: phone,
+          waze: waze
       },
       idToDelete: null
     }),
@@ -180,5 +219,11 @@ export default {
             this.close()
         },
     },
+    filters: {
+        wazeUrl: function (value) {
+            if (!value) return ''
+            return 'https://waze.com/ul?q=' + encodeURIComponent(value)
+        }
+    }
   }
 </script>
