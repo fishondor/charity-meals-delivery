@@ -16,7 +16,7 @@ export default {
         isRegistered: false,
         deliveryId: null
     }),
-    async mounted(){
+    async created(){
         this.deliveryId = this.$route.params.id
         //this.isAdmin = await this.isDeliveryAdmin(this.deliveryId)
         this.isRegistered = await this.isRegisteredToDelivery()
