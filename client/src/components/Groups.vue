@@ -3,8 +3,10 @@
         <template v-if="groups.length">
             <TablePickups v-for="group in sortedGroups" :key="group.index"
                 :group="group"
+                :carriers="carriers"
                 @onDelete="deletePickup"
                 @onSave="savePickup"
+                @onCarrierChange="updateCarrier"
                 :editable="true"
                 :hideFooter="true" />
         </template>
@@ -29,6 +31,7 @@
 import TablePickups from './TablePickups'
 
 import Group from '../models/Group'
+import Carrier from '../models/Carrier'
 
 export default {
     components: {
@@ -36,15 +39,23 @@ export default {
     },
     data: () => ({
         groups: [],
+        carriers: [],
         exportedData: "",
         deliveryId: null,
-        groupsRef: null
+        groupsRef: null,
+        carriersRef: null
     }),
     created(){
         this.deliveryId = this.$route.params.id
         this.groupsRef = this.$firebaseService.getRef(this.deliveryId, 'groups')
         this.groupsRef.on('value', (snapshot) => {
             this.groups = Group.fromSnapshot(snapshot)
+            this.setDisableCarriers()
+        });
+        this.carriersRef = this.$firebaseService.getRef(this.deliveryId, 'carriers')
+        this.carriersRef.on('value', (snapshot) => {
+            this.carriers = Carrier.fromSnapshot(snapshot)
+            this.setDisableCarriers()
         });
     },
     methods: {
@@ -63,7 +74,24 @@ export default {
 
         deletePickup (groupId, pickupId) {
             this.groupsRef.child(`${groupId}/pickups`).child(pickupId).remove();
-        }
+        },
+
+        updateCarrier (groupId, carrierId) {
+            this.groupsRef.child(groupId).update(
+                {
+                    carrier: carrierId
+                }
+            )
+        },
+
+        setDisableCarriers () {
+            this.carriers = this.carriers.map(
+                carrier => {
+                    carrier.disabled = carrier.isDisabled(this.groups);
+                    return carrier;
+                }
+            )
+        },
     },
     computed: {
         sortedGroups() {

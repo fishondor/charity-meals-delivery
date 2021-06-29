@@ -29,6 +29,13 @@ class Carrier{
         return this._id
     }
 
+    isDisabled(groups = []){
+        let carriersGroups = groups.filter(
+            group => group.carrier == this._id
+        );
+        return carriersGroups.length >= this.pickupsNumber
+    }
+
     static fromSnapshot(snapshot){
         let carriers = []
         snapshot.forEach(function(childSnapshot) {

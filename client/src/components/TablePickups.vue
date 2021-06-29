@@ -49,6 +49,28 @@
           vertical
         ></v-divider>
         <v-toolbar-title>{{group.description || 'Pickups'}}</v-toolbar-title>
+        <template v-if="carriers.length">
+            <v-divider
+                class="mx-4"
+                inset
+                vertical
+            ></v-divider>
+            <v-toolbar-title>
+                <v-select
+                    :items="carriers"
+                    label="Select carrier"
+                    outlined
+                    dense
+                    hide-details
+                    clearable
+                    item-text="name"
+                    item-value="id"
+                    item-disabled="disabled"
+                    @change="carrierChanged"
+                    v-model="group.carrier"
+                ></v-select>
+            </v-toolbar-title>
+        </template>
         <v-spacer></v-spacer>
         <v-dialog
             v-if="editable" 
@@ -125,6 +147,12 @@ export default {
         hideFooter: {
             type: Boolean,
             default: false
+        },
+        carriers: {
+            type: Array,
+            default(){
+                return []
+            }
         }
     },
     components: {
@@ -218,6 +246,10 @@ export default {
             this.$emit('onSave', this.group.id, pickup);
             this.close()
         },
+
+        carrierChanged() {
+            this.$emit('onCarrierChange', this.group.id, this.group.carrier)
+        }
     },
     filters: {
         wazeUrl: function (value) {
