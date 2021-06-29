@@ -131,52 +131,52 @@ export default {
         FormPickup
     },
     data: () => ({
-      dialog: false,
-      dialogDelete: false,
-      headers: [
-        { text: 'Name', value: 'name' },
-        { text: 'Phone', value: 'phone', sortable: false },
-        { text: 'Address', value: 'address' },
-        { text: 'Description', value: 'description', sortable: false },
-        { text: '', value: 'actions', sortable: false },
-        { text: 'Done', value: 'done', sortable: false}
-      ],
-      pickups: [],
-      editedIndex: -1,
-      editedItem: {
-        name: '',
-        phone: '',
-        address: '',
-        description: '',
-      },
-      defaultItem: {
-        name: '',
-        phone: '',
-        address: '',
-        description: '',
-      },
-      icons: {
-          edit: edit,
-          delete: deleteIcon,
-          phone: phone,
-          waze: waze
-      },
-      idToDelete: null
+        dialog: false,
+        dialogDelete: false,
+        headers: [
+            { text: 'Name', value: 'name' },
+            { text: 'Phone', value: 'phone', sortable: false },
+            { text: 'Address', value: 'address' },
+            { text: 'Description', value: 'description', sortable: false },
+            { text: '', value: 'actions', sortable: false },
+            { text: 'Done', value: 'done', sortable: false}
+        ],
+        pickups: [],
+        editedIndex: -1,
+        editedItem: {
+            name: '',
+            phone: '',
+            address: '',
+            description: '',
+        },
+        defaultItem: {
+            name: '',
+            phone: '',
+            address: '',
+            description: '',
+        },
+        icons: {
+            edit: edit,
+            delete: deleteIcon,
+            phone: phone,
+            waze: waze
+        },
+        idToDelete: null
     }),
 
     computed: {
-      formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-      }
+        formTitle () {
+            return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+        }
     },
 
     watch: {
-      dialog (val) {
-        val || this.close()
-      },
-      dialogDelete (val) {
-        val || this.closeDelete()
-      },
+        dialog (val) {
+            val || this.close()
+        },
+        dialogDelete (val) {
+            val || this.closeDelete()
+        },
     },
 
     methods: {
