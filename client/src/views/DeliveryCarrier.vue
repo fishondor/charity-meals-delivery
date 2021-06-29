@@ -5,21 +5,45 @@
             <FormRegisterToDelivery @onSubmit="submit" />
         </template>
         <template v-else>
-            <Deliveries :deliveries="deliveris" />
+            <template v-if="groups.length">
+                <TablePickups v-for="group in sortedGroups" :key="group.index"
+                    :group="group"
+                    :editable="false"
+                    :hideFooter="true"/>
+            </template>
+            <template v-else>
+                <h4>
+                    You are not assigned to any pickup yet.
+                </h4>
+                <p>
+                    This page will update once admin assigns a pickup for you
+                </p>
+            </template>
         </template>
     </div>
 </template>
 <script>
 import FormRegisterToDelivery from '../components/FormRegisterToDelivery'
+import TablePickups from '../components/TablePickups'
+
+import Group from '../models/Group'
 
 export default {
     data: () => ({
         groups: [],
+        deliveryId: null,
         isRegistered: false,
-        deliveryId: null
+        carrierRef: null,
+        groupsRef: null
     }),
     components: {
         FormRegisterToDelivery,
+        TablePickups
+    },
+    async created(){
+        this.deliveryId = this.$route.params.id
+        this.user = await this.$firebaseService.getCurrentUser()
+        this.initCarrierRef(this.user.uid)
     },
     methods: {
         submit: async function(carrier){
@@ -35,6 +59,42 @@ export default {
                 this.$notificationsService.error("An error occured");
             }
         },
+        initCarrierRef: function(userId){
+            this.carrierRef = this.$firebaseService.getRef(this.deliveryId, `carriers/${userId}`)
+            this.carrierRef.on("value",snapshot => {
+                this.isRegistered = snapshot.exists()
+                console.log("Registered", this.isRegistered)
+                if(!this.isRegistered)
+                    return
+                this.initGroupsRef(userId);
+            });
+        },
+        initGroupsRef: function(userId){
+            this.groupsRef = this.$firebaseService.getRef(this.deliveryId, `groups`)
+                .orderByChild("carrier")
+                .equalTo(userId)
+                .on("value",snapshot => {
+                    if (!snapshot.exists()){
+                        console.log("Nogroups")
+                        return
+                    }
+                    let groupData = snapshot.val();
+                    console.log("groupData!", groupData);
+                    this.groups = Group.fromSnapshot(snapshot)
+                }
+            );
+        }
+    },
+    computed: {
+        sortedGroups() {
+            return this.groups.slice().sort(
+                (a, b) => {
+                    if(typeof a.index === 'undefined')
+                        return 0;
+                    return a.index - b.index
+                }
+            )
+        }
     }
 }
 </script>

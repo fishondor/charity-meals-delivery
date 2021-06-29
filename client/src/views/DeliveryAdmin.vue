@@ -27,7 +27,7 @@
             <v-tab-item
                 key="carriers"
             >
-                carriers
+                <Carriers />
             </v-tab-item>
         </v-tabs-items>
     </v-card>
@@ -35,11 +35,13 @@
 <script>
 import Pickups from '../components/Pickups'
 import Groups from '../components/Groups'
+import Carriers from '../components/Carriers'
 
 export default {
     components: {
         Pickups,
-        Groups
+        Groups,
+        Carriers
     },
     data: () => ({
         items: [
