@@ -34,6 +34,7 @@
         <v-simple-checkbox
             v-model="item.done"
             :ripple="false"
+            @click="doneChanged(item)"
         ></v-simple-checkbox>
     </template>
     <template v-slot:top>
@@ -207,6 +208,10 @@ export default {
         },
     },
 
+    created(){
+        this.deliveryId = this.$route.params.id
+    },
+
     methods: {
 
         editItem (item) {
@@ -249,6 +254,14 @@ export default {
 
         carrierChanged() {
             this.$emit('onCarrierChange', this.group.id, this.group.carrier)
+        },
+
+        doneChanged(pickup) {
+            this.$firebaseService.getRef(this.deliveryId, `groups/${this.group.id}/pickups/${pickup.id}`).update(
+                {
+                    done: pickup.done
+                }
+            )
         }
     },
     filters: {
