@@ -37,6 +37,12 @@
             @click="doneChanged(item)"
         ></v-simple-checkbox>
     </template>
+    <template v-slot:footer>
+        <v-container class="pb-0">
+            <p class="mb-0">Destination</p>
+        </v-container>
+        <FormDestination :editable="editable" :content="group.destination" @onChange="onDestinationChange" />
+    </template>
     <template v-slot:top>
       <v-toolbar
         flat
@@ -86,7 +92,7 @@
               v-bind="attrs"
               v-on="on"
             >
-              New Item
+              New Pickup
             </v-btn>
           </template>
           <v-card>
@@ -124,6 +130,7 @@
 </template>
 <script>
 import FormPickup from '../components/FormPickup'
+import FormDestination from '../components/FormDestination'
 import {
     edit, 
     deleteIcon,
@@ -157,7 +164,8 @@ export default {
         }
     },
     components: {
-        FormPickup
+        FormPickup,
+        FormDestination
     },
     data: () => ({
         dialog: false,
@@ -262,6 +270,12 @@ export default {
                     done: pickup.done
                 }
             )
+        },
+
+        onDestinationChange(itemKey, itemValue) {
+            let update = {}
+            update[itemKey] = itemValue
+            this.$firebaseService.getRef(this.deliveryId, `groups/${this.group.id}/destination`).update(update)
         }
     },
     filters: {

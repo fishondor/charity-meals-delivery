@@ -32,7 +32,7 @@ class Group{
         this.description = data.description
         this.pickups = Pickup.fromObject(data.pickups)
         this.carrier = data.carrier
-        this.destination = data.destination
+        this.destination = data.destination || {}
     }
 
     set id(id){

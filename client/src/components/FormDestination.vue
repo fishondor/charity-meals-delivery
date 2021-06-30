@@ -4,31 +4,45 @@
       <v-row>
         <v-col
           cols="12"
-          md="6"
+          md="4"
         >
           <v-text-field
             v-model="content.name"
             :counter="34"
-            label="Full name"
+            label="Name"
             required
+            dense
+            outlined
+            :disabled="!editable"
+            @change="onChange('name')"
           ></v-text-field>
         </v-col>
 
         <v-col
           cols="12"
-          md="6"
+          md="4"
         >
             <vue-tel-input-vuetify
                 v-model="content.phone"
-                required></vue-tel-input-vuetify>
+                label="Phone"
+                required
+                dense
+                outlined
+                :disabled="!editable"
+                @change="onChange('phone')"></vue-tel-input-vuetify>
         </v-col>
 
         <v-col
           cols="12"
+          md="4"
         >
             <v-text-field
                     v-model="content.address"
                     label="Address"
+                    dense
+                    outlined
+                    @change="onChange('address')"
+                    :disabled="!editable"
             ></v-text-field>
             <!-- <vuetify-google-autocomplete
                 id="map"
@@ -39,25 +53,6 @@
             >
             </vuetify-google-autocomplete> -->
         </v-col>
-        <v-col
-          cols="12"
-        >
-          <v-text-field
-                v-model="content.description"
-                label="Description"
-          ></v-text-field>
-        </v-col>
-        <v-col
-          cols="12"
-        >
-            <v-btn
-                color="info"
-                class="mr-4"
-                @click="submit"
-                >
-                Create
-            </v-btn>
-        </v-col>
       </v-row>
     </v-container>
   </v-form>
@@ -65,25 +60,28 @@
 
 <script>
 export default {
-    data: () => ({
-        content: {
-            description: "",
-            address: "",
-            phone: "",
-            name: ""
+    props: {
+        editable: {
+            type: Boolean,
+            default: false
         },
+        content: {
+            type: Object,
+            default(){
+              return {
+                address: "",
+                phone: "",
+                name: ""
+              }
+            }
+        }
+    },
+    data: () => ({
         formValid: false
     }),
     methods: {
-        submit: function(){
-            this.$emit('onSubmit',
-                {
-                    description: this.content.description,
-                    address: this.content.address,
-                    phone: this.content.phone,
-                    name: this.content.name
-                }
-            );
+        onChange: function(itemKey) {
+          this.$emit('onChange', itemKey, this.content[itemKey])
         },
         getAddressData: function (addressData) {
             this.address = addressData;
