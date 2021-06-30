@@ -18,6 +18,17 @@
                 </a>
             </div>
         </template>
+        <template v-slot:item.groups="{ item }">
+            <template v-if="item.groups">
+                <v-chip
+                    v-for="group in item.groups" :key="item.id + group.id"
+                    class="ma-2"
+                    color="primary"
+                >
+                    {{group.index}}
+                </v-chip>
+            </template>
+        </template>
         <template v-slot:item.actions="{ item }">
             <v-icon
                 small
@@ -48,7 +59,8 @@ export default {
             { text: 'Name', value: 'name' },
             { text: 'Phone', value: 'phone', sortable: false },
             { text: 'Email', value: 'email', sortable: false },
-            { text: 'Deliveries', value: 'pickupsNumber', sortable: false},
+            { text: 'Can do # deliveries', value: 'pickupsNumber', sortable: false},
+            { text: 'Assigned', value: 'groups'},
             { text: '', value: 'actions', sortable: false },
         ],
         icons: {
@@ -63,7 +75,6 @@ export default {
         }
     },
     methods: {
-
         deleteItem (item) {
             this.$emit('onDelete', item.id);
         }

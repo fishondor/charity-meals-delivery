@@ -33,8 +33,10 @@ export default {
     },
     data: () => ({
         carriers: [],
+        groups: [],
         deliveryId: null,
         carriersRef: null,
+        groupsRef: null,
         dialogDelete: false,
         idToDelete: null,
         groupsUserAssignedTo: []
@@ -42,8 +44,14 @@ export default {
     created(){
         this.deliveryId = this.$route.params.id
         this.carriersRef = this.$firebaseService.getRef(this.deliveryId, 'carriers')
+        this.groupsRef = this.$firebaseService.getRef(this.deliveryId, 'groups')
         this.carriersRef.on('value', (snapshot) => {
             this.carriers = Carrier.fromSnapshot(snapshot)
+            this.setCarrriersGroups()
+        });
+        this.groupsRef.on('value', (snapshot) => {
+            this.groups = Group.fromSnapshot(snapshot)
+            this.setCarrriersGroups()
         });
     },
     watch: {
@@ -82,10 +90,24 @@ export default {
             })
         },
 
+        setCarrriersGroups () {
+            this.carriers = this.carriers.map(
+                carrier => {
+                    let groups = this.groups.filter(
+                        group => {
+                            return group.carrier == carrier.id
+                        }
+                    )
+                    carrier.groups = groups
+                    return carrier
+                }
+            )
+        },
+
         getGroupsForCarrier (carrierId) {
             return new Promise(
                 (resolve) => {
-                    this.$firebaseService.getRef(this.deliveryId, `groups`)
+                    this.groupsRef
                         .orderByChild("carrier")
                         .equalTo(carrierId)
                         .once("value", snapshot => {
