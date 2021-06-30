@@ -5,16 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:local": "ENV=dev concurrently --kill-others \"npm run serve-api-watch\" \"npm run serve-client\"",
-    "serve-api-watch": "nodemon server/server.js",
-    "start:local:server": "ENV=dev npm run serve-api-watch",
-    "serve-api": "node server/server.js",
     "serve-client": "cd client && npm run serve"
   },
   "author": "Ariel Fisher",
   "license": "ISC",
-  "devDependencies": {
-    "concurrently": "^6.2.0",
-    "nodemon": "^2.0.7"
-  }
+  "devDependencies": {}
 }
