@@ -26,11 +26,6 @@ const routes = [
     meta: {
       requiresAuth: true
     }
-  },
-  {
-    path: '/pickup/new',
-    name: 'Create Pickup',
-    component: () => import('../views/CreatePickup.vue')
   }
 ]
 
