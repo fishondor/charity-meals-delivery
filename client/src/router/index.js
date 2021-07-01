@@ -25,17 +25,7 @@ const routes = [
     component: () => import('../views/Delivery.vue'),
     meta: {
       requiresAuth: true
-    },
-    children: [
-      {
-        path: 'carrier',
-        component: () => import('../views/DeliveryCarrier'),
-      },
-      {
-        path: 'admin',
-        component: () => import('../views/DeliveryAdmin'),
-      }
-    ]
+    }
   },
   {
     path: '/pickup/new',

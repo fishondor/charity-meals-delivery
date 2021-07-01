@@ -1,13 +1,22 @@
 <template>
     <v-container>
         <h3>{{date | formatDate}}</h3>
-        <router-view></router-view>
+        <template v-if="isAdmin">
+            <DeliveryAdmin />
+        </template>
+        <template v-else>
+            <DeliveryCarrier />
+        </template>
     </v-container>
 </template>
 
 <script>
 
 export default {
+    components: {
+        DeliveryAdmin: () => import('./DeliveryAdmin'),
+        DeliveryCarrier: () => import('./DeliveryCarrier')
+    },
     data: () => ({
         deliveryref: null,
         date: null,
@@ -18,10 +27,8 @@ export default {
     }),
     async created(){
         this.deliveryId = this.$route.params.id
-        //this.isAdmin = await this.isDeliveryAdmin(this.deliveryId)
-        this.isRegistered = await this.isRegisteredToDelivery()
-        console.log("Is admin", this.isAdmin)
         this.getDelivery(this.deliveryId)
+        this.isAdmin = await this.isDeliveryAdmin(this.deliveryId)
     },
     methods: {
         isDeliveryAdmin: async function(deliveryId){
@@ -58,9 +65,6 @@ export default {
                 console.error("Error fetching delivery", error)
                 this.$notificationsService.error("An error occured");
             }
-        },
-        isRegisteredToDelivery: async function(){
-            return false
         }
     }
 }
