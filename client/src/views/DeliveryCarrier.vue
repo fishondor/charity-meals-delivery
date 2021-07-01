@@ -63,7 +63,6 @@ export default {
             this.carrierRef = this.$firebaseService.getRef(this.deliveryId, `carriers/${userId}`)
             this.carrierRef.on("value",snapshot => {
                 this.isRegistered = snapshot.exists()
-                console.log("Registered", this.isRegistered)
                 if(!this.isRegistered)
                     return
                 this.initGroupsRef(userId);
@@ -75,11 +74,8 @@ export default {
                 .equalTo(userId)
                 .on("value",snapshot => {
                     if (!snapshot.exists()){
-                        console.log("Nogroups")
                         return
                     }
-                    let groupData = snapshot.val();
-                    console.log("groupData!", groupData);
                     this.groups = Group.fromSnapshot(snapshot)
                 }
             );

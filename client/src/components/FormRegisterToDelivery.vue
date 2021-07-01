@@ -85,7 +85,6 @@ export default {
         this.content.name = this.user.displayName;
         this.content.email = this.user.email;
         this.content.phone = this.user.phoneNumber;
-        console.log("User", this.user)
     },
     methods: {
         submit: function(){
