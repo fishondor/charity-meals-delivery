@@ -61,7 +61,7 @@ const authGuard = async (to) => {
 router.beforeEach(async (to, from, next) => {
   let authenticated = await authGuard(to)
   if(!authenticated){
-    next('/login')
+    router.push({ name: 'Login', query: { redirect: to.fullPath } });
     return
   }
 
