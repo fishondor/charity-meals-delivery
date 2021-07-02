@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import vuetify from './plugins/vuetify'
-import moment from 'moment'
 import VueTelInputVuetify from 'vue-tel-input-vuetify/lib';
 import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete';
 
@@ -13,16 +12,11 @@ import notificationsService from './providers/Notifications'
 import logger from './providers/Logger'
 import loaderService from './providers/Loader'
 import firebaseService from './providers/Firebase'
+import './providers/Filters'
 
 import Environment from './providers/Environment'
 
 Vue.config.productionTip = false
-
-Vue.filter('formatDate', function(value) {
-  if (value) {
-    return moment(String(value)).format('MM/DD/YYYY')
-  }
-})
 
 Vue.use(VueTelInputVuetify, {
   vuetify,
