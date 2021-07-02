@@ -7,7 +7,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import { dbService } from './providers/Db'
 import notificationsService from './providers/Notifications'
 import logger from './providers/Logger'
 import loaderService from './providers/Loader'
@@ -30,7 +29,6 @@ new Vue({
     router,
     store,
     vuetify,
-    dbService,
     notificationsService,
     logger,
     loaderService,
