@@ -59,11 +59,6 @@ export default {
             val || this.closeDelete()
         },
     },
-    filters: {
-        arrayJoin(groups){
-            return groups.join(', ')
-        }
-    },
     methods: {
         async deleteItem (carrierId) {
             let groupsAssigned = await this.getGroupsForCarrier(carrierId)

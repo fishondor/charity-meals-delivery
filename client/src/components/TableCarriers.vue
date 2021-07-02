@@ -68,12 +68,6 @@ export default {
             delete: deleteIcon
         }
     }),
-    filters: {
-        whatsappLink: function (value) {
-            if (!value) return ''
-            return 'https://wa.me/' + value.replace(/\D/g, "");
-        }
-    },
     methods: {
         deleteItem (item) {
             this.$emit('onDelete', item.id);

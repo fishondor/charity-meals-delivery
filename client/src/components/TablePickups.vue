@@ -277,12 +277,6 @@ export default {
             update[itemKey] = itemValue
             this.$firebaseService.getRef(this.deliveryId, `groups/${this.group.id}/destination`).update(update)
         }
-    },
-    filters: {
-        wazeUrl: function (value) {
-            if (!value) return ''
-            return 'https://waze.com/ul?q=' + encodeURIComponent(value)
-        }
     }
   }
 </script>
