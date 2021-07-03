@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <h3>{{date | formatDate}}</h3>
+        <h2>{{date | formatDate}}</h2>
         <template v-if="isAdmin">
             <DeliveryAdmin />
         </template>

@@ -34,12 +34,13 @@
         <v-simple-checkbox
             v-model="item.done"
             :ripple="false"
+            color="success"
             @click="doneChanged(item)"
         ></v-simple-checkbox>
     </template>
     <template v-slot:footer>
         <v-container class="pb-0">
-            <p class="mb-0">Destination</p>
+            <h3 class="mb-0">Destination</h3>
         </v-container>
         <FormDestination :editable="editable" :content="group.destination" @onChange="onDestinationChange" />
     </template>
@@ -136,7 +137,7 @@ import {
     deleteIcon,
     phone,
     waze
-} from '../components/icons'
+} from './icons'
 
 import Group from '../models/Group'
 
