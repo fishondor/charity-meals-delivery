@@ -24,22 +24,30 @@
             >
                 <Carriers />
             </v-tab-item>
+            <v-tab-item
+                key="data"
+            >
+                <Data />
+            </v-tab-item>
         </v-tabs-items>
     </v-card>
 </template>
 <script>
 import Groups from '../components/Groups'
 import Carriers from '../components/Carriers'
+import Data from '../components/Data'
 
 export default {
     components: {
         Groups,
-        Carriers
+        Carriers,
+        Data
     },
     data: () => ({
         items: [
-            'groups',
-            'carriers'
+            'חלוקות',
+            'מחלקים',
+            'מידע'
         ],
         tab: null,
     })
