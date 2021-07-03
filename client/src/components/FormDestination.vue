@@ -15,7 +15,8 @@
             outlined
             :disabled="!editable"
             @change="onChange('name')"
-          ></v-text-field>
+          >
+          </v-text-field>
         </v-col>
 
         <v-col
@@ -29,7 +30,17 @@
                 dense
                 outlined
                 :disabled="!editable"
-                @change="onChange('phone')"></vue-tel-input-vuetify>
+                @change="onChange('phone')">
+                <template v-slot:append>
+                  <a :href="`tel:${content.phone}`">
+                    <v-icon
+                        small
+                    >
+                        {{icons.phone}}
+                    </v-icon>
+                  </a>
+                </template>
+              </vue-tel-input-vuetify>
         </v-col>
 
         <v-col
@@ -43,7 +54,17 @@
                     outlined
                     @change="onChange('address')"
                     :disabled="!editable"
-            ></v-text-field>
+            >
+              <template v-slot:append>
+                <a :href="content.address | wazeUrl">
+                    <v-icon
+                        small
+                    >
+                        {{icons.waze}}
+                    </v-icon>
+                </a>
+              </template>
+            </v-text-field>
             <!-- <vuetify-google-autocomplete
                 id="map"
                 v-bind:disabled="false"
@@ -59,6 +80,11 @@
 </template>
 
 <script>
+import {
+    phone,
+    waze
+} from './icons'
+
 export default {
     props: {
         editable: {
@@ -77,7 +103,11 @@ export default {
         }
     },
     data: () => ({
-        formValid: false
+        formValid: false,
+        icons: {
+          phone,
+          waze
+        }
     }),
     methods: {
         onChange: function(itemKey) {
