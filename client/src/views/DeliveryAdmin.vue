@@ -38,6 +38,7 @@ import Carriers from '../components/Carriers'
 import Data from '../components/Data'
 
 export default {
+    title: "Friday Meals, Delivery admin",
     components: {
         Groups,
         Carriers,

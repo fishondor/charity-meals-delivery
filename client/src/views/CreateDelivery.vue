@@ -8,6 +8,7 @@
 import FormDelivery from '../components/FormDelivery'
 
 export default {
+    title: "Friday Meals, Create delivery",
     name: 'create',
     components: {
         FormDelivery,
