@@ -12,6 +12,7 @@ import logger from './providers/Logger'
 import loaderService from './providers/Loader'
 import firebaseService from './providers/Firebase'
 import './providers/Filters'
+import titleMixin from './mixins/titleMixin'
 
 import Environment from './providers/Environment'
 
@@ -24,6 +25,8 @@ Vue.use(VueTelInputVuetify, {
 Vue.use(VuetifyGoogleAutocomplete, {
   apiKey: Environment.get('VUE_APP_API_KEY'),
 });
+
+Vue.mixin(titleMixin)
 
 new Vue({
     router,
