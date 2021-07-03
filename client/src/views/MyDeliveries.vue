@@ -11,6 +11,9 @@
                             תאריך
                         </th>
                         <th>
+                            הערות
+                        </th>
+                        <th>
                             קישור
                         </th>
                     </tr>
@@ -22,6 +25,7 @@
                     >
                         <td>{{ item.id }}</td>
                         <td>{{ item.date }}</td>
+                        <td>{{ item.description }}<td>
                         <td><a :href="item.id | deliveryLink">{{ item.id | deliveryLink }}</a></td>
                     </tr>
                 </tbody>
