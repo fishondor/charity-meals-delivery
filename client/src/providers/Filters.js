@@ -23,7 +23,7 @@ Vue.filter('wazeUrl', function(value) {
 })
 
 Vue.filter('deliveryLink', function(deliveryId){
-    let locationPort = window.location.port == 80 || window.location.port == 443 ? '' : `:${window.location.port}`;
+    let locationPort = window.location.port == 80 || window.location.port == 443 || '' ? '' : `:${window.location.port}`;
     
     return `${window.location.protocol}//${window.location.hostname}${locationPort}/delivery/${deliveryId}`
 })
