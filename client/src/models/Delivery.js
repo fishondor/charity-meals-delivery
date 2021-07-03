@@ -9,6 +9,7 @@ const ajv = new Ajv()
 const schema = {
     ownerId: String,
     date: Date,
+    description: String,
     groups: [
         Group.schema
     ],
@@ -27,6 +28,7 @@ class Delivery{
     constructor(data){
         this.ownerId = data.ownerId;
         this.date = data.date;
+        this.description = data.description;
     }
 
     set id(id){

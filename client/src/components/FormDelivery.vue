@@ -8,6 +8,14 @@
                 <v-row justify="center">
                     <v-date-picker v-model="content.date"></v-date-picker>
                 </v-row>
+                <v-text-field
+                    v-model="content.description"
+                    :counter="150"
+                    label="הערות"
+                    dense
+                    outlined
+                >
+                </v-text-field>
             </v-card-text>
             <v-card-actions>
                 <v-btn
@@ -28,7 +36,8 @@ import Delivery from '../models/Delivery'
 export default {
     data: () => ({
         content: {
-            date: new Date().toISOString().substr(0, 10)
+            date: new Date().toISOString().substr(0, 10),
+            description: ""
         },
         formValid: false
     }),
@@ -36,7 +45,8 @@ export default {
         submit: function(){
             let delivery = new Delivery(
                 {
-                    date: this.content.date
+                    date: this.content.date,
+                    description: this.content.description
                 }
             )
             this.$emit('onSubmit', delivery);

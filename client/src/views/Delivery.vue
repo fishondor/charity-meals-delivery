@@ -1,6 +1,7 @@
 <template>
     <v-container>
         <h2>{{date | formatDate}}</h2>
+        <h3 v-if="description">{{description}}</h3>
         <template v-if="isAdmin">
             <DeliveryAdmin />
         </template>
@@ -20,6 +21,7 @@ export default {
     data: () => ({
         deliveryref: null,
         date: null,
+        description: "",
         groups: [],
         isAdmin: false,
         isRegistered: false,
@@ -60,6 +62,7 @@ export default {
                 this.deliveryref = result;
                 this.deliveryref.once('value', (snapshot) => {
                     this.date = snapshot.child('date').val()
+                    this.description = snapshot.child('description').val()
                 });
             }catch(error){
                 console.error("Error fetching delivery", error)
