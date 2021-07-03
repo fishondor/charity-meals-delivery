@@ -21,3 +21,9 @@ Vue.filter('wazeUrl', function(value) {
     if (!value) return ''
     return 'https://waze.com/ul?q=' + encodeURIComponent(value)
 })
+
+Vue.filter('deliveryLink', function(deliveryId){
+    let locationPort = window.location.port == 80 || window.location.port == 443 ? '' : `:${window.location.port}`;
+    
+    return `${window.location.protocol}//${window.location.hostname}${locationPort}/delivery/${deliveryId}`
+})

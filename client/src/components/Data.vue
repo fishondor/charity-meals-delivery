@@ -3,7 +3,7 @@
         <v-list>
             <v-list-item>
                 <v-list-item-content>
-                    <v-list-item-title v-text="`קישור להרשמה: ${deliveryLink}`"></v-list-item-title>
+                    <v-list-item-title>קישור להרשמה: {{deliveryId | deliveryLink}}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
                     <v-btn icon @click="copyLink">
@@ -53,7 +53,6 @@ export default {
             carriers: [],
             deliveryId: null,
             carriersDelivaryCount: 0,
-            deliveryLink: '',
             icons: {
                 copy
             }
@@ -63,7 +62,6 @@ export default {
         this.deliveryId = this.$route.params.id
         let deliveryRef = await this.$firebaseService.getDelivery(this.deliveryId)
         deliveryRef.on('value', this.setData);
-        this.deliveryLink = `${window.location.protocol}//${window.location.hostname}/delivery/${this.deliveryId}`
     },
     methods: {
         setData(snapshot){
@@ -79,7 +77,7 @@ export default {
         },
         copyLink(){
             var tempInput = document.createElement("input");
-            tempInput.value = this.deliveryLink
+            tempInput.value = this.$options.filters.deliveryLink(this.deliveryId);
             document.body.appendChild(tempInput);
             tempInput.select();
             document.execCommand("copy");
