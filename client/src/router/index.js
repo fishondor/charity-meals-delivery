@@ -15,6 +15,14 @@ const routes = [
     },
   },
   {
+    path: '/deliveries',
+    name: 'Deliveries',
+    component: () => import('../views/MyDeliveries.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/login',
     name: 'Login',
     component: () => import('../views/Login.vue')
