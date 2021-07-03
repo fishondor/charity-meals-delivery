@@ -28,6 +28,15 @@ class Carrier{
     get id(){
         return this._id
     }
+    
+    get data(){
+        return {
+            name: this.name,
+            email: this.email,
+            phone: this.phone,
+            pickupsNumber: this.pickupsNumber
+        }
+    }
 
     isDisabled(groups = []){
         let carriersGroups = groups.filter(
