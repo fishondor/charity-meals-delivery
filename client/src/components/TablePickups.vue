@@ -40,7 +40,7 @@
     </template>
     <template v-slot:footer>
         <v-container class="pb-0">
-            <h3 class="mb-0">Destination</h3>
+            <h3 class="mb-0">יעד המסירה</h3>
         </v-container>
         <FormDestination :editable="editable" :content="group.destination" @onChange="onDestinationChange" />
     </template>
@@ -93,7 +93,7 @@
               v-bind="attrs"
               v-on="on"
             >
-              New Pickup
+              הוסף איסוף
             </v-btn>
           </template>
           <v-card>
@@ -172,12 +172,12 @@ export default {
         dialog: false,
         dialogDelete: false,
         headers: [
-            { text: 'Name', value: 'name' },
-            { text: 'Phone', value: 'phone', sortable: false },
-            { text: 'Address', value: 'address' },
-            { text: 'Description', value: 'description', sortable: false },
-            { text: '', value: 'actions', sortable: false },
-            { text: 'Done', value: 'done', sortable: false}
+            { text: 'נאסף', value: 'done', sortable: false},
+            { text: 'שם', value: 'name', sortable: false },
+            { text: 'טלפון', value: 'phone', sortable: false },
+            { text: 'כתובת', value: 'address', sortable: false },
+            { text: 'מכינים', value: 'description', sortable: false },
+            { text: '', value: 'actions', sortable: false }
         ],
         pickups: [],
         editedIndex: -1,

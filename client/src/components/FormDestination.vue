@@ -9,7 +9,7 @@
           <v-text-field
             v-model="content.name"
             :counter="34"
-            label="Name"
+            label="שם"
             required
             dense
             outlined
@@ -25,7 +25,7 @@
         >
             <vue-tel-input-vuetify
                 v-model="content.phone"
-                label="Phone"
+                label="טלפון"
                 required
                 dense
                 outlined
@@ -49,7 +49,7 @@
         >
             <v-text-field
                     v-model="content.address"
-                    label="Address"
+                    label="כתובת"
                     dense
                     outlined
                     @change="onChange('address')"

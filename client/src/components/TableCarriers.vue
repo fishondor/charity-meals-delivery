@@ -56,11 +56,11 @@ export default {
     },
     data: () => ({
         headers: [
-            { text: 'Name', value: 'name' },
-            { text: 'Phone', value: 'phone', sortable: false },
-            { text: 'Email', value: 'email', sortable: false },
-            { text: 'Can do # deliveries', value: 'pickupsNumber', sortable: false},
-            { text: 'Assigned', value: 'groups'},
+            { text: 'שם', value: 'name' },
+            { text: 'טלפון', value: 'phone', sortable: false },
+            { text: 'אימייל', value: 'email', sortable: false },
+            { text: 'יכול מספר משלוחים', value: 'pickupsNumber', sortable: false},
+            { text: 'רשום ל', value: 'groups'},
             { text: '', value: 'actions', sortable: false },
         ],
         icons: {
