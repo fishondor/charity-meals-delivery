@@ -84,6 +84,19 @@ class FirebaseService{
         }
     }
 
+    async getDeliveriesByOwner(ownerId){
+        try{
+            let ref = await firebase.database().ref(`/deliveries`)
+                .orderByChild("ownerId")
+                .equalTo(ownerId);
+            let snapshot = await ref.once('value');
+            return snapshot
+        }catch(err){
+            this.logger.error(`Err getting deliveries for owner ${ownerId}: ${err}`);
+            return false
+        }
+    }
+
     async registerCarrier(deliveryId, carrier){
         try{
             let carrierRef = firebase.database().ref(`/deliveries/${deliveryId}/carriers/${carrier.id}`);
