@@ -29,7 +29,6 @@ import TablePickups from '../components/TablePickups'
 import Group from '../models/Group'
 
 export default {
-    title: "Friday Meals, Delivery Carrier",
     data: () => ({
         groups: [],
         deliveryId: null,

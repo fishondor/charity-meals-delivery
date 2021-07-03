@@ -11,6 +11,7 @@
 <script>
 export default {
   name: 'App',
+  title: "מחלקים ארוחות שישי",
   components: {
       Navigation: () => import('./components/Navigation'),
       Notification: () => import('./components/Notification')

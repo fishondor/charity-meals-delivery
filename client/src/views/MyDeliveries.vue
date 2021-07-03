@@ -33,7 +33,6 @@
 import Delivery from '../models/Delivery'
 
 export default {
-    title: "Friday Meals, My deliveries",
     data: () => ({
         deliveries: []
     }),

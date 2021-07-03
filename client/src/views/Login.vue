@@ -7,7 +7,6 @@
 <script>
 
 export default {
-    title: "Friday Meals, Login",
     components: {
         Login: () => import('../components/Login')
     }
