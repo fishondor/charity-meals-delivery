@@ -13,10 +13,10 @@
             </template>
             <template v-else>
                 <h4>
-                    You are not assigned to any pickup yet.
+                    אינך רשום עדיין לאיסוף
                 </h4>
                 <p>
-                    This page will update once admin assigns a pickup for you
+                    עמוד זה יתעדכן כאשר תתבצע החלוקה
                 </p>
             </template>
         </template>
