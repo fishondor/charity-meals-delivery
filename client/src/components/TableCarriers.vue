@@ -9,7 +9,7 @@
         <template v-slot:item.phone="{ item }">
             <div class="d-flex justify-space-between">
                 <span>{{item.phone}}</span>
-                <a :href="item.phone | whatsappLink">
+                <a :href="item.phone | whatsappMessageNumber">
                     <v-icon
                         small
                     >

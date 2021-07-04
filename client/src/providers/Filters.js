@@ -12,9 +12,13 @@ Vue.filter('arrayJoin', function(valueArray) {
     return valueArray.join(', ')
 })
 
-Vue.filter('whatsappLink', function(value) {
+Vue.filter('whatsappMessageNumber', function(value) {
     if (!value) return ''
     return 'https://wa.me/' + value.replace(/\D/g, "");
+})
+
+Vue.filter('whatsappShare', function(text) {
+    return `whatsapp://send?text=${encodeURIComponent(text)}`
 })
 
 Vue.filter('wazeUrl', function(value) {

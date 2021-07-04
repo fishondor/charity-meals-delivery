@@ -14,6 +14,15 @@
                         </v-icon>
                     </v-btn>
                 </v-list-item-action>
+                <v-list-item-action>
+                    <a :href="shareText | whatsappShare">
+                        <v-icon
+                            color="primary"
+                        >
+                            {{icons.whatsapp}}
+                        </v-icon>
+                    </a>
+                </v-list-item-action>
             </v-list-item>
             <v-list-item>
                 <v-list-item-content>
@@ -43,7 +52,8 @@ import Group from '../models/Group'
 import Carrier from '../models/Carrier'
 
 import {
-    copy
+    copy,
+    whatsapp
 } from './icons'
 
 export default {
@@ -54,14 +64,24 @@ export default {
             deliveryId: null,
             carriersDelivaryCount: 0,
             icons: {
-                copy
-            }
+                copy,
+                whatsapp
+            },
+            deliveryDate: '',
+            deliveryDescription: ''
         }
     },
     async created(){
         this.deliveryId = this.$route.params.id
         let deliveryRef = await this.$firebaseService.getDelivery(this.deliveryId)
         deliveryRef.on('value', this.setData);
+    },
+    computed: {
+        shareText() {
+            let deliveryLink = this.$options.filters.deliveryLink(this.deliveryId);
+            let title = 'מחלקים ארוחות שישי'
+            return `${title}\n${this.deliveryDate}\n${this.deliveryDescription}\n${deliveryLink}`
+        }
     },
     methods: {
         setData(snapshot){
@@ -73,7 +93,9 @@ export default {
                     return count
                 },
                 0
-            )
+            ),
+            this.deliveryDescription = snapshot.child('description').val();
+            this.deliveryDate = snapshot.child('date').val();
         },
         copyLink(){
             var tempInput = document.createElement("input");
