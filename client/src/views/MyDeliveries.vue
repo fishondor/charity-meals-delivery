@@ -31,6 +31,15 @@
                 </tbody>
             </template>
         </v-simple-table>
+        <v-card-actions>
+            <v-btn
+                color="primary"
+                class="mr-4"
+                to="/delivery/new"
+                >
+                new
+            </v-btn>
+        </v-card-actions>
     </v-container>
 </template>
 <script>
