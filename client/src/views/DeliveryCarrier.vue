@@ -1,7 +1,7 @@
 <template>
     <div>
         <template v-if="!isRegistered">
-            <p>You are not registerd to this delivery</p>
+            <p>הרשמה לחלוקה</p>
             <FormRegisterToDelivery @onSubmit="submit" />
         </template>
         <template v-else>

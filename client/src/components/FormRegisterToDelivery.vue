@@ -11,7 +11,7 @@
                 >
                     <v-text-field
                         v-model="content.name"
-                        label="Name"
+                        label="שם"
                         :disabled="!!user.displayName"
                         required
                     ></v-text-field>
@@ -22,7 +22,7 @@
                 >
                     <v-text-field
                         v-model="content.email"
-                        label="Email"
+                        label="מייל"
                         :disabled="!!user.email"
                         required
                     ></v-text-field>
@@ -36,6 +36,7 @@
                         defaultCountry="IL"
                         :onlyCountries="['IL']"
                         :disabled="!!user.phoneNumber"
+                        label="טלפון"
                         required ></vue-tel-input-vuetify>
                 </v-col>
                 <v-col
@@ -44,7 +45,7 @@
                 >
                     <v-text-field
                         v-model="content.pickupsNumber"
-                        label="How many pickups?"
+                        label="כמה איסופים יכול לבצע?"
                         type="number"
                         required
                     ></v-text-field>
@@ -58,7 +59,7 @@
                         class="mr-4"
                         @click="submit"
                         >
-                        Register
+                        הרשם
                     </v-btn>
                 </v-col>
             </v-row>
