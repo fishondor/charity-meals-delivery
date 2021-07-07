@@ -25,12 +25,20 @@ export default {
         groups: [],
         isAdmin: false,
         isRegistered: false,
-        deliveryId: null
+        deliveryId: null,
+        isValid: false
     }),
     async created(){
+        this.$loaderService.show()
         this.deliveryId = this.$route.params.id
-        this.getDelivery(this.deliveryId)
+        let deliverySnapshot = await this.getDelivery(this.deliveryId)
+        if(!deliverySnapshot)
+            return
+        
+        this.date = deliverySnapshot.child('date').val()
+        this.description = deliverySnapshot.child('description').val()
         this.isAdmin = await this.isDeliveryAdmin(this.deliveryId)
+        this.$loaderService.hide()
     },
     methods: {
         isDeliveryAdmin: async function(deliveryId){
@@ -55,15 +63,13 @@ export default {
         getDelivery: async function(deliveryId){
             try{
                 let result = await this.$firebaseService.getDelivery(deliveryId)
-                if(!result){
-                    this.$notificationsService.error("An error occured");
-                    return
-                }
                 this.deliveryref = result;
-                this.deliveryref.once('value', (snapshot) => {
-                    this.date = snapshot.child('date').val()
-                    this.description = snapshot.child('description').val()
-                });
+                let snapshot = await this.deliveryref.once('value');
+                if (!snapshot.exists()){
+                    this.$notificationsService.error("Could not find this delivery. please make sure you get the correct link from administrator");
+                    return false
+                }
+                return snapshot
             }catch(error){
                 console.error("Error fetching delivery", error)
                 this.$notificationsService.error("An error occured");
