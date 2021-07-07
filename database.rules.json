@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "deliveries": {
+      ".read": true,
+      "$deliveryId": {
+        ".write": "auth.uid === root.child('deliveries/' + $deliveryId + '/ownerId').val()",
+        "carriers": {
+          ".write": "auth.uid != null"
+        }
+      }
+    },
+    ".read": false,
+    ".write": false
+  }
+}
