@@ -37,7 +37,8 @@
                         :onlyCountries="['IL']"
                         :disabled="!!user.phoneNumber"
                         label="טלפון"
-                        required ></vue-tel-input-vuetify>
+                        required 
+                        :rules="phoneRules"></vue-tel-input-vuetify>
                 </v-col>
                 <v-col
                     cols="12"
@@ -47,6 +48,9 @@
                         v-model="content.pickupsNumber"
                         label="כמה איסופים יכול לבצע?"
                         type="number"
+                        :min="minPickups"
+                        :max="maxPickups"
+                        :rules="numberRules"
                         required
                     ></v-text-field>
                 </v-col>
@@ -70,6 +74,9 @@
 <script>
 import Carrier from '../models/Carrier'
 
+const MIN_PICKUPS = 1
+const MAX_PICKUPS = 3
+
 export default {
     data: () => ({
         content: {
@@ -79,7 +86,15 @@ export default {
             email: ""
         },
         user: {},
-        formValid: false
+        formValid: false,
+        phoneRules: [
+            v => !!v || 'נא למלא מספר טלפון',
+        ],
+        numberRules: [
+            v => v >= 1 && v <=3 || `ניתן לבצא בין ${MIN_PICKUPS} ל${MAX_PICKUPS} איסופים`
+        ],
+        minPickups: MIN_PICKUPS,
+        maxPickups: MAX_PICKUPS
     }),
     async mounted(){
         this.user = await this.$firebaseService.getCurrentUser();
@@ -89,6 +104,7 @@ export default {
     },
     methods: {
         submit: function(){
+            this.$refs.form.validate()
             let carrier = new Carrier(
                 {
                     email: this.content.email,
@@ -98,7 +114,8 @@ export default {
                     uid: this.user.uid
                 }
             )
-            this.$emit('onSubmit', carrier);
+            if(this.formValid)
+                this.$emit('onSubmit', carrier);
         }
     }
 }
