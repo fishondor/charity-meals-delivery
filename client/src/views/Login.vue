@@ -1,14 +1,28 @@
 <template>
-    <div class="login-container">
+    <div v-if="!isLoggedIn" class="login-container">
         <Login class="login" />
     </div>
+    <v-container v-else class="text-center">
+        <h3>Hi {{userName}}, You are already logged in.</h3>
+        <p>Please ask the administrator for a link to register</p>
+    </v-container>
 </template>
 
 <script>
 
 export default {
+    data: () => ({
+        isLoggedIn: false,
+        userName: ""
+    }),
     components: {
         Login: () => import('../components/Login')
+    },
+    async created(){
+        let user = await this.$firebaseService.getCurrentUser()
+        this.isLoggedIn = !!user
+        if(user)
+            this.userName = user.displayName
     }
 }
 </script>
