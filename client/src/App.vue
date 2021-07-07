@@ -5,6 +5,7 @@
       <router-view></router-view>
     </v-main>
     <Notification />
+    <Loader />
   </v-app>
 </template>
 
@@ -14,7 +15,8 @@ export default {
   title: "מחלקים ארוחות שישי",
   components: {
       Navigation: () => import('./components/Navigation'),
-      Notification: () => import('./components/Notification')
+      Notification: () => import('./components/Notification'),
+      Loader: () => import('./components/Loader')
   },
   beforeCreate: async function(){
     let user = await this.$firebaseService.getCurrentUser();

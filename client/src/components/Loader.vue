@@ -26,12 +26,12 @@ export default {
 
 <style lang="postcss" scoped>
 .loader-container{
-    width: 100vw;
-    height: 100vh;
-    background: rgba(255, 255, 255, .9);
+    width: 100%;
+    height: 100%;
+    background: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed;
+    position: absolute;
 }
 </style>
