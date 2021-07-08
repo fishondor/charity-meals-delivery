@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <h2>הרשמה לחלוקה שתתבצע בתאריך: {{date | formatDate}}</h2>
+        <h2>חלוקה לתאריך: {{date | formatDate}}</h2>
         <h3 v-if="description">{{description}}</h3>
         <template v-if="isAdmin">
             <DeliveryAdmin />
