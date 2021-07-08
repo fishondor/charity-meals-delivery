@@ -1,16 +1,28 @@
 {
   "rules": {
+    ".read": false,
+    ".write": false,
     "deliveries": {
       ".read": true,
-      ".write": "auth.uid != null",
+      ".write": "root.child('admins/' + auth.uid).exists()",
       "$deliveryId": {
-        ".write": "auth.uid === root.child('deliveries/' + $deliveryId + '/ownerId').val()",
+        ".write": "auth != null && auth.uid === root.child('deliveries/' + $deliveryId + '/ownerId').val()",
         "carriers": {
           ".write": "auth.uid != null"
+        },
+        "groups": {
+          "$groupId": {
+            "pickups": {
+              "$pickupIndex": {
+                "done": {
+                  ".write": "auth != null && auth.uid === root.child('deliveries/' + $deliveryId + '/groups/' + $groupId + '/carrier').val()",
+                  ".validate": "newData.isBoolean()"
+                }
+              }
+            }
+          }
         }
       }
-    },
-    ".read": false,
-    ".write": false
+    }
   }
 }
