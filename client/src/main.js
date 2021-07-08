@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import vuetify from './plugins/vuetify'
 import VueTelInputVuetify from 'vue-tel-input-vuetify/lib';
-import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete';
 
 import App from './App.vue'
 import router from './router'
@@ -14,16 +13,10 @@ import firebaseService from './providers/Firebase'
 import './providers/Filters'
 import titleMixin from './mixins/titleMixin'
 
-import Environment from './providers/Environment'
-
 Vue.config.productionTip = false
 
 Vue.use(VueTelInputVuetify, {
   vuetify,
-});
-
-Vue.use(VuetifyGoogleAutocomplete, {
-  apiKey: Environment.get('VUE_APP_API_KEY'),
 });
 
 Vue.mixin(titleMixin)

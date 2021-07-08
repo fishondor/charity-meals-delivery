@@ -1,7 +1,6 @@
 import logger from './Logger'
 
 const constants = {
-    VUE_APP_API_KEY: process.env.VUE_APP_API_KEY,
     VUE_APP_FIREBASE_API_KEY: process.env.VUE_APP_FIREBASE_API_KEY,
     VUE_APP_FIREBASE_AUTH_DOMAIN: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
     VUE_APP_FIREBASE_DATABASE_URL: process.env.VUE_APP_FIREBASE_DATABASE_URL,
