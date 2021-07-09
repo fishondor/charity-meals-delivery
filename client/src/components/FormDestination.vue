@@ -2,10 +2,10 @@
   <v-form v-model="formValid">
     <v-container>
       <v-row>
-        <v-col
+        <v-col 
           cols="12"
           md="4"
-        >
+          >
           <v-text-field v-if="editable"
             v-model="content.name"
             :counter="34"
@@ -34,15 +34,6 @@
                 outlined
                 :disabled="!editable"
                 @change="onChange('phone')">
-                <template v-slot:append>
-                  <a :href="`tel:${content.phone}`">
-                    <v-icon
-                        small
-                    >
-                        {{icons.phone}}
-                    </v-icon>
-                  </a>
-                </template>
               </vue-tel-input-vuetify>
               <p v-else class="d-flex justify-space-between mb-0">
                 <span>טלפון: {{content.phone}}</span>&nbsp;&nbsp;
@@ -66,15 +57,6 @@
                     @change="onChange('address')"
                     :disabled="!editable"
             >
-              <template v-slot:append>
-                <a :href="content.address | wazeUrl">
-                    <v-icon
-                        small
-                    >
-                        {{icons.waze}}
-                    </v-icon>
-                </a>
-              </template>
             </v-text-field>
             <p v-else class="d-flex justify-space-between mb-0">
               <span>כתובת: {{content.address}}</span>&nbsp;&nbsp;
