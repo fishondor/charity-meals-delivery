@@ -38,7 +38,11 @@
         <v-container class="pb-0">
             <h3 class="mb-0">יעד המסירה</h3>
         </v-container>
-        <FormDestination :editable="editable" :content="group.destination" @onChange="onDestinationChange" />
+        <FormDestination 
+            :editable="editable" 
+            :content="group.destination" 
+            @onChange="onDestinationChange"
+            :doneDisabled="!pickupsCompleted" />
     </template>
     <template v-slot:top>
       <v-toolbar
@@ -201,6 +205,13 @@ export default {
     computed: {
         formTitle () {
             return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+        },
+        pickupsCompleted () {
+            let pickups = this.group.pickups
+            for(let i = 0; i < pickups.length; i++){
+                if(!pickups[i].done) return false
+            }
+            return true
         }
     },
 

@@ -4,6 +4,20 @@
       <v-row>
         <v-col 
           cols="12"
+          md="12"
+        >
+          <v-checkbox
+            v-model="content.done"
+            color="success"
+            hide-details
+            @change="onChange('done')"
+            :disabled="doneDisabled"
+            label="נמסר"
+            class="mt-0 pt-0"
+          ></v-checkbox>
+        </v-col>
+        <v-col
+          cols="12"
           md="4"
         >
           <v-text-field v-if="editable"
@@ -83,6 +97,10 @@ export default {
         editable: {
             type: Boolean,
             default: false
+        },
+        doneDisabled: {
+            type: Boolean,
+            default: true
         },
         content: {
             type: Object,
