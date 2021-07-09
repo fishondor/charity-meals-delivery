@@ -17,7 +17,7 @@
             @change="onChange('name')"
           >
           </v-text-field>
-          <p v-else>
+          <p v-else class="d-flex justify-space-between mb-0">
             {{content.name}}
           </p>
         </v-col>
@@ -44,12 +44,10 @@
                   </a>
                 </template>
               </vue-tel-input-vuetify>
-              <p v-else>
-                {{content.phone}}
+              <p v-else class="d-flex justify-space-between mb-0">
+                <span>טלפון: {{content.phone}}</span>&nbsp;&nbsp;
                 <a :href="`tel:${content.phone}`">
-                  <v-icon
-                      small
-                  >
+                  <v-icon>
                       {{icons.phone}}
                   </v-icon>
                 </a>
@@ -78,12 +76,10 @@
                 </a>
               </template>
             </v-text-field>
-            <p v-else>
-              {{content.address}}
+            <p v-else class="d-flex justify-space-between mb-0">
+              <span>כתובת: {{content.address}}</span>&nbsp;&nbsp;
               <a :href="content.address | wazeUrl">
-                  <v-icon
-                      small
-                  >
+                  <v-icon>
                       {{icons.waze}}
                   </v-icon>
               </a>

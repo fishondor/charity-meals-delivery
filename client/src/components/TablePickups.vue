@@ -8,11 +8,9 @@
   >
     <template v-slot:item.phone="{ item }">
         <div class="d-flex justify-space-between">
-            <span>{{item.phone}}</span>
+            <span>{{item.phone}}</span>&nbsp;&nbsp;
             <a :href="`tel:${item.phone}`">
-                <v-icon
-                    small
-                >
+                <v-icon>
                     {{icons.phone}}
                 </v-icon>
             </a>
@@ -20,11 +18,9 @@
     </template>
     <template v-slot:item.address="{ item }">
         <div class="d-flex justify-space-between">
-            <span>{{item.address}}</span>
+            <span>{{item.address}}</span>&nbsp;&nbsp;
             <a :href="item.address | wazeUrl">
-                <v-icon
-                    small
-                >
+                <v-icon>
                     {{icons.waze}}
                 </v-icon>
             </a>
