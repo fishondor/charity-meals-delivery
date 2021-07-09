@@ -1,11 +1,11 @@
 <template>
-  <v-form v-model="formValid">
-    <v-container>
+  <v-container>
+    <v-form v-model="formValid">
       <v-row>
         <v-col 
           cols="12"
           md="4"
-          >
+        >
           <v-text-field v-if="editable"
             v-model="content.name"
             :counter="34"
@@ -17,7 +17,7 @@
             @change="onChange('name')"
           >
           </v-text-field>
-          <p v-else class="d-flex justify-space-between mb-0">
+          <p v-else class="mb-0">
             {{content.name}}
           </p>
         </v-col>
@@ -35,7 +35,7 @@
                 :disabled="!editable"
                 @change="onChange('phone')">
               </vue-tel-input-vuetify>
-              <p v-else class="d-flex justify-space-between mb-0">
+              <p v-else class="mb-0">
                 <span>טלפון: {{content.phone}}</span>&nbsp;&nbsp;
                 <a :href="`tel:${content.phone}`">
                   <v-icon>
@@ -58,7 +58,7 @@
                     :disabled="!editable"
             >
             </v-text-field>
-            <p v-else class="d-flex justify-space-between mb-0">
+            <p v-else class="mb-0">
               <span>כתובת: {{content.address}}</span>&nbsp;&nbsp;
               <a :href="content.address | wazeUrl">
                   <v-icon>
@@ -68,8 +68,8 @@
             </p>
         </v-col>
       </v-row>
-    </v-container>
-  </v-form>
+    </v-form>
+  </v-container>
 </template>
 
 <script>
@@ -105,9 +105,6 @@ export default {
     methods: {
         onChange: function(itemKey) {
           this.$emit('onChange', itemKey, this.content[itemKey])
-        },
-        getAddressData: function (addressData) {
-            this.address = addressData;
         }
     }
 }
