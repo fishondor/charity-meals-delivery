@@ -84,14 +84,6 @@
                   </v-icon>
               </a>
             </p>
-            <!-- <vuetify-google-autocomplete
-                id="map"
-                v-bind:disabled="false"
-                placeholder="Addres. Start typing"
-                v-on:placechanged="getAddressData"
-                v-model="content.address"
-            >
-            </vuetify-google-autocomplete> -->
         </v-col>
       </v-row>
     </v-container>
