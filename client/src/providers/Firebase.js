@@ -97,6 +97,16 @@ class FirebaseService{
         }
     }
 
+    deleteDelivery(deliveryId){
+        try{
+            firebase.database().ref(`/deliveries`).child(deliveryId).remove()
+            return true
+        }catch(err){
+            this.logger.error(`Err deleting delivery ${deliveryId}: ${err}`);
+            return false
+        }
+    }
+
     async registerCarrier(deliveryId, carrier){
         try{
             let carrierRef = firebase.database().ref(`/deliveries/${deliveryId}/carriers/${carrier.id}`);
