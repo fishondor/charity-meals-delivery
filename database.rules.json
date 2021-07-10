@@ -19,6 +19,12 @@
                   ".validate": "newData.isBoolean()"
                 }
               }
+            },
+            "destination": {
+              "done": {
+                ".write": "auth != null && auth.uid === root.child('deliveries/' + $deliveryId + '/groups/' + $groupId + '/carrier').val()",
+                ".validate": "newData.isBoolean()"
+              }
             }
           }
         }
