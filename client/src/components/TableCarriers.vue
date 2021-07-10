@@ -11,7 +11,6 @@
                 <span>{{item.phone}}</span>
                 <a :href="item.phone | whatsappMessageNumber">
                     <v-icon
-                        small
                     >
                         {{icons.whatsapp}}
                     </v-icon>
@@ -31,7 +30,6 @@
         </template>
         <template v-slot:item.actions="{ item }">
             <v-icon
-                small
                 @click="deleteItem(item)"
             >
                 {{icons.delete}}

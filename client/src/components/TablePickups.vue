@@ -121,7 +121,6 @@
     </template>
     <template v-if="editable" v-slot:item.actions="{ item }">
       <v-icon
-        small
         @click="deleteItem(item)"
       >
         {{icons.delete}}
