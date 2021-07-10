@@ -11,19 +11,39 @@
         </a>
       </v-toolbar-title>
       <div class="flex-grow-1"></div>
-      <v-btn v-if="user" text small @click="logOut">Logout</v-btn>
-      <v-btn v-else text small @click="logIn">Log in</v-btn>
-      <v-avatar
-        v-if="user"
-        size="36px"
-      >
-        <img
-          v-if="user.photoURL"
-          alt="Avatar"
-          :src="user.photoURL"
+      <template v-if="user">
+        <v-menu
+          offset-y
         >
-        <v-icon v-else>{{icons.account}}</v-icon>
-      </v-avatar>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              icon
+              color="yellow"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-avatar
+                v-if="user"
+                size="36px"
+              >
+                <img
+                  v-if="user.photoURL"
+                  alt="Avatar"
+                  :src="user.photoURL"
+                >
+                <v-icon v-else>{{icons.account}}</v-icon>
+              </v-avatar>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item>
+              <v-list-item-title><v-btn text small @click="logOut">Logout</v-btn></v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </template>
+      <v-btn v-else text small @click="logIn">Log in</v-btn>
     </v-app-bar>
   </div>
 </template>
