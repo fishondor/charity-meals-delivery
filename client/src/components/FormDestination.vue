@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-form v-model="formValid">
+    <v-form v-if="editable" v-model="formValid">
       <v-row>
         <v-col 
           cols="12"
@@ -20,7 +20,7 @@
           cols="12"
           md="4"
         >
-          <v-text-field v-if="editable"
+          <v-text-field
             v-model="content.name"
             :counter="34"
             label="שם"
@@ -31,16 +31,13 @@
             @change="onChange('name')"
           >
           </v-text-field>
-          <p v-else class="mb-0">
-            {{content.name}}
-          </p>
         </v-col>
 
         <v-col
           cols="12"
           md="4"
         >
-            <vue-tel-input-vuetify v-if="editable"
+            <vue-tel-input-vuetify
                 v-model="content.phone"
                 label="טלפון"
                 required
@@ -49,21 +46,13 @@
                 :disabled="!editable"
                 @change="onChange('phone')">
               </vue-tel-input-vuetify>
-              <p v-else class="mb-0">
-                <span>טלפון: {{content.phone}}</span>&nbsp;&nbsp;
-                <a :href="`tel:${content.phone}`">
-                  <v-icon>
-                      {{icons.phone}}
-                  </v-icon>
-                </a>
-              </p>
         </v-col>
 
         <v-col
           cols="12"
           md="4"
         >
-            <v-text-field v-if="editable"
+            <v-text-field
                     v-model="content.address"
                     label="כתובת"
                     dense
@@ -72,17 +61,61 @@
                     :disabled="!editable"
             >
             </v-text-field>
-            <p v-else class="mb-0">
-              <span>כתובת: {{content.address}}</span>&nbsp;&nbsp;
-              <a :href="content.address | wazeUrl">
-                  <v-icon>
-                      {{icons.waze}}
-                  </v-icon>
-              </a>
-            </p>
         </v-col>
       </v-row>
     </v-form>
+    <v-simple-table v-else>
+      <template v-slot:default>
+          <thead>
+              <tr>
+                  <th>
+                      נמסר
+                  </th>
+                  <th>
+                      שם
+                  </th>
+                  <th>
+                      טלפון
+                  </th>
+                  <th>
+                      כתובת
+                  </th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>
+                    <v-checkbox
+                      v-model="content.done"
+                      color="success"
+                      hide-details
+                      @change="onChange('done')"
+                      :disabled="doneDisabled"
+                      label="נמסר"
+                      class="mt-0 pt-0"
+                    ></v-checkbox>
+                  </td>
+                  <td>{{ content.name }}</td>
+                  <td>
+                    <span>{{content.phone}}</span>&nbsp;&nbsp;
+                    <a :href="`tel:${content.phone}`">
+                      <v-icon>
+                          {{icons.phone}}
+                      </v-icon>
+                    </a>  
+                  </td>
+                  <td>
+                    <span>{{content.address}}</span>&nbsp;&nbsp;
+                    <a :href="content.address | wazeUrl">
+                        <v-icon>
+                            {{icons.waze}}
+                        </v-icon>
+                    </a>
+                  </td>
+              </tr>
+          </tbody>
+      </template>
+  </v-simple-table>
   </v-container>
 </template>
 
