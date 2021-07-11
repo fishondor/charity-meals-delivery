@@ -64,58 +64,39 @@
         </v-col>
       </v-row>
     </v-form>
-    <v-simple-table v-else>
-      <template v-slot:default>
-          <thead>
-              <tr>
-                  <th>
-                      נמסר
-                  </th>
-                  <th>
-                      שם
-                  </th>
-                  <th>
-                      טלפון
-                  </th>
-                  <th>
-                      כתובת
-                  </th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <td>
-                    <v-checkbox
-                      v-model="content.done"
-                      color="success"
-                      hide-details
-                      @change="onChange('done')"
-                      :disabled="doneDisabled"
-                      label="נמסר"
-                      class="mt-0 pt-0"
-                    ></v-checkbox>
-                  </td>
-                  <td>{{ content.name }}</td>
-                  <td>
-                    <span>{{content.phone}}</span>&nbsp;&nbsp;
-                    <a :href="`tel:${content.phone}`">
-                      <v-icon>
-                          {{icons.phone}}
-                      </v-icon>
-                    </a>  
-                  </td>
-                  <td>
-                    <span>{{content.address}}</span>&nbsp;&nbsp;
-                    <a :href="content.address | wazeUrl">
-                        <v-icon>
-                            {{icons.waze}}
-                        </v-icon>
-                    </a>
-                  </td>
-              </tr>
-          </tbody>
+    <v-data-table v-else
+      :headers="headers"
+      :items="[content]"
+      class="elevation-0 mb-0"
+      :hide-default-footer="true"
+    >
+      <template v-slot:item.phone="{ item }">
+        <span>{{item.phone}}</span>&nbsp;&nbsp;
+        <a :href="`tel:${item.phone}`">
+          <v-icon>
+              {{icons.phone}}
+          </v-icon>
+        </a>
       </template>
-  </v-simple-table>
+      <template v-slot:item.address="{ item }">
+        <span>{{item.address}}</span>&nbsp;&nbsp;
+        <a :href="item.address | wazeUrl">
+            <v-icon>
+                {{icons.waze}}
+            </v-icon>
+        </a>
+      </template>
+      <template v-slot:item.done="{ item }">
+        <v-checkbox
+          v-model="item.done"
+          color="success"
+          hide-details
+          @change="onChange('done')"
+          :disabled="doneDisabled"
+          class="mt-0 pt-0"
+        ></v-checkbox>
+      </template>
+    </v-data-table>
   </v-container>
 </template>
 
@@ -151,7 +132,13 @@ export default {
         icons: {
           phone,
           waze
-        }
+        },
+        headers: [
+            { text: 'נמסר', value: 'done', sortable: false},
+            { text: 'שם', value: 'name', sortable: false },
+            { text: 'טלפון', value: 'phone', sortable: false },
+            { text: 'כתובת', value: 'address', sortable: false }
+        ],
     }),
     methods: {
         onChange: function(itemKey) {
