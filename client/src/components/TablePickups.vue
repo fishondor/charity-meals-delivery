@@ -49,7 +49,14 @@
         flat
       >
         <template v-if="group.index">
+            <v-badge
+                left
+                color="success"
+                :icon="icons.check"
+                :value="!!group.destination.done"
+            >
             <v-toolbar-title>{{group.index}}</v-toolbar-title>
+            </v-badge>
         </template>
         <v-divider
           class="mx-4"
@@ -135,7 +142,8 @@ import {
     edit, 
     deleteIcon,
     phone,
-    waze
+    waze,
+    check
 } from './icons'
 
 import Group from '../models/Group'
@@ -196,7 +204,8 @@ export default {
             edit: edit,
             delete: deleteIcon,
             phone: phone,
-            waze: waze
+            waze: waze,
+            check
         },
         idToDelete: null
     }),
