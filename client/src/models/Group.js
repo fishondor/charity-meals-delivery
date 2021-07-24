@@ -31,7 +31,7 @@ class Group{
         this.index = data.index
         this.description = data.description
         this.pickups = Pickup.fromObject(data.pickups)
-        this.carrier = data.carrier
+        this.carrier = data.carrier || null
         this.destination = data.destination || {}
     }
 
