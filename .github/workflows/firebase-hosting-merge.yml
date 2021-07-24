@@ -9,6 +9,7 @@ name: Deploy to Firebase Hosting on merge
 jobs:
   set_environment:
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - uses: actions/checkout@v2
       - name: Make envfile
@@ -26,7 +27,6 @@ jobs:
           path: client/.env.production
   build_app:
     needs: set_environment
-    environment: production
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -38,7 +38,7 @@ jobs:
           name: env-file
           path: client
       - name: Build client app
-        run: ls -l -a && npm ci && npm run build
+        run: npm ci && npm run build
       - uses: actions/upload-artifact@master
         with:
           name: app-dist
