@@ -36,7 +36,6 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: env-file
-          path: .
       - name: Build client app
         run: npm ci && npm run build
       - uses: actions/upload-artifact@master
