@@ -24,7 +24,8 @@ jobs:
         with:
           name: env-file
           path: client/.env.production
-  build:
+  build_app:
+    needs: set_environment
     environment: production
     runs-on: ubuntu-latest
     defaults:
@@ -43,6 +44,7 @@ jobs:
           name: app-dist
           path: client/dist
   deploy_app:
+    needs: build_app
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
