@@ -38,7 +38,7 @@ jobs:
           name: env-file
           path: client
       - name: Build client app
-        run: npm ci && npm run build
+        run: ls -l -a && npm ci && npm run build
       - uses: actions/upload-artifact@master
         with:
           name: app-dist
