@@ -28,6 +28,7 @@ jobs:
   build_app:
     needs: set_environment
     runs-on: ubuntu-latest
+    environment: production
     defaults:
       run:
         working-directory: client
@@ -46,6 +47,7 @@ jobs:
   deploy_app:
     needs: build_app
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@master
@@ -61,6 +63,7 @@ jobs:
           projectId: friday-meals
   deploy_database_rules:
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - uses: actions/checkout@v2
       - name: Deploy Database rules
