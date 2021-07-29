@@ -46,7 +46,7 @@
             </v-list-item>
             <v-list-item>
                 <v-list-item-icon>
-                    <v-btn icon @click="resetGroupsClicked">
+                    <v-btn id="button-reset-groups" icon @click="resetGroupsClicked">
                         <v-icon 
                             v-text="icons.deleteAlert"
                             color="warning"
@@ -62,7 +62,7 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="blue darken-1" text @click="closeDelete">בטל</v-btn>
-                            <v-btn color="blue darken-1" text @click="deleteGroupsConfirm">מחק</v-btn>
+                            <v-btn id="dialog-reset-groups-approve" color="blue darken-1" text @click="deleteGroupsConfirm">מחק</v-btn>
                             <v-spacer></v-spacer>
                         </v-card-actions>
                     </v-card>
