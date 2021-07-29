@@ -1,7 +1,7 @@
 <template>
     <v-container>
-        <h2>חלוקה לתאריך: {{date | formatDate}}</h2>
-        <h3 v-if="description">{{description}}</h3>
+        <h2 id="delivery-title">חלוקה לתאריך: {{date | formatDate}}</h2>
+        <h3 v-if="description" id="delivery-description">{{description}}</h3>
         <template v-if="isAdmin">
             <DeliveryAdmin />
         </template>

@@ -22,6 +22,7 @@
                     color="primary"
                     class="mr-4"
                     @click="submit"
+                    id="button-create-delivery"
                     >
                     Create
                 </v-btn>
