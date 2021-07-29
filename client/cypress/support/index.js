@@ -23,3 +23,4 @@ import 'cypress-promise/register'
 
 import './commands/loginByGoogleApi'
 import './commands/constants'
+import './commands/fill'
