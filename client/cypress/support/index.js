@@ -21,6 +21,6 @@ import 'cypress-promise/register'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-import './commands/loginByGoogleApi'
+import './commands/firebaseUtils'
 import './commands/constants'
 import './commands/fill'
