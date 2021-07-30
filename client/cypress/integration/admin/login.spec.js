@@ -1,25 +1,27 @@
 describe('Admin login test', () => {
 
-    before(function(){
+    let deliveriesRoute = null
+
+    before(async function(){
         cy.clearLocalStorage()
         cy.clearCookies()
         cy.logout()
+        let routes = await cy.getConstants('ROUTES').promisify()
+        deliveriesRoute = Cypress.env('HOST') + routes.DELIVERIES
     })
-
-    let url = Cypress.env('HOST') + Cypress.env('ROUTES').DELIVERIES
 
     it('Shows log in button to non logged user', () => {
         cy.clearLocalStorage()
         cy.reload(true)
-        cy.visit(url)
+        cy.visit(deliveriesRoute)
 
         cy.get('header button').should('contain', 'Log in')
     })
     it('Redirects to login page', () => {
-        cy.visit(url)
+        cy.visit(deliveriesRoute)
 
         cy.location().should((location) => {
-            let loginRoute = Cypress.env('ROUTES').LOGIN
+            let loginRoute = cy.getConstants('ROUTES').LOGIN
             expect(location.pathname).to.eq(loginRoute)
         })         
     })

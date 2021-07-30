@@ -1,11 +1,13 @@
 describe('Import deliveries', () => {
 
-    before(function(){
-        cy.login()
-    })
-
-    let deliveriesRoute = Cypress.env('HOST') + Cypress.env('ROUTES').DELIVERIES
+    let deliveriesRoute = null
     let deliveryId = null;
+
+    before(async function(){
+        cy.login()
+        let routes = await cy.getConstants('ROUTES').promisify()
+        deliveriesRoute = Cypress.env('HOST') + routes.DELIVERIES
+    })
 
     it('Shows deliveries page', () => {
         cy.visit(deliveriesRoute)

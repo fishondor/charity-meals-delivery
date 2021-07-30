@@ -1,16 +1,21 @@
 describe('Create new delivery', () => {
 
-    before(function(){
-        cy.login()
-    })
-
-    let createDeliveryRoute = Cypress.env('HOST') + Cypress.env('ROUTES').NEW
-    let deliveriesRoute = Cypress.env('HOST') + Cypress.env('ROUTES').DELIVERIES
-    let DESCRIPTION = Cypress.env('DELIVERY_VALUES').DESCRIPTION + " " + Date.now()
+    let DESCRIPTION = null
+    let createDeliveryRoute = null
+    let deliveriesRoute = null
 
     let today = new Date()
     let year = today.getFullYear()
     let month = today.getMonth()
+
+    before(async function(){
+        cy.login()
+        let routes = await cy.getConstants('ROUTES').promisify()
+        createDeliveryRoute =  Cypress.env('HOST') + routes.NEW
+        deliveriesRoute = Cypress.env('HOST') + routes.DELIVERIES
+        let deliveryValues = await cy.getConstants('DELIVERY_VALUES').promisify()
+        DESCRIPTION = deliveryValues.DESCRIPTION + " " + Date.now()
+    })
 
     it('Shows create delivery page', () => {
         cy.visit(createDeliveryRoute)
