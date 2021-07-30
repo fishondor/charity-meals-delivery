@@ -32,6 +32,7 @@
                         <td>
                             <v-icon
                                 @click="deleteItem(item)"
+                                class="deliveries-delete-item"
                             >
                                 {{icons.deleteIcon}}
                             </v-icon>
@@ -55,7 +56,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+              <v-btn id="delete-delivery-dialog-approve" color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>

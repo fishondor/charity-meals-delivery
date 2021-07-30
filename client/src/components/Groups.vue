@@ -38,11 +38,13 @@
         <template v-else>
             <v-textarea
                 outlined
-                name="input-7-4"
+                name="import-groups"
+                id="import-groups-input"
                 label="Paste exported spreadsheet here"
                 v-model="exportedData"
             ></v-textarea>
             <v-btn
+                id="import-groups"
                 color="primary"
                 class="mr-4"
                 @click="submit"

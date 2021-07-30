@@ -3,7 +3,7 @@
     :headers="headers"
     :items="group.pickups"
     sort-by="name"
-    class="elevation-1 mb-10"
+    class="table-pickups elevation-1 mb-10"
     :hide-default-footer="hideFooter"
   >
     <template v-slot:item.phone="{ item }">
