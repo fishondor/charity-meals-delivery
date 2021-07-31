@@ -40,12 +40,14 @@ jobs:
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
+      - run: npm install
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
           # Specify Browser since container image is compile with Firefox
-          start: cd client && npm install && npm run serve
+          working-directory: client
+          start: npm run serve
           wait-on: http://localhost:4200/
-          config-file: client/cypress.json
-          spec: "client/cypress/integration/admin/**/*"
+          config-file: cypress.json
+          spec: "cypress/integration/admin/**/*"
           browser: chrome
