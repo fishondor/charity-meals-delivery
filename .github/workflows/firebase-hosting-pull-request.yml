@@ -34,7 +34,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Decrypt cypress env
-        run: ../.github/scripts/decrypt_secret.sh
+        run: ../.github/scripts/decrypt_secret.sh cypress.env
+        env:
+          GPG_PASS: ${{ secrets.GPG_PASS }}
+      - name: Decrypt service account
+        run: ../.github/scripts/decrypt_secret.sh serviceAccount
         env:
           GPG_PASS: ${{ secrets.GPG_PASS }}
 
