@@ -5,6 +5,7 @@ node_modules
 # local env files
 *.env*
 !.env.template
+!cypress.env.json.gpg
 
 # Log files
 npm-debug.log*
