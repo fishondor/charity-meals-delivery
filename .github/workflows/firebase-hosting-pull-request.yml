@@ -24,9 +24,6 @@ jobs:
           path: client/.env.local
   cypress-run:
     needs: set_environment
-    defaults:
-      run:
-        working-directory: client
     runs-on: ubuntu-latest
     environment: QA
     container: cypress/browsers:node12.18.3-chrome87-ff82
@@ -34,17 +31,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Decrypt cypress env
-        run: ../.github/scripts/decrypt_secret.sh cypress.env
+        run: ./.github/scripts/decrypt_secret.sh cypress.env
         env:
           GPG_PASS: ${{ secrets.GPG_PASS }}
       - name: Decrypt service account
-        run: ../.github/scripts/decrypt_secret.sh serviceAccount
+        run: ./.github/scripts/decrypt_secret.sh serviceAccount
         env:
           GPG_PASS: ${{ secrets.GPG_PASS }}
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - run: npm install
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
