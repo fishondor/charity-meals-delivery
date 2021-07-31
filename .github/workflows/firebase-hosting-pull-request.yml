@@ -46,6 +46,6 @@ jobs:
           # Specify Browser since container image is compile with Firefox
           start: cd client && npm install && npm run serve
           wait-on: http://localhost:4200/
-          config_file: client/cypress.json
+          config-file: client/cypress.json
           spec: "client/cypress/integration/admin/**/*"
           browser: chrome
