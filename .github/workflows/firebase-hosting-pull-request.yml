@@ -50,4 +50,3 @@ jobs:
           wait-on: http://localhost:4200/
           config-file: cypress.json
           spec: "cypress/integration/admin/**/*"
-          browser: chrome
