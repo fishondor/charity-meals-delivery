@@ -13,7 +13,7 @@
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "firebase": "^8.6.5",
-    "firebaseui": "^4.8.0",
+    "firebaseui": "^4.8.1",
     "moment": "^2.29.1",
     "vue": "^2.6.11",
     "vue-repeater": "^1.1.2",
