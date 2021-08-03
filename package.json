@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve-client": "cd client && npm run serve"
+    "serve-client": "cd client && npm run serve",
+    "serve-emulators": "firebase emulators:start --import emulators-data"
   },
   "author": "Ariel Fisher",
   "license": "ISC",
