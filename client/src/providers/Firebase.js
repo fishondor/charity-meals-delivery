@@ -17,12 +17,20 @@ const config = {
 class FirebaseService{
     constructor(){
         this.logger = logger
+
         firebase.initializeApp(config);
+        this.db = firebase.database()
+        this.auth = firebase.auth()
+
+        if (Environment.get('VUE_APP_LOCAL_FIREBASE_EMULATORS_ACTIVE') === "true") {
+            this.db.useEmulator("localhost", Environment.get('VUE_APP_LOCAL_FIREBASE_EMULATORS_DB_PORT'));
+            this.auth.useEmulator(`http://localhost:${Environment.get('VUE_APP_LOCAL_FIREBASE_EMULATORS_AUTH_PORT')}`);
+        }
     }
 
     getCurrentUser(){
         return new Promise((resolve, reject) => {
-            const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+            const unsubscribe = this.auth.onAuthStateChanged(user => {
                 unsubscribe();
                 resolve(user);
             }, reject);
@@ -30,7 +38,7 @@ class FirebaseService{
     }
 
     logout(){
-        return firebase.auth().signOut();
+        return this.auth.signOut();
     }
 
     get firebase(){
@@ -39,7 +47,7 @@ class FirebaseService{
 
     async getToken(){
         try{
-            let token = await firebase.auth().currentUser.getIdToken();
+            let token = await this.auth.currentUser.getIdToken();
             return token;
         }catch(err){
             this.logger.error(`Err fetching user token: ${err}`);
@@ -48,13 +56,13 @@ class FirebaseService{
 
     get firebaseUiInstance(){
         if(!this._firebaseUiInstance)
-            this._firebaseUiInstance = new firebaseui.auth.AuthUI(this.firebase.auth());
+            this._firebaseUiInstance = new firebaseui.auth.AuthUI(this.auth);
         return this._firebaseUiInstance;
     }
 
     async createDelivery(delivery){
         try{
-            let deliveriesRef = firebase.database().ref("/deliveries");
+            let deliveriesRef = this.db.ref("/deliveries");
             let ref = await deliveriesRef.push(delivery)
             return ref.getKey();
         }catch(err){
@@ -65,7 +73,7 @@ class FirebaseService{
 
     async getDelivery(deliveryId){
         try{
-            let ref = await firebase.database().ref(`/deliveries/${deliveryId}`);
+            let ref = await this.db.ref(`/deliveries/${deliveryId}`);
             return ref
         }catch(err){
             this.logger.error(`Err getting delivery ${deliveryId}: ${err}`);
@@ -75,7 +83,7 @@ class FirebaseService{
 
     async getDeliveryOwner(deliveryId){
         try{
-            let ref = await firebase.database().ref(`/deliveries/${deliveryId}/ownerId`);
+            let ref = await this.db.ref(`/deliveries/${deliveryId}/ownerId`);
             let snapshot = await ref.once('value');
             return snapshot.val()
         }catch(err){
@@ -86,7 +94,7 @@ class FirebaseService{
 
     async getDeliveriesByOwner(ownerId){
         try{
-            let ref = await firebase.database().ref(`/deliveries`)
+            let ref = await this.db.ref(`/deliveries`)
                 .orderByChild("ownerId")
                 .equalTo(ownerId);
             let snapshot = await ref.once('value');
@@ -99,7 +107,7 @@ class FirebaseService{
 
     deleteDelivery(deliveryId){
         try{
-            firebase.database().ref(`/deliveries`).child(deliveryId).remove()
+            this.db.ref(`/deliveries`).child(deliveryId).remove()
             return true
         }catch(err){
             this.logger.error(`Err deleting delivery ${deliveryId}: ${err}`);
@@ -109,7 +117,7 @@ class FirebaseService{
 
     async registerCarrier(deliveryId, carrier){
         try{
-            let carrierRef = firebase.database().ref(`/deliveries/${deliveryId}/carriers/${carrier.id}`);
+            let carrierRef = this.db.ref(`/deliveries/${deliveryId}/carriers/${carrier.id}`);
             await carrierRef.set(carrier.data)
             return true
         }catch(err){
@@ -119,7 +127,7 @@ class FirebaseService{
     }
 
     getRef(deliveryId, refPath){
-        return firebase.database().ref(`/deliveries/${deliveryId}/${refPath}`)
+        return this.db.ref(`/deliveries/${deliveryId}/${refPath}`)
     }
 
 }
