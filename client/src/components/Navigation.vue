@@ -17,8 +17,8 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
+              id="navbar-user-avatar"
               icon
-              color="yellow"
               v-bind="attrs"
               v-on="on"
             >
@@ -38,12 +38,12 @@
 
           <v-list>
             <v-list-item>
-              <v-list-item-title><v-btn text small @click="logOut">Logout</v-btn></v-list-item-title>
+              <v-list-item-title><v-btn id="navbar-logout" text small @click="logOut">Logout</v-btn></v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
       </template>
-      <v-btn v-else text small @click="logIn">Log in</v-btn>
+      <v-btn id="navbar-login" v-else text small @click="logIn">Log in</v-btn>
     </v-app-bar>
   </div>
 </template>

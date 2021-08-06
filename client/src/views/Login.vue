@@ -2,8 +2,8 @@
     <div v-if="!isLoggedIn" class="login-container">
         <Login class="login" />
     </div>
-    <v-container v-else class="text-center">
-        <h3>Hi {{userName}}, You are already logged in.</h3>
+    <v-container id="user-logged-in-message" v-else class="text-center">
+        <h3 id="user-logged-in-message-title">Hi {{userName}}, You are already logged in</h3>
         <p>Please ask the administrator for a link to register</p>
     </v-container>
 </template>
