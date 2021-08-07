@@ -22,8 +22,6 @@ module.exports = {
         this.description = browser.globals.DELIVERY_VALUES.DESCRIPTION + " " + Date.now()
         browser.setValue("input", this.description)
         browser.click('xpath', `//div[contains(@class, 'v-btn__content') and text()='${this.day}']`)
-
-        browser.pause(3000)
     },
 
     "Save this delivery": function(browser) {
