@@ -1,7 +1,7 @@
 module.exports = {
 
     before: function(browser) {
-        browser.url('http://localhost:4200/login')
+        browser.url('http://localhost:4200/deliveries')
         browser.waitForElementVisible('body')
     },
 
