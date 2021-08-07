@@ -8,6 +8,10 @@ module.exports = {
         console.log("user", user)
     },
 
+    after: function(browser) {
+        browser.end()
+    },
+
     'Navbar shows logout menu is hidden': function(browser) {
         browser.waitForElementVisible('#navbar-user-avatar')
         browser.waitForElementNotPresent('#navbar-logout')
@@ -22,10 +26,6 @@ module.exports = {
         browser.click('#navbar-logout')
         browser.waitForElementNotPresent('#navbar-user-avatar')
         browser.waitForElementVisible('#navbar-login')
-    },
-
-    after: function(browser) {
-        browser.end()
     },
 
 }
