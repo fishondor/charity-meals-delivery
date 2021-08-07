@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve-client": "cd client && npm run serve",
     "serve-emulators": "firebase emulators:start --import emulators-data",
+    "serve-local-app": "firebase emulators:exec 'serve -s -l 4200 client/dist' --import emulators-data",
     "export-emulator-data": "firebase emulators:export emulators-data",
     "e2e": "cd e2e && npx nightwatch -e chrome-headless"
   },
