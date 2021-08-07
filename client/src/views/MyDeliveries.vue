@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container id="deliveries-table">
         <v-simple-table>
             <template v-slot:default>
                 <thead>
