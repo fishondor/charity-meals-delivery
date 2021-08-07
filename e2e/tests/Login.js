@@ -10,7 +10,7 @@ module.exports = {
     },
 
     'Show login page' : function(browser) {
-        browser.waitForElementVisible('#firebaseuiAuthContainer')
+        browser.waitForElementVisible('#firebaseuiAuthContainer', 10000)
     },
 
     'Login button displayes': function(browser) {
