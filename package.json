@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve-client": "cd client && npm run serve",
     "serve-emulators": "firebase emulators:start --import emulators-data",
-    "export-emulator-data": "firebase emulators:export emulators-data"
+    "export-emulator-data": "firebase emulators:export emulators-data",
+    "e2e": "cd e2e && npx nightwatch -e chrome-headless"
   },
   "author": "Ariel Fisher",
   "license": "ISC",

@@ -42,6 +42,29 @@ module.exports = {
       }
     },
 
+    "chrome-headless": {
+      disable_error_log: false,
+    
+      screenshots: {
+        enabled: false,
+        path: 'screens',
+        on_failure: true
+      },
+    
+      desiredCapabilities: {
+        browserName: 'chrome',
+        chromeOptions: {
+          args: ['--headless', '--no-sandbox']
+        }
+      },
+    
+      webdriver: {
+        start_process: true,
+        server_path: require('chromedriver').path,
+        port: 9515
+      }
+    }, 
+
     safari: {
       desiredCapabilities : {
         browserName : 'safari',
