@@ -1,4 +1,3 @@
-const defaultEnv = "QA"
 const environment = process.env.TESTS_ENV || "QA"
 
 console.log(`Running tests using ${environment} environment`)
