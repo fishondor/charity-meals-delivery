@@ -32,4 +32,4 @@ jobs:
       - run: cd e2e && npm ci
       - run: cd client && npm run build
       - run: npm run serve-local-app &
-      - run: npm run e2e
+      - run: TESTS_ENV=QA npm run e2e
