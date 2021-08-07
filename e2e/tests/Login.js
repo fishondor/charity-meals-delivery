@@ -1,7 +1,7 @@
 module.exports = {
 
     before: function(browser) {
-        browser.url('http://localhost:4200/login')
+        browser.url('http://localhost:4200/deliveries')
         browser.waitForElementVisible('body')
     },
 
@@ -10,7 +10,7 @@ module.exports = {
     },
 
     'Show login page' : function(browser) {
-        browser.waitForElementVisible('#firebaseuiAuthContainer')
+        browser.waitForElementVisible('#firebaseuiAuthContainer', 10000)
     },
 
     'Login button displayes': function(browser) {
