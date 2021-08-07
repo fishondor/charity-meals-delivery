@@ -1,11 +1,9 @@
-const login = require('../helpers/Login')
-
 module.exports = {
 
     before: async function(browser) {
         browser.url('http://localhost:4200/deliveries')
         browser.waitForElementVisible('body')
-        let user = await login(browser)
+        let user = await browser.Login()
 
         console.log("user", user)
     },
