@@ -1,5 +1,6 @@
 <template>
     <v-form
+        id="delivery-registration-form"
         ref="form"
         v-model="formValid"
     >
@@ -10,6 +11,7 @@
                     md="6"
                 >
                     <v-text-field
+                        id="delivery-registration-form-name"
                         v-model="content.name"
                         label="שם"
                         :disabled="!!user.displayName"
@@ -21,6 +23,7 @@
                     md="6"
                 >
                     <v-text-field
+                        id="delivery-registration-form-email"
                         v-model="content.email"
                         label="מייל"
                         :disabled="!!user.email"
@@ -32,6 +35,7 @@
                     md="6"
                 >
                     <vue-tel-input-vuetify 
+                        id="delivery-registration-form-phone"
                         v-model="content.phone"
                         defaultCountry="IL"
                         :onlyCountries="['IL']"
@@ -45,6 +49,7 @@
                     md="6"
                 >
                     <v-text-field
+                        id="delivery-registration-form-pickups"
                         v-model="content.pickupsNumber"
                         label="כמה איסופים יכול לבצע?"
                         type="number"
