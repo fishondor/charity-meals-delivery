@@ -1,11 +1,6 @@
-const login = async function(userIndex) {
-    
-}
-
-module.exports.command = login
-
-module.exports = class CustomCommand {
-    async command() {
+module.exports = class LoginCommand {
+    async command(userIndex) {
+        this.api.waitForElementVisible('#firebaseuiAuthContainer')
         this.api.click('#firebaseuiAuthContainer')
         let result = await this.api.windowHandles();
         let handles = result.value;
@@ -18,12 +13,19 @@ module.exports = class CustomCommand {
         let randomUserElement = users.value[selectedUser]
         let userName = await this.api.elementIdAttribute(randomUserElement.ELEMENT, 'innerText')
 
+        let emails = await this.api.elements('css selector', '.mdc-list-item__secondary-text');
+        let emailElement = emails.value[selectedUser]
+        let userEmail = await this.api.elementIdAttribute(emailElement.ELEMENT, 'innerText')
+
         console.log("Selected user", userName)
 
         this.api.click(`#accounts-list ul.list li.js-reuse-account:nth-child(${selectedUser + 1})`)
         this.api.switchWindow(handles[0]);
 
-        return userName.value
+        return {
+            name: userName.value, 
+            email: userEmail.value
+        }
     
     }
 }
