@@ -24,8 +24,8 @@ module.exports = {
     
     "Form validates data": (browser) => {
         browser.waitForElementNotPresent("#delivery-registration-form-phone div.error--text")
-        browser.waitForElementVisible("#delivery-registration-form button[type='button']")
-        browser.click("#delivery-registration-form button[type='button']")
+        browser.waitForElementVisible("#delivery-registration-form button#delivery-registration-form-submit")
+        browser.click("#delivery-registration-form button#delivery-registration-form-submit")
         browser.waitForElementVisible("#delivery-registration-form-phone div.error--text")
 
         browser.waitForElementVisible("#delivery-registration-form-phone input[name='telephone']")

@@ -64,6 +64,7 @@
                     md="6"
                 >
                     <v-btn
+                        id="delivery-registration-form-submit"
                         color="primary"
                         class="mr-4"
                         @click="submit"
