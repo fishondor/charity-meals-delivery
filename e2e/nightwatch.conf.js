@@ -58,7 +58,11 @@ module.exports = {
       desiredCapabilities: {
         browserName: 'chrome',
         chromeOptions: {
-          args: ['--headless', '--no-sandbox']
+          args: [
+            '--headless', 
+            '--no-sandbox', 
+            "window-size=1280,800"
+          ]
         }
       },
     
