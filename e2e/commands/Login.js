@@ -1,5 +1,6 @@
 module.exports = class LoginCommand {
     async command(userIndex) {
+        this.api.waitForElementVisible('#firebaseuiAuthContainer')
         this.api.click('#firebaseuiAuthContainer')
         let result = await this.api.windowHandles();
         let handles = result.value;
