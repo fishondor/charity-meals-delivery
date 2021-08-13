@@ -4,6 +4,7 @@
     <v-main class="pb-0">
       <router-view></router-view>
     </v-main>
+    <Footer />
     <Notification />
     <Loader />
   </v-app>
@@ -16,7 +17,8 @@ export default {
   components: {
       Navigation: () => import('./components/Navigation'),
       Notification: () => import('./components/Notification'),
-      Loader: () => import('./components/Loader')
+      Loader: () => import('./components/Loader'),
+      Footer: () => import('./components/Footer')
   },
   beforeCreate: async function(){
     let user = await this.$firebaseService.getCurrentUser();
