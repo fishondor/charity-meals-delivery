@@ -34,6 +34,11 @@ const routes = [
     meta: {
       requiresAuth: true
     }
+  },
+  {
+    path: '/tos',
+    name: 'Termas of service',
+    component: () => import('../views/TOS.vue'),
   }
 ]
 
