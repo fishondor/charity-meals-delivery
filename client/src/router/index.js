@@ -39,6 +39,11 @@ const routes = [
     path: '/tos',
     name: 'Termas of service',
     component: () => import('../views/TOS.vue'),
+  },
+  {
+    path: '/',
+    name: 'Home',
+    component: () => import('../views/Home.vue'),
   }
 ]
 
