@@ -55,7 +55,7 @@
                 :icon="icons.check"
                 :value="!!group.destination.done"
             >
-            <v-toolbar-title>{{group.index}}</v-toolbar-title>
+            <v-toolbar-title class="group-index">{{group.index}}</v-toolbar-title>
             </v-badge>
         </template>
         <v-divider
@@ -63,7 +63,7 @@
           inset
           vertical
         ></v-divider>
-        <v-toolbar-title>{{group.description || 'Pickups'}}</v-toolbar-title>
+        <v-toolbar-title class="group-description">{{group.description || 'Pickups'}}</v-toolbar-title>
         <template v-if="carriers.length">
             <v-divider
                 class="mx-4"
@@ -72,6 +72,7 @@
             ></v-divider>
             <v-toolbar-title>
                 <v-select
+                    class="group-carrier"
                     :items="carriers"
                     label="Select carrier"
                     outlined
