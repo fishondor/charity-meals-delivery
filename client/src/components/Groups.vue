@@ -26,14 +26,16 @@
             </v-card>
         </v-dialog>
         <template v-if="groups.length">
-            <TablePickups v-for="group in sortedGroups" :key="group.index"
-                :group="group"
-                :carriers="carriers"
-                @onDelete="deletePickup"
-                @onSave="savePickup"
-                @onCarrierChange="updateCarrier"
-                :editable="true"
-                :hideFooter="true" />
+            <div class="tables-pickups">
+                <TablePickups v-for="group in sortedGroups" :key="group.index"
+                    :group="group"
+                    :carriers="carriers"
+                    @onDelete="deletePickup"
+                    @onSave="savePickup"
+                    @onCarrierChange="updateCarrier"
+                    :editable="true"
+                    :hideFooter="true" />
+            </div>
         </template>
         <template v-else>
             <v-textarea

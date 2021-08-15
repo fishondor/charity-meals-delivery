@@ -24,7 +24,12 @@ class FirebaseService{
 
         if (Environment.get('VUE_APP_LOCAL_FIREBASE_EMULATORS_ACTIVE') === "true") {
             this.db.useEmulator("localhost", Environment.get('VUE_APP_LOCAL_FIREBASE_EMULATORS_DB_PORT'));
-            this.auth.useEmulator(`http://localhost:${Environment.get('VUE_APP_LOCAL_FIREBASE_EMULATORS_AUTH_PORT')}`);
+            this.auth.useEmulator(
+                `http://localhost:${Environment.get('VUE_APP_LOCAL_FIREBASE_EMULATORS_AUTH_PORT')}`,
+                {
+                    disableWarnings: true
+                }
+            );
         }
     }
 

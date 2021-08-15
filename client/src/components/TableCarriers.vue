@@ -5,6 +5,7 @@
         sort-by="name"
         class="elevation-1 mb-10"
         :hide-default-footer="true"
+        id="table-carriers"
     >
         <template v-slot:item.phone="{ item }">
             <div class="d-flex justify-space-between">
