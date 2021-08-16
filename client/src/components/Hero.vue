@@ -14,7 +14,7 @@
                 md="7"
                 xs="12"
                 class="d-flex align-center justify-center pa-10">
-                <h1 class="text-h1">
+                <h1 class="text-md-h1 text-h2 text-md-right text-center">
                     מחלקים ארוחות שישי
                 </h1>
             </v-col>
