@@ -1,3 +1,5 @@
+const generateMock = require('../utils/generateMock')
+
 module.exports = {
 
     before: async function(browser) {
@@ -50,7 +52,7 @@ module.exports = {
     },
 
     "Import pickup groups": async function(browser) {
-        let deliveriesToImport = browser.globals.SPREADSHEET_EXPORT
+        let deliveriesToImport = JSON.stringify(generateMock(9))
         
         browser.waitForElementVisible('#import-groups-input')
         browser.setValue('#import-groups-input', deliveriesToImport)
