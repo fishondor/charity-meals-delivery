@@ -38,11 +38,17 @@
         <v-container class="pb-0">
             <h3 class="mb-0">יעד המסירה</h3>
         </v-container>
+        <v-container>
         <FormDestination 
-            :editable="editable" 
+            v-if="editable" 
             :content="group.destination" 
-            @onChange="onDestinationChange"
-            :doneDisabled="!pickupsCompleted" />
+            @onChange="onDestinationChange" />
+        <TableDestination
+            v-else
+            :content="group.destination" 
+            :doneDisabled="!pickupsCompleted"
+            @onChange="onDestinationChange" />
+        </v-container>
     </template>
     <template v-slot:top>
       <v-toolbar
@@ -139,6 +145,7 @@
 <script>
 import FormPickup from '../components/FormPickup'
 import FormDestination from '../components/FormDestination'
+import TableDestination from '../components/TableDestination.vue'
 import {
     edit, 
     deleteIcon,
@@ -174,7 +181,8 @@ export default {
     },
     components: {
         FormPickup,
-        FormDestination
+        FormDestination,
+        TableDestination
     },
     data: () => ({
         dialog: false,
