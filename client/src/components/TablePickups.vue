@@ -6,7 +6,7 @@
     class="table-pickups elevation-1 mb-10"
     :hide-default-footer="hideFooter"
   >
-    <template v-slot:item.phone="{ item }">
+    <template v-slot:[`item.phone`]="{ item }">
         <div class="d-flex justify-space-between">
             <span>{{item.phone}}</span>&nbsp;&nbsp;
             <a :href="`tel:${item.phone}`">
@@ -16,7 +16,7 @@
             </a>
         </div>
     </template>
-    <template v-slot:item.address="{ item }">
+    <template v-slot:[`item.address`]="{ item }">
         <div class="d-flex justify-space-between">
             <span>{{item.address}}</span>&nbsp;&nbsp;
             <a :href="item.address | wazeUrl">
@@ -26,7 +26,7 @@
             </a>
         </div>
     </template>
-    <template v-slot:item.done="{ item }">
+    <template v-slot:[`item.done`]="{ item }">
         <v-simple-checkbox
             v-model="item.done"
             :ripple="false"
@@ -38,11 +38,17 @@
         <v-container class="pb-0">
             <h3 class="mb-0">יעד המסירה</h3>
         </v-container>
+        <v-container>
         <FormDestination 
-            :editable="editable" 
+            v-if="editable" 
             :content="group.destination" 
-            @onChange="onDestinationChange"
-            :doneDisabled="!pickupsCompleted" />
+            @onChange="onDestinationChange" />
+        <TableDestination
+            v-else
+            :content="group.destination" 
+            :doneDisabled="!pickupsCompleted"
+            @onChange="onDestinationChange" />
+        </v-container>
     </template>
     <template v-slot:top>
       <v-toolbar
@@ -127,7 +133,7 @@
         </v-dialog>
       </v-toolbar>
     </template>
-    <template v-if="editable" v-slot:item.actions="{ item }">
+    <template v-if="editable" v-slot:[`item.actions`]="{ item }">
       <v-icon
         @click="deleteItem(item)"
       >
@@ -139,6 +145,7 @@
 <script>
 import FormPickup from '../components/FormPickup'
 import FormDestination from '../components/FormDestination'
+import TableDestination from '../components/TableDestination.vue'
 import {
     edit, 
     deleteIcon,
@@ -174,7 +181,8 @@ export default {
     },
     components: {
         FormPickup,
-        FormDestination
+        FormDestination,
+        TableDestination
     },
     data: () => ({
         dialog: false,
