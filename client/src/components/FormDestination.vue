@@ -70,7 +70,7 @@
       class="elevation-0 mb-0"
       :hide-default-footer="true"
     >
-      <template v-slot:item.phone="{ item }">
+      <template v-slot:[`item.phone`]="{ item }">
         <span>{{item.phone}}</span>&nbsp;&nbsp;
         <a :href="`tel:${item.phone}`">
           <v-icon>
@@ -78,7 +78,7 @@
           </v-icon>
         </a>
       </template>
-      <template v-slot:item.address="{ item }">
+      <template v-slot:[`item.address`]="{ item }">
         <span>{{item.address}}</span>&nbsp;&nbsp;
         <a :href="item.address | wazeUrl">
             <v-icon>
@@ -86,7 +86,7 @@
             </v-icon>
         </a>
       </template>
-      <template v-slot:item.done="{ item }">
+      <template v-slot:[`item.done`]="{ item }">
         <v-checkbox
           v-model="item.done"
           color="success"
