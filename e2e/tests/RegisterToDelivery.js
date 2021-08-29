@@ -4,10 +4,10 @@ module.exports = {
         browser.end()
     },
 
-    "Login as user 1": async (browser) => {
+    "Login as carrier": async (browser) => {
         browser.url(browser.globals.HOST + browser.globals.ROUTES.DELIVERY + `/${browser.globals.EXAMPLE_DELIVERY}`)
         browser.waitForElementVisible('body')
-        this.user = await browser.Login(2)
+        this.user = await browser.Login(4)
         console.log("user", this.user)
     },
 
