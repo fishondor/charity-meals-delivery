@@ -39,15 +39,24 @@
             <h3 class="mb-0">יעד המסירה</h3>
         </v-container>
         <v-container>
-        <FormDestination 
-            v-if="editable" 
-            :content="group.destination" 
-            @onChange="onDestinationChange" />
-        <TableDestination
-            v-else
-            :content="group.destination" 
-            :doneDisabled="!pickupsCompleted"
-            @onChange="onDestinationChange" />
+            <template v-if="editable">
+                <v-row>
+                    <v-col
+                        cols="12"
+                        md="4">
+                        <SelectDestination
+                            @onSelected="onDestinationSelected" />
+                    </v-col>
+                </v-row>
+                <FormDestination 
+                    :content="group.destination" 
+                    @onChange="onDestinationChange" />
+            </template>
+            <TableDestination
+                v-else
+                :content="group.destination" 
+                :doneDisabled="!pickupsCompleted"
+                @onChange="onDestinationChange" />
         </v-container>
     </template>
     <template v-slot:top>
@@ -146,6 +155,7 @@
 import FormPickup from '../components/FormPickup'
 import FormDestination from '../components/FormDestination'
 import TableDestination from '../components/TableDestination.vue'
+import SelectDestination from '../components/SelectDestination.vue'
 import {
     edit, 
     deleteIcon,
@@ -182,7 +192,8 @@ export default {
     components: {
         FormPickup,
         FormDestination,
-        TableDestination
+        TableDestination,
+        SelectDestination
     },
     data: () => ({
         dialog: false,
@@ -301,6 +312,14 @@ export default {
             let update = {}
             update[itemKey] = itemValue
             this.$firebaseService.getRef(this.deliveryId, `groups/${this.group.id}/destination`).update(update)
+        },
+
+        onDestinationSelected(destination) {
+            console.log("Destinaton selected", destination)
+            let propsToUpdate = ['name', 'address', 'phone']
+            propsToUpdate.map(
+                name => this.onDestinationChange(name, destination[name])
+            )
         }
     }
   }
