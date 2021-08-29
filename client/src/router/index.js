@@ -23,6 +23,14 @@ const routes = [
     },
   },
   {
+    path: '/admin',
+    name: 'Admin',
+    component: () => import('../views/Admin'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/login',
     name: 'Login',
     component: () => import('../views/Login.vue')
