@@ -9,7 +9,8 @@ export default new Vuex.Store({
     loginModalOpen: false,
     notification: {},
     loader: {},
-    requestedRoute: null
+    requestedRoute: null,
+    destinations: []
   },
   mutations: {
     setUser(state, user){
@@ -26,12 +27,16 @@ export default new Vuex.Store({
     },
     setRequestedRoute(state, route){
       state.requestedRoute = route;
+    },
+    setDestinations(state, destinations){
+      state.destinations = destinations
     }
   },
   getters: {
     user: state => state.user,
     loginModalOpen: state => state.loginModalOpen,
     notification: state => state.notification,
-    requestedRoute: state => state.requestedRoute
+    requestedRoute: state => state.requestedRoute,
+    destinations: state => state.destinations
   }
 })
