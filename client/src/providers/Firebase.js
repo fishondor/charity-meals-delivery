@@ -97,6 +97,17 @@ class FirebaseService{
         }
     }
 
+    async saveDestination(ownerId, destination){
+        try{
+            let destinationsRef = this.db.ref(`/destinations/${ownerId}`);
+            let ref = await destinationsRef.push(destination)
+            return ref.getKey();
+        }catch(err){
+            this.logger.error(`Err creating destination: ${err}`);
+            return false
+        }
+    }
+
     async getDeliveriesByOwner(ownerId){
         try{
             let ref = await this.db.ref(`/deliveries`)
@@ -110,12 +121,33 @@ class FirebaseService{
         }
     }
 
+    async getDestinationsByOwner(ownerId){
+        try{
+            let ref = await this.db.ref(`/destinations/${ownerId}`);
+            let snapshot = await ref.once('value');
+            return snapshot
+        }catch(err){
+            this.logger.error(`Err getting destinations for owner ${ownerId}: ${err}`);
+            return false
+        }
+    }
+
     deleteDelivery(deliveryId){
         try{
             this.db.ref(`/deliveries`).child(deliveryId).remove()
             return true
         }catch(err){
             this.logger.error(`Err deleting delivery ${deliveryId}: ${err}`);
+            return false
+        }
+    }
+
+    deleteDestination(ownerId, destinationId){
+        try{
+            this.db.ref(`/destinations/${ownerId}`).child(destinationId).remove()
+            return true
+        }catch(err){
+            this.logger.error(`Err deleting destination ${destinationId}: ${err}`);
             return false
         }
     }
