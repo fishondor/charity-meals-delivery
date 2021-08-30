@@ -29,6 +29,12 @@
           }
         }
       }
+    },
+    "destinations": {
+      "$ownerId": {
+        ".read": "root.child('admins/' + auth.uid).exists() && auth.uid === $ownerId",
+        ".write": "root.child('admins/' + auth.uid).exists() && auth.uid === $ownerId"
+      }
     }
   }
 }
