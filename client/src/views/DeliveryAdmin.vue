@@ -38,6 +38,7 @@
 import Groups from '../components/Groups'
 import Carriers from '../components/Carriers'
 import Data from '../components/Data'
+import Destination from '../models/Destination'
 
 export default {
     components: {
@@ -61,6 +62,12 @@ export default {
             }
         ],
         tab: null,
-    })
+    }),
+    async created(){
+        let user = await this.$firebaseService.getCurrentUser()
+        let destinationsSnapshot = await this.$firebaseService.getDestinationsByOwner(user.uid)
+        let destinations = Destination.fromSnapshot(destinationsSnapshot)
+        this.$store.commit('setDestinations', destinations)
+    },
 }
 </script>

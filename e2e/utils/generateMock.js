@@ -96,4 +96,4 @@ module.exports = generateMock
 
 var myArgs = process.argv.slice(2);
 if(myArgs[0] && !isNaN(parseInt(myArgs[0])))
-    console.log('Mock', JSON.stringify(createMock(myArgs[0])))
+    console.log('Mock', JSON.stringify(generateMock(myArgs[0])))

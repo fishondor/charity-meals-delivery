@@ -31,5 +31,7 @@ jobs:
       - run: cd client && npm ci
       - run: cd e2e && npm ci
       - run: cd client && npm run build
-      - run: npm run serve-local-app &
-      - run: npm run e2e
+      - run: |
+          npm run serve-local-app &
+          sleep 5
+          npm run e2e

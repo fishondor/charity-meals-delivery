@@ -2,7 +2,7 @@
     <v-data-table
       :headers="headers"
       :items="[content]"
-      class="elevation-0 mb-0"
+      class="table-destination elevation-0 mb-0"
       :hide-default-footer="true"
     >
       <template v-slot:[`item.phone`]="{ item }">
@@ -64,7 +64,7 @@ export default {
         },
         headers: [
             { text: 'נמסר', value: 'done', sortable: false},
-            { text: 'שם', value: 'name', sortable: false },
+            { text: 'שם', value: 'name', sortable: false, cellClass: "destination-name" },
             { text: 'טלפון', value: 'phone', sortable: false },
             { text: 'כתובת', value: 'address', sortable: false }
         ],
