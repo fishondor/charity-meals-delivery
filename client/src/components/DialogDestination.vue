@@ -1,6 +1,7 @@
 <template>
     <v-dialog
         v-model="dialogCreate"
+        content-class="dialog-create-destination"
     >
         <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -9,6 +10,7 @@
                 class="mb-2"
                 v-bind="attrs"
                 v-on="on"
+                id="button-create-destination"
                 >
                 הוסף יעד
             </v-btn>

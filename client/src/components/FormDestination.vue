@@ -6,6 +6,7 @@
           md="4"
         >
           <v-text-field
+            class="form-destination-name"
             v-model="content.name"
             :counter="34"
             label="שם"
@@ -22,6 +23,7 @@
           md="4"
         >
             <vue-tel-input-vuetify
+                class="form-destination-phone"
                 v-model="content.phone"
                 label="טלפון"
                 required
@@ -36,6 +38,7 @@
           md="4"
         >
             <v-text-field
+                    class="form-destination-address"
                     v-model="content.address"
                     label="כתובת"
                     dense

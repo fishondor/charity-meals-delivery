@@ -1,5 +1,5 @@
 <template>
-    <v-container id="deliveries-table">
+    <v-container id="destinations-table">
         <v-simple-table>
             <template v-slot:default>
                 <thead>
@@ -26,7 +26,7 @@
                         :key="item.id"
                     >
                         <td>{{ item.id }}</td>
-                        <td>{{ item.name }}</td>
+                        <td class="destinations-table-item-name">{{ item.name }}</td>
                         <td>{{ item.phone }}</td>
                         <td>{{ item.address }}</td>
                         <td>
@@ -44,13 +44,13 @@
         <v-card-actions>
             <DialogDestination @onCreate='onCreateDestination' />
         </v-card-actions>
-        <v-dialog v-model="dialogDelete" max-width="500px">
+        <v-dialog content-class="dialog-delete-destination" v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+            <v-card-title class="text-h5">האם למחוק את היעד?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-              <v-btn id="delete-destination-dialog-approve" color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+              <v-btn color="blue darken-1" text @click="closeDelete">בטל</v-btn>
+              <v-btn id="delete-destination-dialog-approve" color="blue darken-1" text @click="deleteItemConfirm">מחק</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
