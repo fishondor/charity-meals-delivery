@@ -77,9 +77,7 @@ export default {
         dialogDelete: false
     }),
     async created(){
-        let user = await this.$firebaseService.getCurrentUser()
-        let destinationsSnapshot = await this.$firebaseService.getDestinationsByOwner(user.uid)
-        this.destinations = Destination.fromSnapshot(destinationsSnapshot)
+        this.setDestinations()
     },
     watch: {
         dialog (val) {
@@ -90,6 +88,12 @@ export default {
         },
     },
     methods: {
+        async setDestinations () {
+            let user = await this.$firebaseService.getCurrentUser()
+            let destinationsSnapshot = await this.$firebaseService.getDestinationsByOwner(user.uid)
+            this.destinations = Destination.fromSnapshot(destinationsSnapshot)
+        },
+
         deleteItem (item) {
             this.idToDelete = item.id
             this.dialogDelete = true
@@ -102,9 +106,7 @@ export default {
                 this.$notificationsService.error("Could not delete destination")
                 return
             }
-            this.destinations = this.destinations.filter(
-                item => item.id != this.idToDelete
-            )
+            this.setDestinations()
             this.$notificationsService.success(`Destination ${this.idToDelete} deleted`)
             this.idToDelete = null
             this.closeDelete()
@@ -121,9 +123,8 @@ export default {
                 this.$notificationsService.error(`Could not save destination. Please try again later`)
                 return
             }
+            this.setDestinations()
             this.$notificationsService.success(`Destination ${destinationId} saved successfully`)
-            destination.id = destinationId
-            this.destinations.push(destination)
         }
     }
 }
