@@ -14,5 +14,9 @@ module.exports = {
         NAME: "Destination name",
         PHONE: "0564567432",
         ADDRESS: "Destination address"
+    },
+    CARRIER: {
+        PHONE: "0526786736",
+        DEFAULT_PICKUPS_NUMBER: 1
     }
 }
