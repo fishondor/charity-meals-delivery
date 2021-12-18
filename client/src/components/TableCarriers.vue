@@ -7,7 +7,7 @@
         :hide-default-footer="true"
         id="table-carriers"
     >
-        <template v-slot:item.phone="{ item }">
+        <template v-slot:[`item.phone`]="{ item }">
             <div class="d-flex justify-space-between">
                 <span>{{item.phone}}</span>
                 <a :href="item.phone | whatsappMessageNumber">
@@ -18,23 +18,33 @@
                 </a>
             </div>
         </template>
-        <template v-slot:item.groups="{ item }">
+        <template v-slot:[`item.groups`]="{ item }">
             <template v-if="item.groups">
                 <v-chip
                     v-for="group in item.groups" :key="item.id + group.id"
-                    class="ma-2"
+                    class="ma-2 carrier-group-indicator-item"
                     color="primary"
                 >
                     {{group.index}}
                 </v-chip>
             </template>
         </template>
-        <template v-slot:item.actions="{ item }">
+        <template v-slot:[`item.actions`]="{ item }">
             <v-icon
+                class="carrier-item-delete"
                 @click="deleteItem(item)"
             >
                 {{icons.delete}}
             </v-icon>
+        </template>
+        <template v-slot:[`item.pickupsNumber`]="{ item }">
+            <v-chip
+                class="ma-2 carrier-pickups-number"
+                color="primary"
+                @click="updateNumberOfPickups(item)"
+            >
+                {{item.pickupsNumber}}
+            </v-chip>
         </template>
     </v-data-table>
 </template>
@@ -59,7 +69,7 @@ export default {
             { text: 'טלפון', value: 'phone', sortable: false },
             { text: 'אימייל', value: 'email', sortable: false },
             { text: 'יכול מספר משלוחים', value: 'pickupsNumber', sortable: false},
-            { text: 'רשום ל', value: 'groups'},
+            { text: 'רשום ל', value: 'groups', class: 'carriers-table-groups-column'},
             { text: '', value: 'actions', sortable: false },
         ],
         icons: {
@@ -70,6 +80,9 @@ export default {
     methods: {
         deleteItem (item) {
             this.$emit('onDelete', item.id);
+        },
+        updateNumberOfPickups (item) {
+            this.$emit('onUpdateNumberOfPickups', item)
         }
     }
 }

@@ -1,21 +1,75 @@
 <template>
     <v-container>
-        <TableCarriers :carriers="carriers" @onDelete="deleteItem" />
+        <TableCarriers 
+            :carriers="carriers" 
+            @onDelete="deleteItem"
+            @onUpdateNumberOfPickups="updateNumberOfPickupsDialog" />
         <v-dialog v-model="dialogDelete" max-width="500px">
-            <v-card>
-                <v-card-title v-if="!groupsUserAssignedTo.length" class="text-h5">Are you sure you want to delete this item?</v-card-title>
+            <v-card class="carrier-delete-modal">
+                <v-card-title v-if="!groupsUserAssignedTo.length" class="text-h5 carrier-delete-title">האם אתה בטוח שברצונך למחוק את השליח הזה?</v-card-title>
                 <v-alert
+                    class="carrier-delete-alert"
                     outlined
                     type="error"
                     :value="!!groupsUserAssignedTo.length"
                 >
-                    This carrier has assigned deliveries: <strong>{{groupsUserAssignedTo | arrayJoin}}</strong> <br>
-                    Please remove these assignments before deleting this user.
+                    שליח זה משובץ למשלוחים: <strong>{{groupsUserAssignedTo | arrayJoin}}</strong> <br>
+                    יש להסיר אותו משיבוצים אלו לפני מחיקת השליח
                 </v-alert>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-                    <v-btn :disabled="!!groupsUserAssignedTo.length" color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                    <v-btn
+                        class="carrier-modal-cancel" 
+                        color="blue darken-1" 
+                        text 
+                        @click="closeDelete">ביטול</v-btn>
+                    <v-btn 
+                        class="carrier-delete-aprove"
+                        :disabled="!!groupsUserAssignedTo.length" 
+                        color="blue darken-1" 
+                        text 
+                        @click="deleteItemConfirm">מחק</v-btn>
+                    <v-spacer></v-spacer>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="dialogUpdateDeliveriesNumber" max-width="500px">
+            <v-card class="carrier-edit-modal">
+                <template v-if="!groupsUserAssignedTo.length">
+                    <v-card-title class="text-h5">עדכון מספר משלוחים עבור {{carrierToUpdate.name}}</v-card-title>
+                    <v-card-text>
+                        <v-text-field
+                            class="table-carriers-pickups-number-field"
+                            v-model="carrierToUpdate.pickupsNumber"
+                            type="number"
+                            :min="1"
+                            :max="4"
+                            onkeydown="return false"
+                        ></v-text-field>
+                    </v-card-text>
+                </template>
+                <v-alert
+                    class="carrier-edit-alert"
+                    outlined
+                    type="error"
+                    :value="!!groupsUserAssignedTo.length"
+                >
+                    שליח זה משובץ למשלוחים: <strong>{{groupsUserAssignedTo | arrayJoin}}</strong> <br>
+                    יש להסיר אותו מהשיבוצים לפני שינוי מספר משלוחים
+                </v-alert>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn 
+                        class="carrier-modal-cancel"
+                        color="blue darken-1" 
+                        text 
+                        @click="dialogUpdateDeliveriesNumber = false">ביטול</v-btn>
+                    <v-btn 
+                        class="carrier-edit-aprove"
+                        :disabled="!!groupsUserAssignedTo.length" 
+                        color="blue darken-1" 
+                        text 
+                        @click="updateNumberOfPickups(carrierToUpdate); closeUpdateNumberOfPickupsDialog()">עדכן</v-btn>
                     <v-spacer></v-spacer>
                 </v-card-actions>
             </v-card>
@@ -38,7 +92,9 @@ export default {
         carriersRef: null,
         groupsRef: null,
         dialogDelete: false,
+        dialogUpdateDeliveriesNumber: false,
         idToDelete: null,
+        carrierToUpdate: {},
         groupsUserAssignedTo: []
     }),
     created(){
@@ -58,15 +114,34 @@ export default {
         dialogDelete (val) {
             val || this.closeDelete()
         },
+        dialogUpdateDeliveriesNumber (val) {
+            val || (this.dialogUpdateDeliveriesNumber = false)
+        }
     },
     methods: {
+        async updateNumberOfPickupsDialog (carrier) {
+            let groupsAssigned = await this.getGroupsForCarrier(carrier.id)
+            this.groupsUserAssignedTo = groupsAssigned.map(
+                item => item.index
+            )
+            this.carrierToUpdate = {id: carrier.id, pickupsNumber: carrier.pickupsNumber}
+            this.dialogUpdateDeliveriesNumber = true
+        },
+
+        updateNumberOfPickups () {
+            this.carriersRef.child(this.carrierToUpdate.id).update({'pickupsNumber': this.carrierToUpdate.pickupsNumber});
+        },
+
+        closeUpdateNumberOfPickupsDialog () {
+            this.carrierToUpdate = {}
+            this.dialogUpdateDeliveriesNumber = false;
+        },
+
         async deleteItem (carrierId) {
             let groupsAssigned = await this.getGroupsForCarrier(carrierId)
-            if(groupsAssigned.length){
-                this.groupsUserAssignedTo = groupsAssigned.map(
-                    item => item.index
-                )
-            }
+            this.groupsUserAssignedTo = groupsAssigned.map(
+                item => item.index
+            )
             this.idToDelete = carrierId
             this.dialogDelete = true
         },

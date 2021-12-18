@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container id="delivery-groups-list">
         <v-dialog
             v-model="dialog"
             max-width="500px"
