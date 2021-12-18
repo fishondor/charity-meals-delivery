@@ -8,5 +8,10 @@ module.exports = {
         CARRIER_INDEX: 3,
         OWNER_INDEX: 0 
     },
+    CARRIER_EDIT_TEST: {
+        ID: "-MgCStaky2z4f9V4sJNw",
+        CARRIER_INDEX: 4,
+        OWNER_INDEX: 0 
+    },
     ...globalAllEnvironments
 }

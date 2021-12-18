@@ -2,7 +2,7 @@ module.exports = {
 
     before: (browser) => {
         this.adminPage = browser.page.Admin();
-        this.url = browser.globals.HOST + browser.globals.ROUTES.DELIVERY + "/" + browser.globals.EXAMPLE_DELIVERY_WITH_GROUPS.ID
+        this.url = browser.globals.HOST + browser.globals.ROUTES.DELIVERY + "/" + browser.globals.CARRIER_EDIT_TEST.ID
     },
 
     after: function(browser) {
@@ -12,8 +12,7 @@ module.exports = {
     "Log in as carrier": async (browser) => {
         browser.url(this.url)
         browser.waitForElementVisible('body')
-        this.carrier = await browser.Login(browser.globals.EXAMPLE_DELIVERY_WITH_GROUPS.CARRIER_INDEX)
-        console.log("Carrier", this.carrier)
+        this.carrier = await browser.Login(browser.globals.CARRIER_EDIT_TEST.CARRIER_INDEX)
     },
 
     "Register to delivery as carrier": async (browser) => {
@@ -33,10 +32,9 @@ module.exports = {
     },
 
     "Login as owner": async (browser) => {
-        console.log("Url", this.url)
         browser.url(this.url)
         browser.waitForElementVisible('body')
-        this.owner = await browser.Login(browser.globals.EXAMPLE_DELIVERY_WITH_GROUPS.OWNER_INDEX)
+        this.owner = await browser.Login(browser.globals.CARRIER_EDIT_TEST.OWNER_INDEX)
         console.log("Owner", this.owner)
     },
 
@@ -56,7 +54,6 @@ module.exports = {
 
         let groupIndexObject = await browser.elementIdAttribute(randomGroupIndex.value[0].ELEMENT, 'innerText')
         this.groupIndex = groupIndexObject.value
-        console.log("group index", this.groupIndex)
     },
 
     "Delete Carrier should be enabled": async (browser) => {
