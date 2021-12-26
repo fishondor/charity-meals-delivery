@@ -37,14 +37,22 @@ export default {
         
         this.date = deliverySnapshot.child('date').val()
         this.description = deliverySnapshot.child('description').val()
+        this.secondaryAdmins = deliverySnapshot.child('secondaryAdmins').val()
         this.isAdmin = await this.isDeliveryAdmin(this.deliveryId)
         this.$loaderService.hide()
     },
     methods: {
         isDeliveryAdmin: async function(deliveryId){
-            let adminId = await this.getDeliveryAdmin(deliveryId)
             let user = await this.$firebaseService.getCurrentUser()
-            return user.uid == adminId
+
+            let adminId = await this.getDeliveryAdmin(deliveryId)
+            if (user.uid == adminId)
+                return true
+            
+            if (Array.isArray(this.secondaryAdmins) && this.secondaryAdmins.includes(user.email))
+                return true
+
+            return false
         },
         getDeliveryAdmin: async function(deliveryId){
             try{

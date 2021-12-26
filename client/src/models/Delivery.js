@@ -8,6 +8,7 @@ const ajv = new Ajv()
 
 const schema = {
     ownerId: String,
+    secondaryAdmins: [String],
     date: Date,
     description: String,
     groups: [
