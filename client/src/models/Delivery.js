@@ -31,7 +31,7 @@ class Delivery{
         this.ownerId = data.ownerId;
         this.date = data.date;
         this.description = data.description;
-        this.lockCooksRegistration = data.lockCooksRegistration;
+        this.lockCooksRegistration = data.lockCooksRegistration || false;
     }
 
     set id(id){
