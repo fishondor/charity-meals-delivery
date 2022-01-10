@@ -5,6 +5,9 @@
         <template v-if="isAdmin">
             <DeliveryAdmin />
         </template>
+        <template v-else-if="isCook">
+            <DeliveryCook />
+        </template>
         <template v-else>
             <DeliveryCarrier />
         </template>
@@ -16,7 +19,8 @@
 export default {
     components: {
         DeliveryAdmin: () => import('./DeliveryAdmin'),
-        DeliveryCarrier: () => import('./DeliveryCarrier')
+        DeliveryCarrier: () => import('./DeliveryCarrier'),
+        DeliveryCook: () => import('./DeliveryCook')
     },
     data: () => ({
         deliveryref: null,
@@ -24,6 +28,7 @@ export default {
         description: "",
         groups: [],
         isAdmin: false,
+        isCook: false,
         isRegistered: false,
         deliveryId: null,
         isValid: false
@@ -39,6 +44,7 @@ export default {
         this.description = deliverySnapshot.child('description').val()
         this.secondaryAdmins = deliverySnapshot.child('secondaryAdmins').val()
         this.isAdmin = await this.isDeliveryAdmin(this.deliveryId)
+        this.isCook = this.$route.name == "Register Pickups"
         this.$loaderService.hide()
     },
     methods: {
