@@ -5,6 +5,23 @@
           cols="12"
           md="4"
         >
+            <v-text-field
+                class="form-destination-description"
+                v-model="content.description"
+                label="תיאור"
+                required
+                :rules="[requiredField]"
+                dense
+                outlined
+                @change="onChange('description')"
+            ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col
+          cols="12"
+          md="4"
+        >
           <v-text-field
             class="form-destination-name"
             v-model="content.name"
@@ -60,13 +77,15 @@ export default {
               return {
                 address: "",
                 phone: "",
-                name: ""
+                name: "",
+                description: ""
               }
             }
         }
     },
     data: () => ({
-        formValid: false
+        formValid: false,
+        requiredField: v => v != "" || 'שדה זה הוא חובה'
     }),
     methods: {
         onChange: function(itemKey) {
