@@ -1,5 +1,7 @@
 <template>
-  <v-form v-model="formValid">
+  <v-form 
+    ref="form"
+    v-model="formValid">
     <v-container>
       <v-row>
         <v-col
@@ -9,8 +11,9 @@
           <v-text-field
             v-model="content.name"
             :counter="34"
-            label="Full name"
+            label="שם מלא"
             required
+            :rules="rules.required"
           ></v-text-field>
         </v-col>
 
@@ -20,15 +23,21 @@
         >
             <vue-tel-input-vuetify
                 v-model="content.phone"
-                required></vue-tel-input-vuetify>
+                defaultCountry="IL"
+                :onlyCountries="['IL']"
+                label="טלפון"
+                required 
+                :rules="rules.required"></vue-tel-input-vuetify>
         </v-col>
 
         <v-col
           cols="12"
         >
             <v-text-field
-                    v-model="content.address"
-                    label="Address"
+                v-model="content.address"
+                required 
+                :rules="rules.required"
+                label="כתובת לאיסוף"
             ></v-text-field>
         </v-col>
         <v-col
@@ -36,7 +45,9 @@
         >
           <v-text-field
                 v-model="content.description"
-                label="Description"
+                required 
+                :rules="rules.required"
+                label="מה מכינים?"
           ></v-text-field>
         </v-col>
         <v-col
@@ -46,8 +57,9 @@
                 color="info"
                 class="mr-4"
                 @click="submit"
+                :disabled="!formValid"
                 >
-                Create
+                הוסף
             </v-btn>
         </v-col>
       </v-row>
@@ -56,18 +68,19 @@
 </template>
 
 <script>
+import Pickup from '../models/Pickup'
+
 export default {
     data: () => ({
-        content: {
-            description: "",
-            address: "",
-            phone: "",
-            name: ""
+        content: new Pickup({}),
+        rules: {
+          required: [v => !!v || 'נא למלא שדה זה']
         },
-        formValid: false
+        formValid: false,
     }),
     methods: {
         submit: function(){
+            this.$refs.form.validate()
             this.$emit('onSubmit',
                 {
                     description: this.content.description,
@@ -76,6 +89,8 @@ export default {
                     name: this.content.name
                 }
             );
+            this.content = new Pickup({})
+            this.$refs.form.reset()
         },
         getAddressData: function (addressData) {
             this.address = addressData;
