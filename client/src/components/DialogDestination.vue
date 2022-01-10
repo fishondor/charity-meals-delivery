@@ -39,6 +39,12 @@ import FormDestination from './FormDestination.vue'
 import Destination from '../models/Destination'
 
 export default {
+    props: {
+        item: {
+            type: Destination,
+            default(){return new Destination({})}
+        } 
+    },
     components: {
         FormDestination
     },

@@ -31,3 +31,9 @@ Vue.filter('deliveryLink', function(deliveryId){
     
     return `${window.location.protocol}//${window.location.hostname}${locationPort}/delivery/${deliveryId}`
 })
+
+Vue.filter('deliveryCooksLink', function(deliveryId){
+    let locationPort = window.location.port ? `:${window.location.port}` : '';
+    
+    return `${window.location.protocol}//${window.location.hostname}${locationPort}/delivery/${deliveryId}/register-pickups`
+})

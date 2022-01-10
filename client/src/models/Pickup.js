@@ -15,11 +15,11 @@ const validate = ajv.compile(schema) */
 
 class Pickup{
     constructor(data){
-        this.name = data.name;
-        this.phone = data.phone;
-        this.address = data.address;
-        this.description = data.description;
-        this.done = data.done;
+        this.name = data.name || "";
+        this.phone = data.phone || "";
+        this.address = data.address || "";
+        this.description = data.description || "";
+        this.done = data.done || false;
     }
 
     set id(id){

@@ -25,6 +25,7 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
+        <DialogSelectDestinations @onSelected="addDestinationsFromUserList" />
         <template v-if="groups.length">
             <div class="tables-pickups">
                 <TablePickups v-for="group in sortedGroups" :key="group.index"
@@ -33,6 +34,7 @@
                     @onDelete="deletePickup"
                     @onSave="savePickup"
                     @onCarrierChange="updateCarrier"
+                    @onDeleteGroup="deleteGroup"
                     :editable="true"
                     :hideFooter="true" />
             </div>
@@ -54,11 +56,22 @@
                 Import
             </v-btn>
         </template>
+        <v-dialog v-model="messageDialog.open" max-width="500px">
+          <v-card>
+            <v-card-title class="text-h5">{{messageDialog.message}}</v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="messageDialog.open = false">סגור</v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
     </v-container>
 </template>
 <script>
 import TablePickups from './TablePickups'
 import FormGroup from './FormGroup'
+import DialogSelectDestinations from './DialogSelectDestinations.vue'
 
 import Group from '../models/Group'
 import Carrier from '../models/Carrier'
@@ -66,7 +79,8 @@ import Carrier from '../models/Carrier'
 export default {
     components: {
         TablePickups,
-        FormGroup
+        FormGroup,
+        DialogSelectDestinations
     },
     data: () => ({
         groups: [],
@@ -76,8 +90,12 @@ export default {
         groupsRef: null,
         carriersRef: null,
         dialog: false,
+        messageDialog: {
+            open: false,
+            message: ""
+        }
     }),
-    created(){
+    async created(){
         this.deliveryId = this.$route.params.id
         this.groupsRef = this.$firebaseService.getRef(this.deliveryId, 'groups')
         this.groupsRef.on('value', (snapshot) => {
@@ -134,6 +152,29 @@ export default {
             this.groupsRef.push(group)
             this.closeSingleDeliveryDialog()
         },
+
+        addDestinationsFromUserList (destinations) {
+            let currentIndexes = this.groups.map(
+                group => group.index
+            )
+            let invalidIndexes = destinations.filter(
+                destination => currentIndexes.includes(destination.index)
+            ).map(
+                destination => destination.index
+            )
+            if(invalidIndexes.length){
+                this.messageDialog.message = `מספרי היעדים הבאים כבר קיימים ולכן לא ניתן להוסיפם בשנית: ${invalidIndexes.join(", ")}`
+                this.messageDialog.open = true
+            }
+                
+            destinations.map(
+                destination => invalidIndexes.includes(destination.index) || this.groupsRef.push(Group.fromDestination(destination))
+            )
+        },
+
+        deleteGroup (groupId) {
+            this.groupsRef.child(groupId).remove();
+        }
     },
     computed: {
         sortedGroups() {

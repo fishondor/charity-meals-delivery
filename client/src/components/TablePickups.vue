@@ -5,6 +5,7 @@
     sort-by="name"
     class="table-pickups elevation-1 mb-10"
     :hide-default-footer="hideFooter"
+    no-data-text="טרם נרשמו איסופים"
   >
     <template v-slot:[`item.phone`]="{ item }">
         <div class="d-flex justify-space-between">
@@ -31,10 +32,39 @@
             v-model="item.done"
             :ripple="false"
             color="success"
+            :disabled="cook"
             @click="doneChanged(item)"
         ></v-simple-checkbox>
     </template>
-    <template v-slot:footer>
+    <template v-if="editable || cook" v-slot:[`body.append`]>
+        <v-dialog
+            v-model="dialog"
+            max-width="500px"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="primary"
+              dark
+              class="mb-2"
+              v-bind="attrs"
+              v-on="on"
+              :disabled="disableAddPickup"
+            >
+              הוסף איסוף
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title>
+              <span class="text-h5">{{ formTitle }}</span>
+            </v-card-title>
+
+            <v-card-text>
+                <FormPickup @onSubmit="save" />
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+    </template>
+    <template v-if="!cook" v-slot:footer>
         <v-container class="pb-0">
             <h3 class="mb-0">יעד המסירה</h3>
         </v-container>
@@ -105,28 +135,32 @@
         <v-spacer></v-spacer>
         <v-dialog
             v-if="editable" 
-            v-model="dialog"
+            v-model="dialogDeleteGroup"
             max-width="500px"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              color="primary"
-              dark
-              class="mb-2"
-              v-bind="attrs"
-              v-on="on"
+                color="warning"
+                dark
+                fab
+                small
+                class="mb-2"
+                v-bind="attrs"
+                v-on="on"
             >
-              הוסף איסוף
+                <v-icon>
+                    {{icons.delete}}
+                </v-icon>
             </v-btn>
           </template>
           <v-card>
-            <v-card-title>
-              <span class="text-h5">{{ formTitle }}</span>
-            </v-card-title>
-
-            <v-card-text>
-                <FormPickup @onSubmit="save" />
-            </v-card-text>
+            <v-card-title class="text-h5">האם למחוק את היעד?</v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="dialogDeleteGroup = false">ביטול</v-btn>
+              <v-btn color="blue darken-1" text @click="deleteGroupConfirm">מחק</v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
           </v-card>
         </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
@@ -178,6 +212,14 @@ export default {
             type: Boolean,
             default: false
         },
+        cook: {
+            type: Boolean,
+            default: false
+        },
+        disableAddPickup: {
+            type: Boolean,
+            default: false
+        },
         hideFooter: {
             type: Boolean,
             default: false
@@ -198,13 +240,14 @@ export default {
     data: () => ({
         dialog: false,
         dialogDelete: false,
+        dialogDeleteGroup: false,
         headers: [
-            { text: 'נאסף', value: 'done', sortable: false},
-            { text: 'שם', value: 'name', sortable: false },
-            { text: 'טלפון', value: 'phone', sortable: false },
-            { text: 'כתובת', value: 'address', sortable: false },
-            { text: 'מכינים', value: 'description', sortable: false },
-            { text: '', value: 'actions', sortable: false }
+            { text: 'נאסף', value: 'done', sortable: false, divider: true },
+            { text: 'שם', value: 'name', sortable: false, divider: true },
+            { text: 'טלפון', value: 'phone', sortable: false, divider: true },
+            { text: 'כתובת', value: 'address', sortable: false, divider: true },
+            { text: 'מכינים', value: 'description', sortable: false, divider: true },
+            { text: '', value: 'actions', sortable: false, divider: true }
         ],
         pickups: [],
         editedIndex: -1,
@@ -232,7 +275,7 @@ export default {
 
     computed: {
         formTitle () {
-            return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+            return this.editedIndex === -1 ? 'איסוף חדש' : 'עריכת איסוף'
         },
         pickupsCompleted () {
             let pickups = this.group.pickups
@@ -315,11 +358,15 @@ export default {
         },
 
         onDestinationSelected(destination) {
-            console.log("Destinaton selected", destination)
             let propsToUpdate = ['name', 'address', 'phone']
             propsToUpdate.map(
                 name => this.onDestinationChange(name, destination[name])
             )
+        },
+
+        deleteGroupConfirm(){
+            this.$emit('onDeleteGroup', this.group.id);
+            this.dialogDeleteGroup = false
         }
     }
   }

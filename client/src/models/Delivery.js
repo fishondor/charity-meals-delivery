@@ -11,6 +11,7 @@ const schema = {
     secondaryAdmins: [String],
     date: Date,
     description: String,
+    lockCooksRegistration: Boolean
     groups: [
         Group.schema
     ],
@@ -30,6 +31,7 @@ class Delivery{
         this.ownerId = data.ownerId;
         this.date = data.date;
         this.description = data.description;
+        this.lockCooksRegistration = data.lockCooksRegistration || false;
     }
 
     set id(id){

@@ -7,6 +7,7 @@ const schema = {
     phone: String,
     address: String,
     description: String,
+    index: Number
     _id: String
 }
 
@@ -18,6 +19,7 @@ class Destination{
         this.phone = data.phone;
         this.address = data.address;
         this.description = data.description || "";
+        this.index = data.index;
     }
 
     set id(id){

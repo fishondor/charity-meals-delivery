@@ -108,6 +108,17 @@ class FirebaseService{
         }
     }
 
+    async editDestination(ownerId, destination){
+        try{
+            let destinationRef = this.db.ref(`/destinations/${ownerId}/${destination.id}`);
+            await destinationRef.set(destination)
+            return true;
+        }catch(err){
+            this.logger.error(`Err editing destination: ${err}`);
+            return false
+        }
+    }
+
     async getDeliveriesByOwner(ownerId){
         try{
             let ref = await this.db.ref(`/deliveries`)
@@ -165,6 +176,10 @@ class FirebaseService{
 
     getRef(deliveryId, refPath){
         return this.db.ref(`/deliveries/${deliveryId}/${refPath}`)
+    }
+
+    getDestinationsRef(ownerId){
+        return this.db.ref(`/destinations/${ownerId}`)
     }
 
 }
