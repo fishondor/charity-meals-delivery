@@ -6,7 +6,7 @@
                     <v-list-item-title>קישור להרשמה: {{deliveryId | deliveryLink}}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
-                    <v-btn icon @click="copyLink">
+                    <v-btn icon @click="copyLink(createLink(deliveryId))">
                         <v-icon
                              color="primary"
                         >
@@ -22,6 +22,40 @@
                             {{icons.whatsapp}}
                         </v-icon>
                     </a>
+                </v-list-item-action>
+            </v-list-item>
+            <v-list-item>
+                <v-list-item-content>
+                    <v-list-item-title>קישור למבשלות: {{deliveryId | deliveryCooksLink}}</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action>
+                    <v-btn icon @click="copyLink(createCooksLink(deliveryId))">
+                        <v-icon
+                             color="primary"
+                        >
+                            {{icons.copy}}
+                        </v-icon>
+                    </v-btn>
+                </v-list-item-action>
+                <v-list-item-action>
+                    <a :href="shareTextCooks | whatsappShare">
+                        <v-icon
+                            color="primary"
+                        >
+                            {{icons.whatsapp}}
+                        </v-icon>
+                    </a>
+                </v-list-item-action>
+            </v-list-item>
+            <v-list-item>
+                <v-list-item-content>
+                    <v-list-item-title>נעל רישום מבשלות</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action>
+                    <v-switch
+                        v-model="lockCooksRegistration"
+                        @change="onLockCooksRegistrationChanged"
+                    ></v-switch>
                 </v-list-item-action>
             </v-list-item>
             <v-list-item>
@@ -115,7 +149,8 @@ export default {
             deliveryDescription: '',
             dialogDelete: false,
             deliveryRef: null,
-            secondaryAdmins: []
+            secondaryAdmins: [],
+            lockCooksRegistration: false
         }
     },
     async created(){
@@ -126,6 +161,11 @@ export default {
     computed: {
         shareText() {
             let deliveryLink = this.$options.filters.deliveryLink(this.deliveryId);
+            let title = 'מחלקים ארוחות שישי'
+            return `${title}\n${this.deliveryDate}\n${this.deliveryDescription}\n${deliveryLink}`
+        },
+        shareTextCooks() {
+            let deliveryLink = this.$options.filters.deliveryCooksLink(this.deliveryId);
             let title = 'מחלקים ארוחות שישי'
             return `${title}\n${this.deliveryDate}\n${this.deliveryDescription}\n${deliveryLink}`
         }
@@ -144,15 +184,16 @@ export default {
             this.deliveryDescription = snapshot.child('description').val();
             this.deliveryDate = snapshot.child('date').val();
             this.secondaryAdmins = snapshot.child('secondaryAdmins').val();
+            this.lockCooksRegistration = snapshot.child('lockCooksRegistration').val();
         },
-        copyLink(){
+        copyLink(link){
             var tempInput = document.createElement("input");
-            tempInput.value = this.$options.filters.deliveryLink(this.deliveryId);
+            tempInput.value = link;
             document.body.appendChild(tempInput);
             tempInput.select();
             document.execCommand("copy");
             document.body.removeChild(tempInput);
-            this.$notificationsService.success("Cpied to clipboard")
+            this.$notificationsService.success("הקישור הועתק")
         },
         deleteGroupsConfirm () {
             try{
@@ -171,6 +212,15 @@ export default {
         },
         onExtraAdminsChange () {
             this.deliveryRef.child('secondaryAdmins').set(this.secondaryAdmins)
+        },
+        createLink (deliveryId) {
+            return this.$options.filters.deliveryLink(deliveryId)
+        },
+        createCooksLink(deliveryId) {
+            return this.$options.filters.deliveryCooksLink(deliveryId)
+        },
+        onLockCooksRegistrationChanged() {
+            this.deliveryRef.child('lockCooksRegistration').set(this.lockCooksRegistration)
         }
     },
     watch: {
