@@ -43,6 +43,18 @@ class Group{
         return this._id
     }
 
+    static fromDestination(destination){
+        return new Group({
+            index: destination.index,
+            description: destination.description,
+            destination: {
+                name: destination.name,
+                address: destination.address,
+                phone: destination.phone
+            }
+        })
+    }
+
     static fromSnapshot(snapshot){
         let groups = []
         snapshot.forEach(function(childSnapshot) {
