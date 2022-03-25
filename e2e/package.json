@@ -9,7 +9,7 @@
   "author": "Ariel Fisher",
   "license": "ISC",
   "devDependencies": {
-    "chromedriver": "x",
+    "chromedriver": "X",
     "geckodriver": "^2.0.2",
     "nightwatch": "^1.7.8"
   }
