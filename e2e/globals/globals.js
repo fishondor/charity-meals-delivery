@@ -12,8 +12,9 @@ module.exports = {
     },
     DESTINATION_VALUES: {
         NAME: "Destination name",
-        PHONE: "0564567432",
-        ADDRESS: "Destination address"
+        PHONE: "056-456-7432",
+        ADDRESS: "Destination address",
+        DESCRIPTION: "Destination description"
     },
     CARRIER: {
         PHONE: "0526786736",

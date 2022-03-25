@@ -17,6 +17,9 @@
                             כתובת
                         </th>
                         <th>
+                            תיאור
+                        </th>
+                        <th>
                         </th>
                     </tr>
                 </thead>
@@ -29,6 +32,7 @@
                         <td class="destinations-table-item-name">{{ item.name }}</td>
                         <td>{{ item.phone }}</td>
                         <td>{{ item.address }}</td>
+                        <td>{{ item.description }}</td>
                         <td>
                             <v-icon
                                 @click="deleteItem(item)"

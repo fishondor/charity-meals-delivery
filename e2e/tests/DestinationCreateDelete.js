@@ -63,9 +63,11 @@ module.exports = {
         this.detinationName = browser.globals.DESTINATION_VALUES.NAME + Date.now()
         this.detinationPhone = browser.globals.DESTINATION_VALUES.PHONE
         this.detinationAddress = browser.globals.DESTINATION_VALUES.ADDRESS + Date.now()
+        this.destinationDescription = browser.globals.DESTINATION_VALUES.DESCRIPTION
         browser.setValue(".dialog-create-destination .form-destination-name input", this.detinationName)
         browser.setValue(".dialog-create-destination .form-destination-phone input[name='telephone']", this.detinationPhone)
         browser.setValue(".dialog-create-destination .form-destination-address input", this.detinationAddress)
+        browser.setValue(".dialog-create-destination .form-destination-description input", this.destinationDescription)
 
         browser.pause(5000)
 
@@ -75,6 +77,7 @@ module.exports = {
         browser.waitForElementVisible('xpath', `//td[text()='${this.detinationName}']`)
         browser.waitForElementVisible('xpath', `//td[text()='${this.detinationPhone}']`)
         browser.waitForElementVisible('xpath', `//td[text()='${this.detinationAddress}']`)
+        browser.waitForElementVisible('xpath', `//td[text()='${this.destinationDescription}']`)
     },
 
     "Destination saved to DB": function(browser) {
@@ -86,6 +89,7 @@ module.exports = {
         browser.waitForElementVisible('xpath', `//td[text()='${this.detinationName}']`)
         browser.waitForElementVisible('xpath', `//td[text()='${this.detinationPhone}']`)
         browser.waitForElementVisible('xpath', `//td[text()='${this.detinationAddress}']`)
+        browser.waitForElementVisible('xpath', `//td[text()='${this.destinationDescription}']`)
     }
 
 }
