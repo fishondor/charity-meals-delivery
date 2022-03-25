@@ -66,7 +66,8 @@ export default {
             { text: 'נמסר', value: 'done', sortable: false},
             { text: 'שם', value: 'name', sortable: false, cellClass: "destination-name" },
             { text: 'טלפון', value: 'phone', sortable: false },
-            { text: 'כתובת', value: 'address', sortable: false }
+            { text: 'כתובת', value: 'address', sortable: false },
+            { text: 'הערות', value: 'description', sortable: false}
         ],
     }),
     methods: {

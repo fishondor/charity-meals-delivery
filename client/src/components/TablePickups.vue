@@ -316,7 +316,7 @@ export default {
 
         onDestinationSelected(destination) {
             console.log("Destinaton selected", destination)
-            let propsToUpdate = ['name', 'address', 'phone']
+            let propsToUpdate = ['name', 'address', 'phone', 'description']
             propsToUpdate.map(
                 name => this.onDestinationChange(name, destination[name])
             )
