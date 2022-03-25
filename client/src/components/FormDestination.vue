@@ -3,7 +3,7 @@
       <v-row>
         <v-col
           cols="12"
-          md="4"
+          md="6"
         >
           <v-text-field
             class="form-destination-name"
@@ -20,12 +20,14 @@
 
         <v-col
           cols="12"
-          md="4"
+          md="6"
         >
             <vue-tel-input-vuetify
                 class="form-destination-phone"
                 v-model="content.phone"
                 label="טלפון"
+                defaultCountry="IL"
+                :onlyCountries="['IL']"
                 required
                 dense
                 outlined
@@ -35,15 +37,30 @@
 
         <v-col
           cols="12"
-          md="4"
+          md="6"
         >
             <v-text-field
                     class="form-destination-address"
                     v-model="content.address"
-                    label="כתובת"
+                    label="כתובת (תשמש בקישור לווייז)"
                     dense
                     outlined
                     @change="onChange('address')"
+            >
+            </v-text-field>
+        </v-col>
+
+        <v-col
+          cols="12"
+          md="6"
+        >
+            <v-text-field
+                    class="form-destination-description"
+                    v-model="content.description"
+                    label="הערות (קומה, דירה, תיאור המקום וכו׳)"
+                    dense
+                    outlined
+                    @change="onChange('description')"
             >
             </v-text-field>
         </v-col>
@@ -60,7 +77,8 @@ export default {
               return {
                 address: "",
                 phone: "",
-                name: ""
+                name: "",
+                description: ""
               }
             }
         }
