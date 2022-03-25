@@ -3,7 +3,7 @@
     :headers="headers"
     :items="group.pickups"
     sort-by="name"
-    class="table-pickups elevation-1 mb-10"
+    class="table-pickups elevation-0 mb-10 outlined rounded-lg"
     :hide-default-footer="hideFooter"
   >
     <template v-slot:[`item.phone`]="{ item }">
@@ -203,7 +203,7 @@ export default {
             { text: 'שם', value: 'name', sortable: false },
             { text: 'טלפון', value: 'phone', sortable: false },
             { text: 'כתובת', value: 'address', sortable: false },
-            { text: 'מכינים', value: 'description', sortable: false },
+            { text: 'תיאור', value: 'description', sortable: false },
             { text: '', value: 'actions', sortable: false }
         ],
         pickups: [],
@@ -324,3 +324,9 @@ export default {
     }
   }
 </script>
+
+<style lang="scss">
+.outlined{
+    border: 1px solid rgb(167, 167, 167);
+}
+</style>
