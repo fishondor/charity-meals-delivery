@@ -16,6 +16,8 @@
                         label="שם"
                         :disabled="!!user.displayName"
                         required
+                        outlined
+                        dense
                     ></v-text-field>
                 </v-col>
                 <v-col
@@ -28,6 +30,8 @@
                         label="מייל"
                         :disabled="!!user.email"
                         required
+                        outlined
+                        dense
                     ></v-text-field>
                 </v-col>
                 <v-col
@@ -42,6 +46,8 @@
                         :disabled="!!user.phoneNumber"
                         label="טלפון"
                         required 
+                        outlined
+                        dense
                         :rules="phoneRules"></vue-tel-input-vuetify>
                 </v-col>
                 <v-col
@@ -57,8 +63,27 @@
                         :max="maxPickups"
                         :rules="numberRules"
                         required
+                        outlined
+                        dense
                     ></v-text-field>
                 </v-col>
+                <v-col
+                    cols="12"
+                    md="6"
+                >
+                    <v-select
+                        v-if="timeOptions && timeOptions.length"
+                        id="delivery-registration-form-time"
+                        v-model="content.time"
+                        :items="timeOptions"
+                        label="מבקש להרשם לחלוקה בשעה"
+                        dense
+                        outlined
+                        item-text="time"
+                    ></v-select>
+                </v-col>
+            </v-row>
+            <v-row>
                 <v-col
                     cols="12"
                     md="6"
@@ -66,7 +91,6 @@
                     <v-btn
                         id="delivery-registration-form-submit"
                         color="primary"
-                        class="mr-4"
                         @click="submit"
                         >
                         הרשם
@@ -78,6 +102,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import Carrier from '../models/Carrier'
 
 const MIN_PICKUPS = 1
@@ -89,7 +115,8 @@ export default {
             name: "",
             phone: "",
             pickupsNumber: 1,
-            email: ""
+            email: "",
+            time: ""
         },
         user: {},
         formValid: false,
@@ -117,12 +144,21 @@ export default {
                     name: this.content.name,
                     phone: this.content.phone,
                     pickupsNumber: this.content.pickupsNumber,
+                    time: this.content.time,
                     uid: this.user.uid
                 }
             )
             if(this.formValid)
                 this.$emit('onSubmit', carrier);
         }
-    }
+    },
+    computed: mapState({
+        timeOptions: state => {
+            if(!state.delivery)
+                return false
+
+            return state.delivery.timeOptions
+        }
+    })
 }
 </script>

@@ -46,6 +46,13 @@
                 {{item.pickupsNumber}}
             </v-chip>
         </template>
+        <template v-slot:[`item.time`]="{ item }">
+            <v-btn text
+                @click="updateDeliveryTime(item)"
+            >
+                {{item.time}}
+            </v-btn>
+        </template>
     </v-data-table>
 </template>
 <script>
@@ -68,8 +75,9 @@ export default {
             { text: 'שם', value: 'name' },
             { text: 'טלפון', value: 'phone', sortable: false },
             { text: 'אימייל', value: 'email', sortable: false },
-            { text: 'יכול מספר משלוחים', value: 'pickupsNumber', sortable: false},
-            { text: 'רשום ל', value: 'groups', class: 'carriers-table-groups-column'},
+            { text: 'יכול מספר משלוחים', value: 'pickupsNumber', sortable: false },
+            { text: 'שעה', value: 'time', sortable: false },
+            { text: 'רשום ל', value: 'groups', class: 'carriers-table-groups-column' },
             { text: '', value: 'actions', sortable: false },
         ],
         icons: {
@@ -83,6 +91,9 @@ export default {
         },
         updateNumberOfPickups (item) {
             this.$emit('onUpdateNumberOfPickups', item)
+        },
+        updateDeliveryTime (item) {
+            this.$emit('onUpdateDeliverytime', item)
         }
     }
 }
