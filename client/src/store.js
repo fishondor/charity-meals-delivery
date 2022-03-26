@@ -10,7 +10,8 @@ export default new Vuex.Store({
     notification: {},
     loader: {},
     requestedRoute: null,
-    destinations: []
+    destinations: [],
+    delivery: null
   },
   mutations: {
     setUser(state, user){
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     },
     setDestinations(state, destinations){
       state.destinations = destinations
+    },
+    setDelivery(state, delivery){
+      state.delivery = delivery
     }
   },
   getters: {
@@ -37,6 +41,7 @@ export default new Vuex.Store({
     loginModalOpen: state => state.loginModalOpen,
     notification: state => state.notification,
     requestedRoute: state => state.requestedRoute,
-    destinations: state => state.destinations
+    destinations: state => state.destinations,
+    delivery: state => state.delivery
   }
 })
