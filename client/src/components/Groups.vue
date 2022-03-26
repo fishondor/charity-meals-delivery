@@ -1,5 +1,5 @@
 <template>
-    <v-container id="delivery-groups-list">
+    <v-container fluid id="delivery-groups-list">
         <v-dialog
             v-model="dialog"
             max-width="500px"
@@ -48,7 +48,6 @@
             <v-btn
                 id="import-groups"
                 color="primary"
-                class="mr-4"
                 @click="submit"
                 >
                 Import
