@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container fluid>
         <h2 id="delivery-title">חלוקה לתאריך: {{date | formatDate}}</h2>
         <h3 v-if="description" id="delivery-description">{{description}}</h3>
         <template v-if="isAdmin">
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import Delivery from '../models/Delivery'
 
 export default {
     components: {
@@ -39,6 +40,8 @@ export default {
         this.description = deliverySnapshot.child('description').val()
         this.secondaryAdmins = deliverySnapshot.child('secondaryAdmins').val()
         this.isAdmin = await this.isDeliveryAdmin(this.deliveryId)
+        let delivery = Delivery.fromSnapshot([deliverySnapshot])
+        this.$store.commit("setDelivery", delivery[0]);
         this.$loaderService.hide()
     },
     methods: {
