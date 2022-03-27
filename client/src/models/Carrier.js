@@ -7,6 +7,7 @@ const schema = {
     phone: String,
     email: String,
     pickupsNumber: Number,
+    time: Date,
     uid: String
 }
 
@@ -18,7 +19,8 @@ class Carrier{
         this.name = data.name;
         this.email = data.email;
         this.phone = data.phone;
-        this.pickupsNumber = data.pickupsNumber; 
+        this.pickupsNumber = data.pickupsNumber;
+        this.time = data.time;
     }
 
     set id(id){
@@ -34,7 +36,8 @@ class Carrier{
             name: this.name,
             email: this.email,
             phone: this.phone,
-            pickupsNumber: this.pickupsNumber
+            pickupsNumber: this.pickupsNumber,
+            time: this.time
         }
     }
 

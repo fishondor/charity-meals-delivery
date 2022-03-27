@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container fluid>
         <v-list>
             <v-list-item>
                 <v-list-item-content>
@@ -41,6 +41,16 @@
                         @change="onExtraAdminsChange"
                     ></v-combobox>
                 </v-list-item-action>
+            </v-list-item>
+            <v-list-item>
+                <v-list-item-content>
+                    <v-list-item-title>שעות חלוקה ומספר מחלקים דרוש:</v-list-item-title>
+                    <v-list-item-content>
+                        <span v-for="(item, index) in timeOptions" :key="index">
+                            שעה: {{item.time}} - {{item.numOfCarriers}} מחלקים
+                        </span>
+                    </v-list-item-content>
+                </v-list-item-content>
             </v-list-item>
             <v-list-item>
                 <v-list-item-content>
@@ -115,7 +125,8 @@ export default {
             deliveryDescription: '',
             dialogDelete: false,
             deliveryRef: null,
-            secondaryAdmins: []
+            secondaryAdmins: [],
+            timeOptions: []
         }
     },
     async created(){
@@ -144,6 +155,7 @@ export default {
             this.deliveryDescription = snapshot.child('description').val();
             this.deliveryDate = snapshot.child('date').val();
             this.secondaryAdmins = snapshot.child('secondaryAdmins').val();
+            this.timeOptions = snapshot.child('timeOptions').val();
         },
         copyLink(){
             var tempInput = document.createElement("input");

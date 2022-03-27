@@ -11,6 +11,9 @@ const schema = {
     secondaryAdmins: [String],
     date: Date,
     description: String,
+    timeOptions: [
+        { time: String, numOfCarriers: Number }
+    ],
     groups: [
         Group.schema
     ],
@@ -25,11 +28,29 @@ const schema = {
 
 const validate = ajv.compile(schema) */
 
+const TIME_OPTIONS = [
+    "8:00",
+    "8:30",
+    "9:00",
+    "9:30",
+    "10:00",
+    "10:30",
+    "11:00",
+    "11:30",
+    "12:00",
+    "12:30",
+    "13:00",
+    "13:30",
+    "14:00",
+    "14:30"
+].map(item => ({time: item, numOfCarriers: 0}))
+
 class Delivery{
     constructor(data){
         this.ownerId = data.ownerId;
         this.date = data.date;
         this.description = data.description;
+        this.timeOptions = data.timeOptions || []
     }
 
     set id(id){
@@ -59,6 +80,8 @@ class Delivery{
         });
         return deliveries
     }
+
+    static TIME_OPTIONS = TIME_OPTIONS
 }
 
 export default Delivery;

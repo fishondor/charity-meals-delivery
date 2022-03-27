@@ -1,9 +1,10 @@
 <template>
-    <v-container>
+    <v-container fluid>
         <TableCarriers 
             :carriers="carriers" 
             @onDelete="deleteItem"
-            @onUpdateNumberOfPickups="updateNumberOfPickupsDialog" />
+            @onUpdateNumberOfPickups="updateNumberOfPickupsDialog"
+            @onUpdateDeliverytime="updateDeliveryTimeDialog" />
         <v-dialog v-model="dialogDelete" max-width="500px">
             <v-card class="carrier-delete-modal">
                 <v-card-title v-if="!groupsUserAssignedTo.length" class="text-h5 carrier-delete-title">האם אתה בטוח שברצונך למחוק את השליח הזה?</v-card-title>
@@ -74,6 +75,42 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-dialog v-model="dialogUpdateDeliveryTime" max-width="500px">
+            <v-card class="carrier-edit-modal edit-time">
+                <template>
+                    <v-card-title class="text-h5">עדכון שעת משלוח עבור {{carrierToUpdate.name}}</v-card-title>
+                    <v-card-text>
+                        <v-text-field
+                            class="table-carriers-delivery-time-field"
+                            v-model="carrierToUpdate.time"
+                        ></v-text-field>
+                    </v-card-text>
+                </template>
+                <v-alert
+                    class="carrier-edit-alert"
+                    outlined
+                    type="error"
+                    :value="!!groupsUserAssignedTo.length"
+                >
+                    שליח זה משובץ למשלוחים: <strong>{{groupsUserAssignedTo | arrayJoin}}</strong> <br>
+                    נא וודא ששליחויות אלו רלוונטיות לשעת המשלוח החדשה
+                </v-alert>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn 
+                        class="carrier-modal-cancel"
+                        color="blue darken-1" 
+                        text 
+                        @click="closeUpdateDeliveryTimeDialog">ביטול</v-btn>
+                    <v-btn 
+                        class="carrier-edit-aprove"
+                        color="blue darken-1" 
+                        text 
+                        @click="updateDeliveryTime(carrierToUpdate)">עדכן</v-btn>
+                    <v-spacer></v-spacer>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-container>
 </template>
 <script>
@@ -93,6 +130,7 @@ export default {
         groupsRef: null,
         dialogDelete: false,
         dialogUpdateDeliveriesNumber: false,
+        dialogUpdateDeliveryTime: false,
         idToDelete: null,
         carrierToUpdate: {},
         groupsUserAssignedTo: []
@@ -124,17 +162,36 @@ export default {
             this.groupsUserAssignedTo = groupsAssigned.map(
                 item => item.index
             )
-            this.carrierToUpdate = {id: carrier.id, pickupsNumber: carrier.pickupsNumber}
+            this.carrierToUpdate = {id: carrier.id, pickupsNumber: carrier.pickupsNumber, name: carrier.name}
             this.dialogUpdateDeliveriesNumber = true
+        },
+
+        async updateDeliveryTimeDialog (carrier) {
+            let groupsAssigned = await this.getGroupsForCarrier(carrier.id)
+            this.groupsUserAssignedTo = groupsAssigned.map(
+                item => item.index
+            )
+            this.carrierToUpdate = {id: carrier.id, time: carrier.time, name: carrier.name}
+            this.dialogUpdateDeliveryTime = true
         },
 
         updateNumberOfPickups () {
             this.carriersRef.child(this.carrierToUpdate.id).update({'pickupsNumber': this.carrierToUpdate.pickupsNumber});
         },
 
+        updateDeliveryTime () {
+            this.carriersRef.child(this.carrierToUpdate.id).update({'time': this.carrierToUpdate.time});
+            this.closeUpdateDeliveryTimeDialog()
+        },
+
         closeUpdateNumberOfPickupsDialog () {
             this.carrierToUpdate = {}
             this.dialogUpdateDeliveriesNumber = false;
+        },
+
+        closeUpdateDeliveryTimeDialog () {
+            this.carrierToUpdate = {}
+            this.dialogUpdateDeliveryTime = false;
         },
 
         async deleteItem (carrierId) {
