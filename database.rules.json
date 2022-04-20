@@ -23,6 +23,7 @@
           }
         },
         "groups": {
+          ".read": "auth.uid != null && query.orderByChild == 'carrier' && query.equalTo == auth.uid",
           "$groupId": {
             "pickups": {
               "$pickupIndex": {
