@@ -27,7 +27,7 @@ jobs:
         with:
           name: env-file
           path: client
-      - run: npm install -g firebase-tools serve
+      - run: npm ci
       - run: cd client && npm ci
       - run: cd e2e && npm ci
       - run: cd client && npm run build

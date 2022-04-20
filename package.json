@@ -6,12 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve-client": "cd client && npm run serve",
-    "serve-emulators": "firebase emulators:start --import emulators-data",
-    "serve-local-app": "firebase emulators:exec 'serve -s -l 4200 client/dist' --import emulators-data",
-    "export-emulator-data": "firebase emulators:export emulators-data",
+    "serve-emulators": "npx firebase emulators:start --import emulators-data",
+    "serve-local-app": "npx firebase emulators:exec 'npx serve -s -l 4200 client/dist' --import emulators-data",
+    "export-emulator-data": "npx firebase emulators:export emulators-data",
     "e2e": "cd e2e && npx nightwatch -e chrome-headless"
   },
   "author": "Ariel Fisher",
   "license": "ISC",
-  "devDependencies": {}
+  "devDependencies": {
+    "firebase-tools": "^10.6.0",
+    "serve": "^13.0.2"
+  }
 }
