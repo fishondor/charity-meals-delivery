@@ -41,9 +41,13 @@ export default {
         TablePickups
     },
     async created(){
+        this.$loaderService.show()
+
         this.deliveryId = this.$route.params.id
         this.user = await this.$firebaseService.getCurrentUser()
         this.initCarrierRef(this.user.uid)
+
+        this.$loaderService.hide()
     },
     methods: {
         submit: async function(carrier){

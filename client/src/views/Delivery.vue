@@ -32,59 +32,55 @@ export default {
     async created(){
         this.$loaderService.show()
         this.deliveryId = this.$route.params.id
-        let deliverySnapshot = await this.getDelivery(this.deliveryId)
-        if(!deliverySnapshot)
-            return
         
-        this.date = deliverySnapshot.child('date').val()
-        this.description = deliverySnapshot.child('description').val()
-        this.secondaryAdmins = deliverySnapshot.child('secondaryAdmins').val()
         this.isAdmin = await this.isDeliveryAdmin(this.deliveryId)
-        let delivery = Delivery.fromSnapshot([deliverySnapshot])
-        this.$store.commit("setDelivery", delivery[0]);
-        this.$loaderService.hide()
+        
+        this.setDeliveryParams(this.deliveryId)
     },
     methods: {
         isDeliveryAdmin: async function(deliveryId){
             let user = await this.$firebaseService.getCurrentUser()
-
-            let adminId = await this.getDeliveryAdmin(deliveryId)
-            if (user.uid == adminId)
-                return true
             
-            if (Array.isArray(this.secondaryAdmins) && this.secondaryAdmins.includes(user.email))
-                return true
+            try{
+                let adminIdRef = await this.$firebaseService.getRef(deliveryId, 'ownerId').once('value')
+                let adminId = adminIdRef.val()
+                if (user.uid == adminId)
+                    return true
+            }catch(error){
+                if(!error.code == "PERMISSION_DENIED"){
+                    this.$logger.error(error)
+                    return false
+                }
+            }
+
+            try{
+                let secondaryAdminsRef = await this.$firebaseService.getRef(deliveryId, 'secondaryAdmins').once('value')
+                let secondaryAdmins = secondaryAdminsRef.val()
+                if (Array.isArray(this.secondaryAdmins) && secondaryAdmins.includes(user.email))
+                    return true
+            }catch(error){
+                if(!error.code == "PERMISSION_DENIED"){
+                    this.$logger.error(error)
+                    return false
+                }
+            }
 
             return false
         },
-        getDeliveryAdmin: async function(deliveryId){
-            try{
-                let result = await this.$firebaseService.getDeliveryOwner(deliveryId)
-                if(!result){
-                    this.$notificationsService.error("An error occured");
-                    return false
+        setDeliveryParams: async function(deliveryId){
+            let date = await this.$firebaseService.getRef(deliveryId, 'date').once('value');
+            this.date = date.val()
+            let description = await this.$firebaseService.getRef(deliveryId, 'description').once('value');
+            this.description = description.val()
+            let timeOptions = await this.$firebaseService.getRef(deliveryId, 'timeOptions').once('value');
+            let delivery = new Delivery(
+                {
+                    date: date.val(), 
+                    description: description.val(),
+                    timeOptions: timeOptions.val()
                 }
-                return result
-            }catch(error){
-                console.error("Error fetching delivery", error)
-                this.$notificationsService.error("An error occured");
-            }
-            return false
-        },
-        getDelivery: async function(deliveryId){
-            try{
-                let result = await this.$firebaseService.getDelivery(deliveryId)
-                this.deliveryref = result;
-                let snapshot = await this.deliveryref.once('value');
-                if (!snapshot.exists()){
-                    this.$notificationsService.error("Could not find this delivery. please make sure you get the correct link from administrator");
-                    return false
-                }
-                return snapshot
-            }catch(error){
-                console.error("Error fetching delivery", error)
-                this.$notificationsService.error("An error occured");
-            }
+            )
+            this.$store.commit("setDelivery", delivery);
         }
     }
 }
