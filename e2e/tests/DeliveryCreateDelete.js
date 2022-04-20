@@ -3,7 +3,7 @@ module.exports = {
     before: async function(browser) {
         browser.url(browser.globals.HOST + browser.globals.ROUTES.DELIVERY_CREATE)
         browser.waitForElementVisible('body')
-        await browser.Login()
+        await browser.Login(0)
 
     },
 
