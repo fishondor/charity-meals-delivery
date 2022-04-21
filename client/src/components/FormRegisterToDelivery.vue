@@ -102,8 +102,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 import Carrier from '../models/Carrier'
 
 const MIN_PICKUPS = 1
@@ -127,13 +125,20 @@ export default {
             v => v >= 1 && v <=3 || `ניתן לבצא בין ${MIN_PICKUPS} ל${MAX_PICKUPS} איסופים`
         ],
         minPickups: MIN_PICKUPS,
-        maxPickups: MAX_PICKUPS
+        maxPickups: MAX_PICKUPS,
+        timeOptions: []
     }),
     async mounted(){
         this.user = await this.$firebaseService.getCurrentUser();
         this.content.name = this.user.displayName;
         this.content.email = this.user.email;
         this.content.phone = this.user.phoneNumber;
+    },
+    async created(){
+        let deliveryId = this.$route.params.id
+        this.$firebaseService.getRef(deliveryId, 'timeOptions').on('value', (snapshot) => {
+            this.timeOptions = snapshot.val()
+        });
     },
     methods: {
         submit: function(){
@@ -151,14 +156,6 @@ export default {
             if(this.formValid)
                 this.$emit('onSubmit', carrier);
         }
-    },
-    computed: mapState({
-        timeOptions: state => {
-            if(!state.delivery)
-                return false
-
-            return state.delivery.timeOptions
-        }
-    })
+    }
 }
 </script>

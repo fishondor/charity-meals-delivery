@@ -64,10 +64,14 @@ export default {
         tab: null,
     }),
     async created(){
+        this.$loaderService.show()
+
         let user = await this.$firebaseService.getCurrentUser()
         let destinationsSnapshot = await this.$firebaseService.getDestinationsByOwner(user.uid)
         let destinations = Destination.fromSnapshot(destinationsSnapshot)
         this.$store.commit('setDestinations', destinations)
-    },
+
+        this.$loaderService.hide()
+    }
 }
 </script>

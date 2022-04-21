@@ -154,7 +154,9 @@ export default {
             ),
             this.deliveryDescription = snapshot.child('description').val();
             this.deliveryDate = snapshot.child('date').val();
-            this.secondaryAdmins = snapshot.child('secondaryAdmins').val();
+            let secondaryAdmins = snapshot.child('secondaryAdmins').val();
+            if(secondaryAdmins)
+                this.secondaryAdmins = secondaryAdmins.split(",")
             this.timeOptions = snapshot.child('timeOptions').val();
         },
         copyLink(){
@@ -182,7 +184,7 @@ export default {
             this.dialogDelete = true
         },
         onExtraAdminsChange () {
-            this.deliveryRef.child('secondaryAdmins').set(this.secondaryAdmins)
+            this.deliveryRef.child('secondaryAdmins').set(this.secondaryAdmins.join(","))
         }
     },
     watch: {

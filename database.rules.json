@@ -3,14 +3,27 @@
     ".read": false,
     ".write": false,
     "deliveries": {
-      ".read": true,
-      ".write": "root.child('admins/' + auth.uid).exists()",
+      ".read": "auth.uid != null && root.child('admins/' + auth.uid).exists() && query.orderByChild == 'ownerId' && query.equalTo == auth.uid",
       "$deliveryId": {
-        ".write": "auth != null && auth.uid === root.child('deliveries/' + $deliveryId + '/ownerId').val()",
+        ".read": "auth.uid != null && root.child('admins/' + auth.uid).exists() && (auth.uid == data.child('ownerId').val() || data.child('secondaryAdmins').val().contains(auth.token.email))",
+        ".write": "auth.uid != null && root.child('admins/' + auth.uid).exists() && (auth.uid == newData.child('ownerId').val() || newData.child('secondaryAdmins').val().contains(auth.token.email))",
+        "date": {
+          ".read": "auth.uid != null"
+        },
+        "description": {
+          ".read": "auth.uid != null"
+        },
+        "timeOptions": {
+          ".read": "auth.uid != null"
+        },
         "carriers": {
-          ".write": "auth.uid != null"
+          "$carrierId": {
+            ".read": "auth.uid == $carrierId",
+            ".write": "!data.exists() && auth.uid == $carrierId"
+          }
         },
         "groups": {
+          ".read": "auth.uid != null && query.orderByChild == 'carrier' && query.equalTo == auth.uid",
           "$groupId": {
             "pickups": {
               "$pickupIndex": {
