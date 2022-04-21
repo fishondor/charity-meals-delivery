@@ -56,7 +56,7 @@ export default {
             try{
                 let secondaryAdminsRef = await this.$firebaseService.getRef(deliveryId, 'secondaryAdmins').once('value')
                 let secondaryAdmins = secondaryAdminsRef.val()
-                if (Array.isArray(this.secondaryAdmins) && secondaryAdmins.includes(user.email))
+                if (secondaryAdmins && secondaryAdmins.split(",").includes(user.email))
                     return true
             }catch(error){
                 if(!error.code == "PERMISSION_DENIED"){
