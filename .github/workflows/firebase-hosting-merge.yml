@@ -70,31 +70,3 @@ jobs:
           args: deploy --only database
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-  set_functions_environment:
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - uses: actions/checkout@v2
-      - name: Make functions envfile
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          envkey_FUNCTIONS_ALLOW_ORIGIN: ${{ secrets.FUNCTIONS_ALLOW_ORIGIN }}
-          file_name: functions/.env
-      - uses: actions/upload-artifact@master
-        with:
-          name: functions-env-file
-          path: functions/.env
-  deploy_firebase_functions:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@master
-        with:
-          name: functions-env-file
-          path: functions
-      - name: Deploy Firebase functions
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only functions
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
