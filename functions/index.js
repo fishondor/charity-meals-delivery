@@ -1,6 +1,6 @@
 const functions = require("firebase-functions");
 const admin = require('firebase-admin');
-const cors = require('cors')({origin: true});
+const cors = require('cors')({origin: process.env.ALLOW_ORIGIN});
 admin.initializeApp();
 
 // // Create and Deploy Your First Cloud Functions
@@ -11,6 +11,10 @@ const getRequestedTimes = async (deliveryId) => {
     try{
         const carriersRef = await admin.database().ref(`/deliveries/${deliveryId}/carriers`).once('value');
         let carriers = carriersRef.val()
+        if(!carriers){
+            functions.logger.info("Request for requested time options did not find any curent carriers", carriers)
+            return {}
+        }
         let requestedTimes = Object.keys(carriers).reduce(
             (accu, carrierId) => {
                 let carrier = carriers[carrierId]
@@ -77,18 +81,18 @@ const handleGet = async (req, res) => {
             res.send(availableTimeOptions)
             break
         default:
-            res.send("Default")
+            res.status(400).send()
     }
 }
 
 exports.FMAPI = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
-        if(request.method == "GET"){
-            handleGet(request, response)
-            return
+        switch(request.method){
+            case "GET":
+                handleGet(request, response)
+                break;
+            default:
+                response.status(400).send()
         }
-    
-        functions.logger.info("Health", {structuredData: true});
-        response.send("API is up");
     })
 });
