@@ -50,7 +50,12 @@
             <v-btn text
                 @click="updateDeliveryTime(item)"
             >
-                {{item.time}}
+                <template v-if="item.time">
+                    {{item.time}}
+                </template>
+                <v-icon v-else>
+                    {{icons.edit}}
+                </v-icon>
             </v-btn>
         </template>
     </v-data-table>
@@ -58,7 +63,8 @@
 <script>
 import {
     whatsapp,
-    deleteIcon
+    deleteIcon,
+    edit
 } from '../components/icons'
 
 export default {
@@ -82,7 +88,8 @@ export default {
         ],
         icons: {
             whatsapp,
-            delete: deleteIcon
+            delete: deleteIcon,
+            edit
         }
     }),
     methods: {

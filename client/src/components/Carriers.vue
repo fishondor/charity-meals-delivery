@@ -80,10 +80,16 @@
                 <template>
                     <v-card-title class="text-h5">עדכון שעת משלוח עבור {{carrierToUpdate.name}}</v-card-title>
                     <v-card-text>
-                        <v-text-field
+                        <v-select
                             class="table-carriers-delivery-time-field"
                             v-model="carrierToUpdate.time"
-                        ></v-text-field>
+                            :items="timeOptions"
+                            label="בחר שעת חלוקה"
+                            dense
+                            outlined
+                            item-text="time"
+                            clearable
+                        ></v-select>
                     </v-card-text>
                 </template>
                 <v-alert
@@ -116,6 +122,7 @@
 <script>
 import Carrier from '../models/Carrier'
 import Group from '../models/Group'
+import Delivery from '../models/Delivery'
 import TableCarriers from './TableCarriers'
 
 export default {
@@ -133,7 +140,8 @@ export default {
         dialogUpdateDeliveryTime: false,
         idToDelete: null,
         carrierToUpdate: {},
-        groupsUserAssignedTo: []
+        groupsUserAssignedTo: [],
+        timeOptions: Delivery.TIME_OPTIONS
     }),
     created(){
         this.deliveryId = this.$route.params.id
