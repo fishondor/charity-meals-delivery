@@ -5,6 +5,9 @@
             <FormRegisterToDelivery @onSubmit="submit" />
         </template>
         <template v-else>
+            <p v-if="carrierTime">
+                <b>{{`איסוף בשעה: ${carrierTime}`}}</b>
+            </p>
             <template v-if="groups.length">
                 <TablePickups v-for="group in sortedGroups" :key="group.index"
                     :group="group"
@@ -34,7 +37,8 @@ export default {
         deliveryId: null,
         isRegistered: false,
         carrierRef: null,
-        groupsRef: null
+        groupsRef: null,
+        carrierTime: ""
     }),
     components: {
         FormRegisterToDelivery,
@@ -69,6 +73,8 @@ export default {
                 this.isRegistered = snapshot.exists()
                 if(!this.isRegistered)
                     return
+                if(snapshot.hasChild("time"))
+                    this.carrierTime = snapshot.child("time").val()
                 this.initGroupsRef(userId);
             });
         },
