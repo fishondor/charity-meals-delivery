@@ -28,9 +28,9 @@ jobs:
           name: env-file
           path: client
       - run: npm ci
-      - run: cd client && npm ci
       - run: cd e2e && npm ci
-      - run: cd client && npm run build
+      - run: cd functions && npm ci
+      - run: cd client && npm ci && npm run build
       - run: |
           npm run serve-local-app &
           sleep 15
