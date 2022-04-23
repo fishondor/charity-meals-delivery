@@ -1,6 +1,6 @@
 const functions = require("firebase-functions");
 const admin = require('firebase-admin');
-const cors = require('cors')({origin: process.env.ALLOW_ORIGIN});
+const cors = require('cors')({origin: process.env.FUNCTIONS_ALLOW_ORIGIN});
 admin.initializeApp();
 
 // // Create and Deploy Your First Cloud Functions
