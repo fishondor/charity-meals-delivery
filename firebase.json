@@ -26,6 +26,9 @@
     "hosting": {
       "port": 5000
     },
+    "functions": {
+      "port": 9097
+    },
     "ui": {
       "enabled": true
     }
