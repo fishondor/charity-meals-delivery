@@ -67,21 +67,6 @@
                         dense
                     ></v-text-field>
                 </v-col>
-                <v-col
-                    cols="12"
-                    md="6"
-                >
-                    <v-select
-                        v-if="timeOptions && timeOptions.length"
-                        id="delivery-registration-form-time"
-                        v-model="content.time"
-                        :items="timeOptions"
-                        label="מבקש להרשם לחלוקה בשעה"
-                        dense
-                        outlined
-                        :item-text="getItemText"
-                    ></v-select>
-                </v-col>
             </v-row>
             <v-row>
                 <v-col
@@ -102,9 +87,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
-import Environment from '../providers/Environment'
 
 import Carrier from '../models/Carrier'
 
@@ -129,31 +111,13 @@ export default {
             v => v >= 1 && v <=3 || `ניתן לבצא בין ${MIN_PICKUPS} ל${MAX_PICKUPS} איסופים`
         ],
         minPickups: MIN_PICKUPS,
-        maxPickups: MAX_PICKUPS,
-        timeOptions: []
+        maxPickups: MAX_PICKUPS
     }),
     async mounted(){
         this.user = await this.$firebaseService.getCurrentUser();
         this.content.name = this.user.displayName;
         this.content.email = this.user.email;
         this.content.phone = this.user.phoneNumber;
-    },
-    async created(){
-        try{
-            let response = await axios.get(
-                Environment.get('VUE_APP_FIREBASE_FUNCTIONS_API'),
-                {
-                    params: {
-                        action: "availableTimeOptions",
-                        delivery: deliveryId
-                    }
-                }
-            )
-
-            this.timeOptions = response.data
-        }catch(error){
-            this.$logger.error("Could not get timeoptions", error)
-        }
     },
     methods: {
         submit: function(){
@@ -170,9 +134,6 @@ export default {
             )
             if(this.formValid)
                 this.$emit('onSubmit', carrier);
-        },
-        getItemText: function(item){
-            return !item.disabled ? item.time : `${item.time} אין צורך במחלקים נוספים לשעה זו`
         }
     }
 }
