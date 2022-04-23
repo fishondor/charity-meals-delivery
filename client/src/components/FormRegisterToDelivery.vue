@@ -79,7 +79,7 @@
                         label="מבקש להרשם לחלוקה בשעה"
                         dense
                         outlined
-                        item-text="time"
+                        :item-text="getItemText"
                     ></v-select>
                 </v-col>
             </v-row>
@@ -102,6 +102,10 @@
 </template>
 
 <script>
+import axios from 'axios'
+
+import Environment from '../providers/Environment'
+
 import Carrier from '../models/Carrier'
 
 const MIN_PICKUPS = 1
@@ -135,10 +139,21 @@ export default {
         this.content.phone = this.user.phoneNumber;
     },
     async created(){
-        let deliveryId = this.$route.params.id
-        this.$firebaseService.getRef(deliveryId, 'timeOptions').on('value', (snapshot) => {
-            this.timeOptions = snapshot.val()
-        });
+        try{
+            let response = await axios.get(
+                Environment.get('VUE_APP_FIREBASE_FUNCTIONS_API'),
+                {
+                    params: {
+                        action: "availableTimeOptions",
+                        delivery: deliveryId
+                    }
+                }
+            )
+
+            this.timeOptions = response.data
+        }catch(error){
+            this.$logger.error("Could not get timeoptions", error)
+        }
     },
     methods: {
         submit: function(){
@@ -155,6 +170,9 @@ export default {
             )
             if(this.formValid)
                 this.$emit('onSubmit', carrier);
+        },
+        getItemText: function(item){
+            return !item.disabled ? item.time : `${item.time} אין צורך במחלקים נוספים לשעה זו`
         }
     }
 }
